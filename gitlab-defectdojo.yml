@@ -1,0 +1,107 @@
+include:
+  - remote: https://gitlab.com/bomba19881/defectdojo-test/-/raw/master/implementations/gitlab-sast.yml
+  - remote: https://gitlab.com/bomba19881/defectdojo-test/-/raw/master/implementations/gitlab-dependency.yml
+  - remote: https://gitlab.com/bomba19881/defectdojo-test/-/raw/master/implementations/anchore-engine.yml
+
+variables:
+  DEFECTDOJO_ENGAGEMENT_PERIOD: 7
+  DEFECTDOJO_ENGAGEMENT_STATUS: "Not Started"
+  DEFECTDOJO_ENGAGEMENT_BUILD_SERVER: "null"
+  DEFECTDOJO_ENGAGEMENT_SOURCE_CODE_MANAGEMENT_SERVER: "null"
+  DEFECTDOJO_ENGAGEMENT_ORCHESTRATION_ENGINE: "null"
+  DEFECTDOJO_ENGAGEMENT_DEDUPLICATION_ON_ENGAGEMENT: "false"
+  DEFECTDOJO_ENGAGEMENT_THREAT_MODEL: "true"
+  DEFECTDOJO_ENGAGEMENT_API_TEST: "true"
+  DEFECTDOJO_ENGAGEMENT_PEN_TEST: "true"
+  DEFECTDOJO_ENGAGEMENT_CHECK_LIST: "true"
+  DEFECTDOJO_NOT_ON_MASTER: "false"
+  DEFECTDOJO_SCAN_MINIMUM_SEVERITY: "Info"
+  DEFECTDOJO_SCAN_ACTIVE: "true"
+  DEFECTDOJO_SCAN_VERIFIED: "true"
+  DEFECTDOJO_SCAN_CLOSE_OLD_FINDINGS: "true"
+  DEFECTDOJO_SCAN_PUSH_TO_JIRA: "false"
+  DEFECTDOJO_SCAN_ENVIRONMENT: "Default"
+  DEFECTDOJO_ANCHORE_DISABLE: "false"
+
+defectdojo_create_engagement:
+  stage: .pre
+  image: alpine
+  variables:
+    GIT_STRATEGY: none
+  allow_failure: true
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - when: always
+  before_script:
+    - apk add curl jq coreutils
+    - TODAY=`date +%Y-%m-%d`
+    - ENDDAY=$(date -d "+${DEFECTDOJO_ENGAGEMENT_PERIOD} days" +%Y-%m-%d)
+  script:
+    - |
+        ENGAGEMENTID=`curl --fail --location --request POST "${DEFECTDOJO_URL}/engagements/" \
+              --header "Authorization: Token ${DEFECTDOJO_TOKEN}" \
+              --header 'Content-Type: application/json' \
+                --data-raw "{
+                  \"tags\": [\"GITLAB-CI\"],
+                  \"name\": \"#${CI_PIPELINE_ID}\",
+                  \"description\": \"${CI_COMMIT_DESCRIPTION}\",
+                  \"version\": \"${CI_COMMIT_REF_NAME}\",
+                  \"first_contacted\": \"${TODAY}\",
+                  \"target_start\": \"${TODAY}\",
+                  \"target_end\": \"${ENDDAY}\",
+                  \"reason\": \"string\",
+                  \"tracker\": \"${CI_PROJECT_URL}/-/issues\",
+                  \"threat_model\": \"${DEFECTDOJO_ENGAGEMENT_THREAT_MODEL}\",
+                  \"api_test\": \"${DEFECTDOJO_ENGAGEMENT_API_TEST}\",
+                  \"pen_test\": \"${DEFECTDOJO_ENGAGEMENT_PEN_TEST}\",
+                  \"check_list\": \"${DEFECTDOJO_ENGAGEMENT_CHECK_LIST}\",
+                  \"status\": \"${DEFECTDOJO_ENGAGEMENT_STATUS}\",
+                  \"engagement_type\": \"CI/CD\",
+                  \"build_id\": \"${CI_PIPELINE_ID}\",
+                  \"commit_hash\": \"${CI_COMMIT_SHORT_SHA}\",
+                  \"branch_tag\": \"${CI_COMMIT_REF_NAME}\",
+                  \"deduplication_on_engagement\": \"${DEFECTDOJO_ENGAGEMENT_DEDUPLICATION_ON_ENGAGEMENT}\",
+                  \"product\": \"${DEFECTDOJO_PRODUCTID}\",
+                  \"source_code_management_uri\": \"${CI_PROJECT_URL}\",
+                  \"build_server\": ${DEFECTDOJO_ENGAGEMENT_BUILD_SERVER},
+                  \"source_code_management_server\": ${DEFECTDOJO_ENGAGEMENT_SOURCE_CODE_MANAGEMENT_SERVER},
+                  \"orchestration_engine\": ${DEFECTDOJO_ENGAGEMENT_ORCHESTRATION_ENGINE}
+                }" | jq -r '.id'`
+    - echo "DEFECTDOJO_ENGAGEMENTID=${ENGAGEMENTID}" >> defectdojo.env
+  artifacts:
+    reports:
+      dotenv: defectdojo.env
+
+
+defectdojo_publish:
+  stage: .post
+  image: alpine
+  rules:
+    - when: never
+  before_script:
+    - apk add curl coreutils
+    - TODAY=`date +%Y-%m-%d`
+  script:
+    - echo "$CI_JOB_NAME is used for configuration only, and its script should not be executed"
+    - exit 1
+
+# Template Job for publishing the SAST reports to DefectDojo
+.defectdojo_upload:
+  extends: defectdojo_publish
+  allow_failure: true
+  script:
+    - |
+        curl --fail --location --request POST "${DEFECTDOJO_URL}/import-scan/" \
+            --header "Authorization: Token ${DEFECTDOJO_TOKEN}" \
+            --form "scan_date=\"${TODAY}\"" \
+            --form "minimum_severity=\"${DEFECTDOJO_SCAN_MINIMUM_SEVERITY}\"" \
+            --form "active=\"${DEFECTDOJO_SCAN_ACTIVE}\"" \
+            --form "verified=\"${DEFECTDOJO_SCAN_VERIFIED}\"" \
+            --form "scan_type=\"${DEFECTDOJO_SCAN_TYPE}\"" \
+            --form "engagement=\"${DEFECTDOJO_ENGAGEMENTID}\"" \
+            --form "file=@${DEFECTDOJO_SCAN_FILE}" \
+            --form "close_old_findings=\"${DEFECTDOJO_SCAN_CLOSE_OLD_FINDINGS}\"" \
+            --form "push_to_jira=\"${DEFECTDOJO_SCAN_PUSH_TO_JIRA}\"" \
+            --form "test_type=\"${DEFECTDOJO_SCAN_TEST_TYPE}\"" \
+            --form "environment=\"${DEFECTDOJO_SCAN_ENVIRONMENT}\""

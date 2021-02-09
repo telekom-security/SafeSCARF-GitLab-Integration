@@ -1,0 +1,289 @@
+include:
+  - template: Security/SAST.gitlab-ci.yml
+
+# Extend GitLab SAST job to publish the report file as artifact to be used by other jobs
+sast:
+  artifacts:
+    paths:
+      - gl-sast-report.json
+
+bandit-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "bandit-sast"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab SAST Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Bandit"
+    DEFECTDOJO_SCAN_FILE: "./gl-sast-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $SAST_DISABLED
+      when: never
+    - if: $SAST_EXCLUDED_ANALYZERS =~ /bandit/
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $SAST_DEFAULT_ANALYZERS =~ /bandit/
+      exists:
+        - '**/*.py'
+
+brakeman-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "brakeman-sast"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab SAST Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Brakeman"
+    DEFECTDOJO_SCAN_FILE: "./gl-sast-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $SAST_DISABLED
+      when: never
+    - if: $SAST_EXCLUDED_ANALYZERS =~ /brakeman/
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $SAST_DEFAULT_ANALYZERS =~ /brakeman/
+      exists:
+        - 'config/routes.rb'
+
+eslint-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "eslint-sast"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab SAST Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI ESLint"
+    DEFECTDOJO_SCAN_FILE: "./gl-sast-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $SAST_DISABLED
+      when: never
+    - if: $SAST_EXCLUDED_ANALYZERS =~ /eslint/
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $SAST_DEFAULT_ANALYZERS =~ /eslint/
+      exists:
+        - '**/*.html'
+        - '**/*.js'
+        - '**/*.jsx'
+        - '**/*.ts'
+        - '**/*.tsx'
+
+flawfinder-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "flawfinder-sast"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab SAST Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Flawfinder"
+    DEFECTDOJO_SCAN_FILE: "./gl-sast-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $SAST_DISABLED
+      when: never
+    - if: $SAST_EXCLUDED_ANALYZERS =~ /flawfinder/
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $SAST_DEFAULT_ANALYZERS =~ /flawfinder/
+      exists:
+        - '**/*.c'
+        - '**/*.cpp'
+
+kubesec-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "kubesec-sast"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab SAST Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI KubeSec"
+    DEFECTDOJO_SCAN_FILE: "./gl-sast-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $SAST_DISABLED
+      when: never
+    - if: $SAST_EXCLUDED_ANALYZERS =~ /kubesec/
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $SAST_DEFAULT_ANALYZERS =~ /kubesec/ &&
+          $SCAN_KUBERNETES_MANIFESTS == 'true'
+
+gosec-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "gosec-sast"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab SAST Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI GoSec"
+    DEFECTDOJO_SCAN_FILE: "./gl-sast-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $SAST_DISABLED
+      when: never
+    - if: $SAST_EXCLUDED_ANALYZERS =~ /gosec/
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $SAST_DEFAULT_ANALYZERS =~ /gosec/
+      exists:
+        - '**/*.go'
+
+mobsf-android-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "mobsf-android-sast"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab SAST Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Mobsf Android"
+    DEFECTDOJO_SCAN_FILE: "./gl-sast-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $SAST_DISABLED
+      when: never
+    - if: $SAST_EXCLUDED_ANALYZERS =~ /mobsf/
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $SAST_DEFAULT_ANALYZERS =~ /mobsf/ &&
+          $SAST_EXPERIMENTAL_FEATURES == 'true'
+      exists:
+        - '**/AndroidManifest.xml'
+
+mobsf-ios-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "mobsf-ios-sast"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab SAST Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Mobsf IOS"
+    DEFECTDOJO_SCAN_FILE: "./gl-sast-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $SAST_DISABLED
+      when: never
+    - if: $SAST_EXCLUDED_ANALYZERS =~ /mobsf/
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $SAST_DEFAULT_ANALYZERS =~ /mobsf/ &&
+          $SAST_EXPERIMENTAL_FEATURES == 'true'
+      exists:
+        - '**/*.xcodeproj/*'
+
+nodejs-scan-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "nodejs-scan-sast"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab SAST Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI NodeJs Scan"
+    DEFECTDOJO_SCAN_FILE: "./gl-sast-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $SAST_DISABLED
+      when: never
+    - if: $SAST_EXCLUDED_ANALYZERS =~ /nodejs-scan/
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $SAST_DEFAULT_ANALYZERS =~ /nodejs-scan/
+      exists:
+        - '**/package.json'
+
+phpcs-security-audit-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "phpcs-security-audit-sast"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab SAST Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI PHPCS Security Audit"
+    DEFECTDOJO_SCAN_FILE: "./gl-sast-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $SAST_DISABLED
+      when: never
+    - if: $SAST_EXCLUDED_ANALYZERS =~ /phpcs-security-audit/
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $SAST_DEFAULT_ANALYZERS =~ /phpcs-security-audit/
+      exists:
+        - '**/*.php'
+
+pmd-apex-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "pmd-apex-sast"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab SAST Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI PMD Aepx"
+    DEFECTDOJO_SCAN_FILE: "./gl-sast-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $SAST_DISABLED
+      when: never
+    - if: $SAST_EXCLUDED_ANALYZERS =~ /pmd-apex/
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $SAST_DEFAULT_ANALYZERS =~ /pmd-apex/
+      exists:
+        - '**/*.cls'
+
+security-code-scan-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "security-code-scan-sast"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab SAST Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Security Code Scan"
+    DEFECTDOJO_SCAN_FILE: "./gl-sast-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $SAST_DISABLED
+      when: never
+    - if: $SAST_EXCLUDED_ANALYZERS =~ /security-code-scan/
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $SAST_DEFAULT_ANALYZERS =~ /security-code-scan/
+      exists:
+        - '**/*.csproj'
+        - '**/*.vbproj'
+
+sobelow-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "sobelow-sast"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab SAST Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Sobelow"
+    DEFECTDOJO_SCAN_FILE: "./gl-sast-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $SAST_DISABLED
+      when: never
+    - if: $SAST_EXCLUDED_ANALYZERS =~ /sobelow/
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $SAST_DEFAULT_ANALYZERS =~ /sobelow/
+      exists:
+        - 'mix.exs'
+
+
+spotbugs-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "spotbugs-sast"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab SAST Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Spotbugs"
+    DEFECTDOJO_SCAN_FILE: "./gl-sast-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $SAST_EXCLUDED_ANALYZERS =~ /spotbugs/
+      when: never
+    - if: $SAST_DEFAULT_ANALYZERS =~ /mobsf/ &&
+          $SAST_EXPERIMENTAL_FEATURES == 'true'
+      exists:
+        - '**/AndroidManifest.xml'
+      when: never
+    - if: $SAST_DISABLED
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $SAST_DEFAULT_ANALYZERS =~ /spotbugs/
+      exists:
+        - '**/*.groovy'
+        - '**/*.java'
+        - '**/*.scala'

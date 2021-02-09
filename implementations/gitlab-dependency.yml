@@ -1,0 +1,117 @@
+include:
+  - template: Security/Dependency-Scanning.gitlab-ci.yml
+
+# Extend GitLab SAST job to publish the report file as artifact to be used by other jobs
+dependency_scanning:
+  artifacts:
+    paths:
+      - gl-dependency-scanning-report.json
+
+gemnasium-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "gemnasium-dependency_scanning"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab Dependency Scanning Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Gemnasium"
+    DEFECTDOJO_SCAN_FILE: "./gl-dependency-scanning-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $DEPENDENCY_SCANNING_DISABLED
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $GITLAB_FEATURES =~ /\bdependency_scanning\b/ &&
+          $DS_DEFAULT_ANALYZERS =~ /gemnasium([^-]|$)/
+      exists:
+        - '{Gemfile.lock,*/Gemfile.lock,*/*/Gemfile.lock}'
+        - '{composer.lock,*/composer.lock,*/*/composer.lock}'
+        - '{gems.locked,*/gems.locked,*/*/gems.locked}'
+        - '{go.sum,*/go.sum,*/*/go.sum}'
+        - '{npm-shrinkwrap.json,*/npm-shrinkwrap.json,*/*/npm-shrinkwrap.json}'
+        - '{package-lock.json,*/package-lock.json,*/*/package-lock.json}'
+        - '{yarn.lock,*/yarn.lock,*/*/yarn.lock}'
+        - '{packages.lock.json,*/packages.lock.json,*/*/packages.lock.json}'
+        - '{conan.lock,*/conan.lock,*/*/conan.lock}'
+
+gemnasium-maven-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "gemnasium-maven-dependency_scanning"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab Dependency Scanning Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Gemnasium Maven"
+    DEFECTDOJO_SCAN_FILE: "./gl-dependency-scanning-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $DEPENDENCY_SCANNING_DISABLED
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $GITLAB_FEATURES =~ /\bdependency_scanning\b/ &&
+          $DS_DEFAULT_ANALYZERS =~ /gemnasium-maven/
+      exists:
+        - '{build.gradle,*/build.gradle,*/*/build.gradle}'
+        - '{build.gradle.kts,*/build.gradle.kts,*/*/build.gradle.kts}'
+        - '{build.sbt,*/build.sbt,*/*/build.sbt}'
+        - '{pom.xml,*/pom.xml,*/*/pom.xml}'
+
+gemnasium-python-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "gemnasium-python-dependency_scanning"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab Dependency Scanning Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Gemnasium Python"
+    DEFECTDOJO_SCAN_FILE: "./gl-dependency-scanning-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $DEPENDENCY_SCANNING_DISABLED
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $GITLAB_FEATURES =~ /\bdependency_scanning\b/ &&
+          $DS_DEFAULT_ANALYZERS =~ /gemnasium-python/
+      exists:
+        - '{requirements.txt,*/requirements.txt,*/*/requirements.txt}'
+        - '{requirements.pip,*/requirements.pip,*/*/requirements.pip}'
+        - '{Pipfile,*/Pipfile,*/*/Pipfile}'
+        - '{requires.txt,*/requires.txt,*/*/requires.txt}'
+        - '{setup.py,*/setup.py,*/*/setup.py}'
+    - if: $CI_COMMIT_BRANCH &&
+          $GITLAB_FEATURES =~ /\bdependency_scanning\b/ &&
+          $DS_DEFAULT_ANALYZERS =~ /gemnasium-python/ &&
+          $PIP_REQUIREMENTS_FILE
+
+bundler-audit-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "bundler-audit-dependency_scanning"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab Dependency Scanning Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Bundler Audit"
+    DEFECTDOJO_SCAN_FILE: "./gl-dependency-scanning-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $DEPENDENCY_SCANNING_DISABLED
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $GITLAB_FEATURES =~ /\bdependency_scanning\b/ &&
+          $DS_DEFAULT_ANALYZERS =~ /bundler-audit/
+      exists:
+        - '{Gemfile.lock,*/Gemfile.lock,*/*/Gemfile.lock}'
+
+retire-js-defectdojo:
+  extends: .defectdojo_upload
+  needs: ["defectdojo_create_engagement", "retire-js-dependency_scanning"]
+  variables:
+    DEFECTDOJO_SCAN_TYPE: "GitLab Dependency Scanning Report"
+    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Retire JS"
+    DEFECTDOJO_SCAN_FILE: "./gl-dependency-scanning-report.json"
+  rules:
+    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+    - if: $DEPENDENCY_SCANNING_DISABLED
+      when: never
+    - if: $CI_COMMIT_BRANCH &&
+          $GITLAB_FEATURES =~ /\bdependency_scanning\b/ &&
+          $DS_DEFAULT_ANALYZERS =~ /retire.js/
+      exists:
+        - '{package.json,*/package.json,*/*/package.json}'
