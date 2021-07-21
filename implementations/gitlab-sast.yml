@@ -21,8 +21,7 @@ bandit-defectdojo:
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /bandit/
       when: never
-    - if: $CI_COMMIT_BRANCH &&
-          $SAST_DEFAULT_ANALYZERS =~ /bandit/
+    - if: $CI_COMMIT_BRANCH
       exists:
         - '**/*.py'
 
@@ -40,10 +39,10 @@ brakeman-defectdojo:
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /brakeman/
       when: never
-    - if: $CI_COMMIT_BRANCH &&
-          $SAST_DEFAULT_ANALYZERS =~ /brakeman/
+    - if: $CI_COMMIT_BRANCH
       exists:
-        - 'config/routes.rb'
+        - '**/*.rb'
+        - '**/Gemfile'
 
 eslint-defectdojo:
   extends: .defectdojo_upload
@@ -59,8 +58,7 @@ eslint-defectdojo:
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /eslint/
       when: never
-    - if: $CI_COMMIT_BRANCH &&
-          $SAST_DEFAULT_ANALYZERS =~ /eslint/
+    - if: $CI_COMMIT_BRANCH
       exists:
         - '**/*.html'
         - '**/*.js'
@@ -82,8 +80,7 @@ flawfinder-defectdojo:
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /flawfinder/
       when: never
-    - if: $CI_COMMIT_BRANCH &&
-          $SAST_DEFAULT_ANALYZERS =~ /flawfinder/
+    - if: $CI_COMMIT_BRANCH
       exists:
         - '**/*.c'
         - '**/*.cpp'
@@ -103,7 +100,6 @@ kubesec-defectdojo:
     - if: $SAST_EXCLUDED_ANALYZERS =~ /kubesec/
       when: never
     - if: $CI_COMMIT_BRANCH &&
-          $SAST_DEFAULT_ANALYZERS =~ /kubesec/ &&
           $SCAN_KUBERNETES_MANIFESTS == 'true'
 
 gosec-defectdojo:
@@ -120,8 +116,7 @@ gosec-defectdojo:
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /gosec/
       when: never
-    - if: $CI_COMMIT_BRANCH &&
-          $SAST_DEFAULT_ANALYZERS =~ /gosec/
+    - if: $CI_COMMIT_BRANCH
       exists:
         - '**/*.go'
 
@@ -140,9 +135,9 @@ mobsf-android-defectdojo:
     - if: $SAST_EXCLUDED_ANALYZERS =~ /mobsf/
       when: never
     - if: $CI_COMMIT_BRANCH &&
-          $SAST_DEFAULT_ANALYZERS =~ /mobsf/ &&
           $SAST_EXPERIMENTAL_FEATURES == 'true'
       exists:
+        - '**/*.apk'
         - '**/AndroidManifest.xml'
 
 mobsf-ios-defectdojo:
@@ -160,9 +155,9 @@ mobsf-ios-defectdojo:
     - if: $SAST_EXCLUDED_ANALYZERS =~ /mobsf/
       when: never
     - if: $CI_COMMIT_BRANCH &&
-          $SAST_DEFAULT_ANALYZERS =~ /mobsf/ &&
           $SAST_EXPERIMENTAL_FEATURES == 'true'
       exists:
+        - '**/*.ipa'
         - '**/*.xcodeproj/*'
 
 nodejs-scan-defectdojo:
@@ -179,8 +174,7 @@ nodejs-scan-defectdojo:
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /nodejs-scan/
       when: never
-    - if: $CI_COMMIT_BRANCH &&
-          $SAST_DEFAULT_ANALYZERS =~ /nodejs-scan/
+    - if: $CI_COMMIT_BRANCH
       exists:
         - '**/package.json'
 
@@ -198,8 +192,7 @@ phpcs-security-audit-defectdojo:
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /phpcs-security-audit/
       when: never
-    - if: $CI_COMMIT_BRANCH &&
-          $SAST_DEFAULT_ANALYZERS =~ /phpcs-security-audit/
+    - if: $CI_COMMIT_BRANCH
       exists:
         - '**/*.php'
 
@@ -217,8 +210,7 @@ pmd-apex-defectdojo:
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /pmd-apex/
       when: never
-    - if: $CI_COMMIT_BRANCH &&
-          $SAST_DEFAULT_ANALYZERS =~ /pmd-apex/
+    - if: $CI_COMMIT_BRANCH
       exists:
         - '**/*.cls'
 
@@ -236,8 +228,7 @@ security-code-scan-defectdojo:
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /security-code-scan/
       when: never
-    - if: $CI_COMMIT_BRANCH &&
-          $SAST_DEFAULT_ANALYZERS =~ /security-code-scan/
+    - if: $CI_COMMIT_BRANCH
       exists:
         - '**/*.csproj'
         - '**/*.vbproj'
@@ -256,11 +247,9 @@ sobelow-defectdojo:
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /sobelow/
       when: never
-    - if: $CI_COMMIT_BRANCH &&
-          $SAST_DEFAULT_ANALYZERS =~ /sobelow/
+    - if: $CI_COMMIT_BRANCH
       exists:
         - 'mix.exs'
-
 
 spotbugs-defectdojo:
   extends: .defectdojo_upload
@@ -274,16 +263,16 @@ spotbugs-defectdojo:
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /spotbugs/
       when: never
-    - if: $SAST_DEFAULT_ANALYZERS =~ /mobsf/ &&
-          $SAST_EXPERIMENTAL_FEATURES == 'true'
+    - if: $SAST_EXPERIMENTAL_FEATURES == 'true'
       exists:
         - '**/AndroidManifest.xml'
       when: never
     - if: $SAST_DISABLED
       when: never
-    - if: $CI_COMMIT_BRANCH &&
-          $SAST_DEFAULT_ANALYZERS =~ /spotbugs/
+    - if: $CI_COMMIT_BRANCH
       exists:
         - '**/*.groovy'
         - '**/*.java'
         - '**/*.scala'
+        - '**/*.kt'
+
