@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: safescarf-integration-loadbalancer
+  namespace: safescarf-integration
+spec:
+  rules:
+  - host: safescarf-integration.caas-p03.telekom.de
+    http:
+      paths:
+      - backend:
+          serviceName: safescarf-integration-service
+          servicePort: 80
+  tls:
+  - hosts:
+    - safescarf-integration.caas-p03.telekom.de

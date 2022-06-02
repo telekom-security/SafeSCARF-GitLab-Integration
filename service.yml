@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    field.cattle.io/targetWorkloadIds: '["deployment:safescarf-integration:safescarf-integration"]'
+  name: safescarf-integration-service
+  namespace: safescarf-integration
+spec:
+  clusterIP: None
+  ports:
+  - name: default
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    workloadID_safescarf-integration-service: "true"
+  sessionAffinity: None
+  type: ClusterIP
