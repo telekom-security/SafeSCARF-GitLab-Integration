@@ -1,7 +1,7 @@
 include:
-  - remote: https://gitlab.com/bomba19881/gitlabci-defectdojo/-/raw/master/implementations/gitlab-sast.yml
-  - remote: https://gitlab.com/bomba19881/gitlabci-defectdojo/-/raw/master/implementations/gitlab-dependency.yml
-  - remote: https://gitlab.com/bomba19881/gitlabci-defectdojo/-/raw/master/implementations/anchore-engine.yml
+  - remote: https://gitlab.devops.telekom.de/arthur-ferdinand.lindner/safescarf-integration/-/raw/master/implementations/gitlab-sast.yml
+  - remote: https://gitlab.devops.telekom.de/arthur-ferdinand.lindner/safescarf-integration/-/raw/master/implementations/gitlab-dependency.yml
+  - remote: https://gitlab.devops.telekom.de/arthur-ferdinand.lindner/safescarf-integration/-/raw/master/implementations/anchore-engine.yml
 
 variables:
   DEFECTDOJO_ENGAGEMENT_PERIOD: 7
