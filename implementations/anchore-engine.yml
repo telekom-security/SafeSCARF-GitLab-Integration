@@ -47,7 +47,7 @@ anchore-engine:
     reports:
       dotenv: anchore-engine.env
   rules:
-    - if: '"$DEFECTDOJO_ANCHORE_DISABLE" == "true"'
+    - if: '"$SAFESCARF_ANCHORE_DISABLE" == "true"'
       when: never
     - when: always
 
@@ -56,12 +56,12 @@ anchore_engine_defectdojo:
   needs: ["defectdojo_create_engagement", "anchore-engine"]
   allow_failure: true
   variables:
-    DEFECTDOJO_SCAN_TYPE: "Anchore Engine Scan"
-    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Anchore Engine"
-    DEFECTDOJO_SCAN_FILE: "./${ANCHORE_REPORT_FILE}"
+    SAFESCARF_SCAN_TYPE: "Anchore Engine Scan"
+    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Anchore Engine"
+    SAFESCARF_SCAN_FILE: "./${ANCHORE_REPORT_FILE}"
   rules:
-    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
-    - if: '"$DEFECTDOJO_ANCHORE_DISABLE" == "true"'
+    - if: '"$SAFESCARF_ANCHORE_DISABLE" == "true"'
       when: never
     - when: always

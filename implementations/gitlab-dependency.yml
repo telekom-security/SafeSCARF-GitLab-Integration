@@ -11,11 +11,11 @@ gemnasium-defectdojo:
   extends: .defectdojo_upload
   needs: ["defectdojo_create_engagement", "gemnasium-dependency_scanning"]
   variables:
-    DEFECTDOJO_SCAN_TYPE: "GitLab Dependency Scanning Report"
-    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Gemnasium"
-    DEFECTDOJO_SCAN_FILE: "./gl-dependency-scanning-report.json"
+    SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
+    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Gemnasium"
+    SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
   rules:
-    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
     - if: $DEPENDENCY_SCANNING_DISABLED
       when: never
@@ -37,11 +37,11 @@ gemnasium-maven-defectdojo:
   extends: .defectdojo_upload
   needs: ["defectdojo_create_engagement", "gemnasium-maven-dependency_scanning"]
   variables:
-    DEFECTDOJO_SCAN_TYPE: "GitLab Dependency Scanning Report"
-    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Gemnasium Maven"
-    DEFECTDOJO_SCAN_FILE: "./gl-dependency-scanning-report.json"
+    SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
+    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Gemnasium Maven"
+    SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
   rules:
-    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
     - if: $DEPENDENCY_SCANNING_DISABLED
       when: never
@@ -58,11 +58,11 @@ gemnasium-python-defectdojo:
   extends: .defectdojo_upload
   needs: ["defectdojo_create_engagement", "gemnasium-python-dependency_scanning"]
   variables:
-    DEFECTDOJO_SCAN_TYPE: "GitLab Dependency Scanning Report"
-    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Gemnasium Python"
-    DEFECTDOJO_SCAN_FILE: "./gl-dependency-scanning-report.json"
+    SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
+    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Gemnasium Python"
+    SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
   rules:
-    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
     - if: $DEPENDENCY_SCANNING_DISABLED
       when: never
@@ -84,11 +84,11 @@ bundler-audit-defectdojo:
   extends: .defectdojo_upload
   needs: ["defectdojo_create_engagement", "bundler-audit-dependency_scanning"]
   variables:
-    DEFECTDOJO_SCAN_TYPE: "GitLab Dependency Scanning Report"
-    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Bundler Audit"
-    DEFECTDOJO_SCAN_FILE: "./gl-dependency-scanning-report.json"
+    SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
+    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Bundler Audit"
+    SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
   rules:
-    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
     - if: $DEPENDENCY_SCANNING_DISABLED
       when: never
@@ -102,11 +102,11 @@ retire-js-defectdojo:
   extends: .defectdojo_upload
   needs: ["defectdojo_create_engagement", "retire-js-dependency_scanning"]
   variables:
-    DEFECTDOJO_SCAN_TYPE: "GitLab Dependency Scanning Report"
-    DEFECTDOJO_SCAN_TEST_TYPE: "GitLab-CI Retire JS"
-    DEFECTDOJO_SCAN_FILE: "./gl-dependency-scanning-report.json"
+    SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
+    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Retire JS"
+    SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
   rules:
-    - if: '$DEFECTDOJO_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
     - if: $DEPENDENCY_SCANNING_DISABLED
       when: never
