@@ -23,7 +23,7 @@ spec:
         app: safescarf-integration      
     spec:
       containers:
-      - image: registry.devops.telekom.de/dt-cloud-security/projects/safescarf-integration:${RELEASE}
+      - image: registry.devops.telekom.de/dt-cloud-security/safescarf-integration:${RELEASE}
         imagePullPolicy: Always
         name: safescarf-integration
         ports:
