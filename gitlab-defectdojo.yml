@@ -1,7 +1,7 @@
 include:
-  - remote: https://gitlab.devops.telekom.de/arthur-ferdinand.lindner/safescarf-integration/-/raw/master/implementations/gitlab-sast.yml
-  - remote: https://gitlab.devops.telekom.de/arthur-ferdinand.lindner/safescarf-integration/-/raw/master/implementations/gitlab-dependency.yml
-  - remote: https://gitlab.devops.telekom.de/arthur-ferdinand.lindner/safescarf-integration/-/raw/master/implementations/anchore-engine.yml
+  - remote: https://safescarf-integration.caas-p03.telekom.de/implementations/gitlab-sast.yml
+  - remote: https://safescarf-integration.caas-p03.telekom.de/implementations/gitlab-dependency.yml
+  - remote: https://safescarf-integration.caas-p03.telekom.de/implementations/anchore-engine.yml
 
 variables:
   SAFESCARF_ENGAGEMENT_PERIOD: 7
