@@ -13,7 +13,7 @@ For using this example simple include the main file "gitlab-sast.yml" as a remot
 
 ```
 include:
-  - remote: "https://gitlab.com/bomba19881/gitlabci-defectdojo/-/raw/master/gitlab-defectdojo.yml"
+  - remote: "https://safescarf-integration.caas-p03.telekom.de/gitlab-safescarf.yml"
 ````
 
 ## Variables
