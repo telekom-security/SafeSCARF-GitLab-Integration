@@ -7,9 +7,9 @@ dependency_scanning:
     paths:
       - gl-dependency-scanning-report.json
 
-gemnasium-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "gemnasium-dependency_scanning"]
+gemnasium-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "gemnasium-dependency_scanning"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Gemnasium"
@@ -33,9 +33,9 @@ gemnasium-defectdojo:
         - '{packages.lock.json,*/packages.lock.json,*/*/packages.lock.json}'
         - '{conan.lock,*/conan.lock,*/*/conan.lock}'
 
-gemnasium-maven-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "gemnasium-maven-dependency_scanning"]
+gemnasium-maven-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "gemnasium-maven-dependency_scanning"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Gemnasium Maven"
@@ -54,9 +54,9 @@ gemnasium-maven-defectdojo:
         - '{build.sbt,*/build.sbt,*/*/build.sbt}'
         - '{pom.xml,*/pom.xml,*/*/pom.xml}'
 
-gemnasium-python-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "gemnasium-python-dependency_scanning"]
+gemnasium-python-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "gemnasium-python-dependency_scanning"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Gemnasium Python"
@@ -80,9 +80,9 @@ gemnasium-python-defectdojo:
           $DS_DEFAULT_ANALYZERS =~ /gemnasium-python/ &&
           $PIP_REQUIREMENTS_FILE
 
-bundler-audit-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "bundler-audit-dependency_scanning"]
+bundler-audit-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "bundler-audit-dependency_scanning"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Bundler Audit"
@@ -98,9 +98,9 @@ bundler-audit-defectdojo:
       exists:
         - '{Gemfile.lock,*/Gemfile.lock,*/*/Gemfile.lock}'
 
-retire-js-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "retire-js-dependency_scanning"]
+retire-js-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "retire-js-dependency_scanning"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Retire JS"

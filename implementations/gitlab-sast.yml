@@ -7,9 +7,9 @@ sast:
     paths:
       - gl-sast-report.json
 
-bandit-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "bandit-sast"]
+bandit-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "bandit-sast"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Bandit"
@@ -25,9 +25,9 @@ bandit-defectdojo:
       exists:
         - '**/*.py'
 
-brakeman-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "brakeman-sast"]
+brakeman-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "brakeman-sast"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Brakeman"
@@ -44,9 +44,9 @@ brakeman-defectdojo:
         - '**/*.rb'
         - '**/Gemfile'
 
-eslint-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "eslint-sast"]
+eslint-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "eslint-sast"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI ESLint"
@@ -66,9 +66,9 @@ eslint-defectdojo:
         - '**/*.ts'
         - '**/*.tsx'
 
-flawfinder-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "flawfinder-sast"]
+flawfinder-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "flawfinder-sast"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Flawfinder"
@@ -85,9 +85,9 @@ flawfinder-defectdojo:
         - '**/*.c'
         - '**/*.cpp'
 
-kubesec-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "kubesec-sast"]
+kubesec-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "kubesec-sast"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI KubeSec"
@@ -102,9 +102,9 @@ kubesec-defectdojo:
     - if: $CI_COMMIT_BRANCH &&
           $SCAN_KUBERNETES_MANIFESTS == 'true'
 
-gosec-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "gosec-sast"]
+gosec-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "gosec-sast"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI GoSec"
@@ -120,9 +120,9 @@ gosec-defectdojo:
       exists:
         - '**/*.go'
 
-mobsf-android-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "mobsf-android-sast"]
+mobsf-android-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "mobsf-android-sast"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Mobsf Android"
@@ -140,9 +140,9 @@ mobsf-android-defectdojo:
         - '**/*.apk'
         - '**/AndroidManifest.xml'
 
-mobsf-ios-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "mobsf-ios-sast"]
+mobsf-ios-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "mobsf-ios-sast"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Mobsf IOS"
@@ -160,9 +160,9 @@ mobsf-ios-defectdojo:
         - '**/*.ipa'
         - '**/*.xcodeproj/*'
 
-nodejs-scan-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "nodejs-scan-sast"]
+nodejs-scan-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "nodejs-scan-sast"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI NodeJs Scan"
@@ -178,9 +178,9 @@ nodejs-scan-defectdojo:
       exists:
         - '**/package.json'
 
-phpcs-security-audit-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "phpcs-security-audit-sast"]
+phpcs-security-audit-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "phpcs-security-audit-sast"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI PHPCS Security Audit"
@@ -196,9 +196,9 @@ phpcs-security-audit-defectdojo:
       exists:
         - '**/*.php'
 
-pmd-apex-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "pmd-apex-sast"]
+pmd-apex-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "pmd-apex-sast"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI PMD Aepx"
@@ -214,9 +214,9 @@ pmd-apex-defectdojo:
       exists:
         - '**/*.cls'
 
-security-code-scan-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "security-code-scan-sast"]
+security-code-scan-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "security-code-scan-sast"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Security Code Scan"
@@ -233,9 +233,9 @@ security-code-scan-defectdojo:
         - '**/*.csproj'
         - '**/*.vbproj'
 
-sobelow-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "sobelow-sast"]
+sobelow-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "sobelow-sast"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Sobelow"
@@ -251,9 +251,9 @@ sobelow-defectdojo:
       exists:
         - 'mix.exs'
 
-spotbugs-defectdojo:
-  extends: .defectdojo_upload
-  needs: ["defectdojo_create_engagement", "spotbugs-sast"]
+spotbugs-safescarf:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "spotbugs-sast"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Spotbugs"

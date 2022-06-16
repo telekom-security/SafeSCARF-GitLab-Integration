@@ -47,13 +47,13 @@ anchore-engine:
     reports:
       dotenv: anchore-engine.env
   rules:
-    - if: '"$SAFESCARF_ANCHORE_DISABLE" == "true"'
+    - if: $DISABLE_ANCHORE
       when: never
     - when: always
 
-anchore_engine_defectdojo:
-  extends: .defectdojo_upload 
-  needs: ["defectdojo_create_engagement", "anchore-engine"]
+anchore_engine_safescarf:
+  extends: .safescarf_upload 
+  needs: ["safescarf_create_engagement", "anchore-engine"]
   allow_failure: true
   variables:
     SAFESCARF_SCAN_TYPE: "Anchore Engine Scan"
@@ -62,6 +62,6 @@ anchore_engine_defectdojo:
   rules:
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
-    - if: '"$SAFESCARF_ANCHORE_DISABLE" == "true"'
+    - if: $DISABLE_ANCHORE
       when: never
     - when: always

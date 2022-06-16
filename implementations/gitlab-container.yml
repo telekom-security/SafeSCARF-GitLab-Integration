@@ -1,0 +1,24 @@
+include:
+  - template: Security/Container-Scanning.gitlab-ci.yml
+
+container_scanning:
+  rules:
+    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+
+container_scanning_upload_container:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "container_scanning"]
+  variables:
+    SAFESCARF_SCAN_TYPE: "GitLab Container Scan"
+    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Container Scan"
+    SAFESCARF_SCAN_FILE: "./gl-container-scanning-report.json"
+  
+
+container_scanning_upload_dependency:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "container_scanning"]
+  variables:
+    SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
+    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Container Dependency"
+    SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"

@@ -15,15 +15,16 @@ variables:
   SAFESCARF_ENGAGEMENT_PEN_TEST: "true"
   SAFESCARF_ENGAGEMENT_CHECK_LIST: "true"
   SAFESCARF_NOT_ON_MASTER: "false"
+  SAFESCARF_URL: "https://dt-sec.safescarf.in.pan-net.eu/api/v2"
   SAFESCARF_SCAN_MINIMUM_SEVERITY: "Info"
   SAFESCARF_SCAN_ACTIVE: "true"
   SAFESCARF_SCAN_VERIFIED: "true"
   SAFESCARF_SCAN_CLOSE_OLD_FINDINGS: "true"
   SAFESCARF_SCAN_PUSH_TO_JIRA: "false"
   SAFESCARF_SCAN_ENVIRONMENT: "Default"
-  SAFESCARF_ANCHORE_DISABLE: "false"
+  DISABLE_ANCHORE: true
 
-defectdojo_create_engagement:
+safescarf_create_engagement:
   stage: .pre
   image: alpine
   variables:
@@ -68,13 +69,13 @@ defectdojo_create_engagement:
                   \"source_code_management_server\": ${SAFESCARF_ENGAGEMENT_SOURCE_CODE_MANAGEMENT_SERVER},
                   \"orchestration_engine\": ${SAFESCARF_ENGAGEMENT_ORCHESTRATION_ENGINE}
                 }" | jq -r '.id'`
-    - echo "SAFESCARF_ENGAGEMENTID=${ENGAGEMENTID}" >> defectdojo.env
+    - echo "SAFESCARF_ENGAGEMENTID=${ENGAGEMENTID}" >> safescarf.env
   artifacts:
     reports:
-      dotenv: defectdojo.env
+      dotenv: safescarf.env
 
 
-defectdojo_publish:
+safescarf_publish:
   stage: .post
   image: alpine
   rules:
@@ -86,9 +87,9 @@ defectdojo_publish:
     - echo "$CI_JOB_NAME is used for configuration only, and its script should not be executed"
     - exit 1
 
-# Template Job for publishing the SAST reports to DefectDojo
-.defectdojo_upload:
-  extends: defectdojo_publish
+# Template Job for publishing the SAST reports to safescarf
+.safescarf_upload:
+  extends: safescarf_publish
   allow_failure: true
   script:
     - |
