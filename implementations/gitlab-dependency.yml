@@ -4,8 +4,7 @@ include:
 # Extend GitLab SAST job to publish the report file as artifact to be used by other jobs
 dependency_scanning:
   artifacts:
-    paths:
-      - gl-dependency-scanning-report.json
+    paths: [gl-dependency-scanning-report.json]
 
 gemnasium-safescarf:
   extends: .safescarf_upload
