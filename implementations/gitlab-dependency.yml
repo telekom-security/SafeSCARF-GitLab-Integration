@@ -2,7 +2,7 @@ include:
   - template: Security/Dependency-Scanning.gitlab-ci.yml
 
 # Extend GitLab SAST job to publish the report file as artifact to be used by other jobs
-dependency_scanning:
+dependency_scanning_ext:
   extends: dependency_scanning
   artifacts:
     paths: 
