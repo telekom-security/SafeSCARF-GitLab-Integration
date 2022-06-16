@@ -9,7 +9,7 @@ variables:
   SAFESCARF_ENGAGEMENT_BUILD_SERVER: "null"
   SAFESCARF_ENGAGEMENT_SOURCE_CODE_MANAGEMENT_SERVER: "null"
   SAFESCARF_ENGAGEMENT_ORCHESTRATION_ENGINE: "null"
-  SAFESCARF_ENGAGEMENT_DEDUPLICATION_ON_ENGAGEMENT: "false"
+  SAFESCARF_ENGAGEMENT_DEDUPLICATION_ON_ENGAGEMENT: "true"
   SAFESCARF_ENGAGEMENT_THREAT_MODEL: "true"
   SAFESCARF_ENGAGEMENT_API_TEST: "true"
   SAFESCARF_ENGAGEMENT_PEN_TEST: "true"
@@ -92,6 +92,7 @@ safescarf_publish:
   extends: safescarf_publish
   allow_failure: true
   script:
+    - cat ${SAFESCARF_SCAN_FILE}
     - |
         curl --fail --location --request POST "${SAFESCARF_URL}/import-scan/" \
             --header "Authorization: Token ${SAFESCARF_TOKEN}" \
