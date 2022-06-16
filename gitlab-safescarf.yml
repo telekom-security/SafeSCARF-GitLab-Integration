@@ -94,7 +94,7 @@ safescarf_publish:
   script:
     - cat ${SAFESCARF_SCAN_FILE}
     - |
-        curl --fail --location --request POST "${SAFESCARF_URL}/import-scan/" \
+        curl --fail --verbose --location --request POST "${SAFESCARF_URL}/import-scan/" \
             --header "Authorization: Token ${SAFESCARF_TOKEN}" \
             --form "scan_date=\"${TODAY}\"" \
             --form "minimum_severity=\"${SAFESCARF_SCAN_MINIMUM_SEVERITY}\"" \
