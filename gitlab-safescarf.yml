@@ -22,7 +22,7 @@ variables:
   SAFESCARF_SCAN_CLOSE_OLD_FINDINGS: "true"
   SAFESCARF_SCAN_PUSH_TO_JIRA: "false"
   SAFESCARF_SCAN_ENVIRONMENT: "Default"
-  DISABLE_ANCHORE: true
+  DISABLE_ANCHORE: "true"
 
 safescarf_create_engagement:
   stage: .pre
