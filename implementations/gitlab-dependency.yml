@@ -7,9 +7,13 @@ dependency_scanning:
     paths: 
       - "gl-dependency-scanning-report.json"
       - "**/cyclonedx-*.json"
-    reports:
-      dependency_scanning: gl-dependency-scanning-report.json
-  when: always
+
+# needed because it would override config above
+.cyclone-dx-reports:
+  artifacts:
+    paths:
+      - "**/cyclonedx-*.json"
+      - "gl-dependency-scanning-report.json"
 
 gemnasium-safescarf:
   extends: .safescarf_upload
