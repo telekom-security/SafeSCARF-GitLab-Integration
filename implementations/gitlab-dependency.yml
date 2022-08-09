@@ -6,13 +6,13 @@ dependency_scanning:
   artifacts:
     paths: 
       - "gl-dependency-scanning-report.json"
-      - "**/cyclonedx-*.json"
+      - "**/gl-sbom-*.cdx.json"
 
 # needed because it would override config above
-.cyclone-dx-reports:
+.cyclonedx-reports:
   artifacts:
     paths:
-      - "**/cyclonedx-*.json"
+      - "**/gl-sbom-*.cdx.json"
       - "gl-dependency-scanning-report.json"
 
 gemnasium-safescarf:
