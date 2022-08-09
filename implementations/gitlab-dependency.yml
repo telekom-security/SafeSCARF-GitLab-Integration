@@ -2,11 +2,11 @@ include:
   - template: Security/Dependency-Scanning.gitlab-ci.yml
 
 # Extend GitLab SAST job to publish the report file as artifact to be used by other jobs
-dependency_scanning:
-  artifacts:
-    paths: 
-      - "gl-dependency-scanning-report.json"
-      - "**/gl-sbom-*.cdx.json"
+#dependency_scanning:
+#  artifacts:
+#    paths: 
+#      - "gl-dependency-scanning-report.json"
+#      - "**/gl-sbom-*.cdx.json"
 
 # needed because it would override config above
 .cyclonedx-reports:
