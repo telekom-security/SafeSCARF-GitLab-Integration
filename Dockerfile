@@ -1,4 +1,4 @@
-FROM nginx:1-alpine
+FROM dockerhub.devops.telekom.de/nginx:1-alpine
 
 WORKDIR /usr/share/nginx/html
 
