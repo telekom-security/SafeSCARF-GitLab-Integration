@@ -76,7 +76,7 @@ publish-release:
 deploy:
   stage: deploy
   image: 
-     name: mtr.external.otc.telekomcloud.com/caas/ranchercli_kubectl
+     name: mtr.devops.telekom.de/caas/ranchercli_kubectl
   tags:
     - run_docker
   rules:
