@@ -21,7 +21,7 @@ stages:
 # Code has been  derived from: https://gitlab.devops.telekom.de/ccoe/training/training-day-2021-04-08/session-3 and slightly adapted.
 # To use this CI template, please include it in your pipeline and implement the "security scan" stage.
 include:
-  - remote: gitlab-safescarf.yml
+  - "/gitlab-safescarf.yml"
 
 container_scanning:
   stage: test
