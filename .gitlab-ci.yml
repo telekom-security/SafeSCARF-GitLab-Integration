@@ -22,6 +22,11 @@ stages:
 # To use this CI template, please include it in your pipeline and implement the "security scan" stage.
 include:
   - "/gitlab-safescarf.yml"
+  - /implementations/gitlab-sast.yml
+  - /implementations/gitlab-dependency.yml
+  - /implementations/anchore-engine.yml
+  - /implementations/gitlab-container.yml
+  - /implementations/gitlab-secrets.yml
 
 container_scanning:
   stage: test
