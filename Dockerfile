@@ -1,4 +1,4 @@
-FROM mtr.external.otc.telekomcloud.com/arlindne/nginx:1.22-alpine
+FROM mtr.devops.telekom.de/arthur_ferdinand_lindner/nginx:1.22-alpine
 
 WORKDIR /usr/share/nginx/html
 
