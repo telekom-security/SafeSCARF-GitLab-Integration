@@ -1,4 +1,4 @@
-FROM mtr.devops.telekom.de/arthur_ferdinand_lindner/nginx:1.22-alpine
+FROM nginx:1.23
 
 WORKDIR /usr/share/nginx/html
 
