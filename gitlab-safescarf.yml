@@ -66,7 +66,7 @@ safescarf_create_engagement:
                   \"branch_tag\": \"${CI_COMMIT_REF_NAME}\",
                   \"deduplication_on_engagement\": \"${SAFESCARF_ENGAGEMENT_DEDUPLICATION_ON_ENGAGEMENT}\",
                   \"product\": \"${SAFESCARF_PRODUCTID}\",
-                  \"source_code_management_uri\": \"${CI_PROJECT_URL}-/tree/${CI_COMMIT_REF_NAME}/\",
+                  \"source_code_management_uri\": \"${CI_PROJECT_URL}/-/tree/${CI_COMMIT_REF_NAME}/\",
                   \"build_server\": ${SAFESCARF_ENGAGEMENT_BUILD_SERVER},
                   \"source_code_management_server\": ${SAFESCARF_ENGAGEMENT_SOURCE_CODE_MANAGEMENT_SERVER},
                   \"orchestration_engine\": ${SAFESCARF_ENGAGEMENT_ORCHESTRATION_ENGINE}
