@@ -21,28 +21,11 @@ stages:
 # Code has been  derived from: https://gitlab.devops.telekom.de/ccoe/training/training-day-2021-04-08/session-3 and slightly adapted.
 # To use this CI template, please include it in your pipeline and implement the "security scan" stage.
 include:
-  - template: Security/Secret-Detection.gitlab-ci.yml
-  - template: Security/Container-Scanning.gitlab-ci.yml
-  - template: Security/Dependency-Scanning.gitlab-ci.yml
-  - template: Security/SAST.gitlab-ci.yml
-
-secret_detection:
-  stage: test
-  image: registry.gitlab.com/gitlab-org/security-products/analyzers/secrets:3
-  tags:
-    - otc_run_docker_k8s_l
-  variables:
-    SECRET_DETECTION_HISTORIC_SCAN: "true"
-    GIT_DEPTH: 100
-  before_script:
-    - ""
-  artifacts:
-    paths:
-      - gl-secret-detection-report.json
+  - remote: gitlab-safescarf.yml
 
 container_scanning:
   stage: test
-  variables:    
+  variables:
     DOCKER_IMAGE: $CI_REGISTRY_IMAGE:$VERSION
 
 publish-version:

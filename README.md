@@ -24,8 +24,8 @@ The variables have to be set in your gitlab-ci.yml file or in the GitLab UI.
 
 | Variable        | Mandatory | Default | Description |
 | -------------   |:-------------:| -----:| -----: |
-| SAFESCARF_URL | Yes | 'https://dt-sec.safescarf.in.pan-net.eu/api/v2' | URL your your DefektDojo API-V2 Endpoint |
-| SAFESCARF_TOKEN | Yes | null | API token for API-V2 Endpoint| 
+| SAFESCARF_URL | Yes | 'https://dt-sec.safescarf.pan-net.cloud/api/v2' | URL your your DefektDojo API-V2 Endpoint |
+| SAFESCARF_TOKEN | Yes | null | API token for API-V2 Endpoint (or machine user token)| 
 | SAFESCARF_PRODUCTID | Yes | null | ID of your Product in SafeSCARF |
 | SAFESCARF_NOT_ON_MASTER | No | false | Disable SafeSCARF implementation when executed on Master branch |
 
