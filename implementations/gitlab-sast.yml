@@ -7,23 +7,35 @@ sast:
     paths:
       - gl-sast-report.json
 
-bandit-safescarf:
+semgrep-safescarf:
   extends: .safescarf_upload
-  needs: ["safescarf_create_engagement", "bandit-sast"]
+  needs: ["safescarf_create_engagement", "semgrep-sast"]
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
-    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Bandit"
+    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Semgrep"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
   rules:
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
     - if: $SAST_DISABLED
       when: never
-    - if: $SAST_EXCLUDED_ANALYZERS =~ /bandit/
+    - if: $SAST_EXCLUDED_ANALYZERS =~ /semgrep/
       when: never
     - if: $CI_COMMIT_BRANCH
       exists:
         - '**/*.py'
+        - '**/*.js'
+        - '**/*.jsx'
+        - '**/*.ts'
+        - '**/*.tsx'
+        - '**/*.c'
+        - '**/*.go'
+        - '**/*.java'
+        - '**/*.cs'
+        - '**/*.html'
+        - '**/*.scala'
+        - '**/*.sc'
+
 
 brakeman-safescarf:
   extends: .safescarf_upload
@@ -43,28 +55,6 @@ brakeman-safescarf:
       exists:
         - '**/*.rb'
         - '**/Gemfile'
-
-eslint-safescarf:
-  extends: .safescarf_upload
-  needs: ["safescarf_create_engagement", "eslint-sast"]
-  variables:
-    SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
-    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI ESLint"
-    SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
-    - if: $SAST_DISABLED
-      when: never
-    - if: $SAST_EXCLUDED_ANALYZERS =~ /eslint/
-      when: never
-    - if: $CI_COMMIT_BRANCH
-      exists:
-        - '**/*.html'
-        - '**/*.js'
-        - '**/*.jsx'
-        - '**/*.ts'
-        - '**/*.tsx'
 
 flawfinder-safescarf:
   extends: .safescarf_upload
@@ -101,24 +91,6 @@ kubesec-safescarf:
       when: never
     - if: $CI_COMMIT_BRANCH &&
           $SCAN_KUBERNETES_MANIFESTS == 'true'
-
-gosec-safescarf:
-  extends: .safescarf_upload
-  needs: ["safescarf_create_engagement", "gosec-sast"]
-  variables:
-    SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
-    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI GoSec"
-    SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
-    - if: $SAST_DISABLED
-      when: never
-    - if: $SAST_EXCLUDED_ANALYZERS =~ /gosec/
-      when: never
-    - if: $CI_COMMIT_BRANCH
-      exists:
-        - '**/*.go'
 
 mobsf-android-safescarf:
   extends: .safescarf_upload
