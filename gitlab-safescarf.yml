@@ -17,7 +17,7 @@ variables:
   SAFESCARF_ENGAGEMENT_PEN_TEST: "true"
   SAFESCARF_ENGAGEMENT_CHECK_LIST: "true"
   SAFESCARF_NOT_ON_MASTER: "false"
-  SAFESCARF_URL: "https://dt-sec.safescarf.in.pan-net.eu/api/v2"
+  SAFESCARF_URL: "https://dt-sec.safescarf.pan-net.eu/api/v2"
   SAFESCARF_SCAN_MINIMUM_SEVERITY: "Info"
   SAFESCARF_SCAN_ACTIVE: "true"
   SAFESCARF_SCAN_VERIFIED: "true"
