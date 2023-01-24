@@ -59,7 +59,7 @@ publish-version:
 pages:
   stage: publish
   tags:
-    - run_docker_s
+    - otc_run_docker_s
   image: 
     name: dockerhub.devops.telekom.de/alpine:3
     entrypoint: [""]
