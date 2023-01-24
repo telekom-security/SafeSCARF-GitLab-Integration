@@ -13,6 +13,7 @@ variables:
 stages:
   - build
   - test
+  - pages
   - publish
   - deploy
   - cleanup
@@ -54,6 +55,28 @@ publish-version:
         --build-arg http_proxy="http://proxy.devops.telekom.de:3128"
         --build-arg https_proxy="http://proxy.devops.telekom.de:3128"
         --build-arg no_proxy="localhost,127.0.0.1,.workbench.telekom.de,.devops.telekom.de"
+
+pages:
+  stage: publish
+  tags:
+    - run_docker_s
+  image: 
+    name: dockerhub.devops.telekom.de/alpine:3
+    entrypoint: [""]
+  script:
+    - mkdir public
+    - cp index.html public/
+    - cp -r implementations/ public/
+    - cp gitlab-safescarf.yml public/
+  artifacts:
+    paths:
+      # The folder that contains the files to be exposed at the Page URL
+      - public
+  rules:
+    # This ensures that only pushes to the default branch will trigger
+    # a pages deploy
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+
 
 publish-release:
   stage: publish
