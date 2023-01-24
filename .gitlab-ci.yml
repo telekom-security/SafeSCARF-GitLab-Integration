@@ -37,7 +37,7 @@ container_scanning:
 publish-version:
   stage: build
   tags:
-    - run_docker
+    - otc_run_docker_s
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
