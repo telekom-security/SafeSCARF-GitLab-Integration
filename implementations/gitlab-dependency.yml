@@ -27,19 +27,17 @@ gemnasium-safescarf:
       when: never
     - if: $DEPENDENCY_SCANNING_DISABLED
       when: never
-    - if: $CI_COMMIT_BRANCH &&
-          $GITLAB_FEATURES =~ /\bdependency_scanning\b/ &&
-          $DS_DEFAULT_ANALYZERS =~ /gemnasium([^-]|$)/
-      exists:
-        - '{Gemfile.lock,*/Gemfile.lock,*/*/Gemfile.lock}'
-        - '{composer.lock,*/composer.lock,*/*/composer.lock}'
-        - '{gems.locked,*/gems.locked,*/*/gems.locked}'
-        - '{go.sum,*/go.sum,*/*/go.sum}'
-        - '{npm-shrinkwrap.json,*/npm-shrinkwrap.json,*/*/npm-shrinkwrap.json}'
-        - '{package-lock.json,*/package-lock.json,*/*/package-lock.json}'
-        - '{yarn.lock,*/yarn.lock,*/*/yarn.lock}'
-        - '{packages.lock.json,*/packages.lock.json,*/*/packages.lock.json}'
-        - '{conan.lock,*/conan.lock,*/*/conan.lock}'
+      - if: $CI_COMMIT_BRANCH &&
+            $GITLAB_FEATURES =~ /\bdependency_scanning\b/ &&
+            $CI_GITLAB_FIPS_MODE == "true"
+        exists: !reference [.gemnasium-shared-rule, exists]
+        variables:
+          DS_IMAGE_SUFFIX: "-fips"
+          DS_REMEDIATE: "false"
+      - if: $CI_COMMIT_BRANCH &&
+            $GITLAB_FEATURES =~ /\bdependency_scanning\b/
+        exists: !reference [.gemnasium-shared-rule, exists]
+
 
 gemnasium-maven-safescarf:
   extends: .safescarf_upload
@@ -51,16 +49,20 @@ gemnasium-maven-safescarf:
   rules:
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
-    - if: $DEPENDENCY_SCANNING_DISABLED
+      - if: $DEPENDENCY_SCANNING_DISABLED
+      when: never
+    - if: $DS_EXCLUDED_ANALYZERS =~ /gemnasium-maven/
       when: never
     - if: $CI_COMMIT_BRANCH &&
           $GITLAB_FEATURES =~ /\bdependency_scanning\b/ &&
-          $DS_DEFAULT_ANALYZERS =~ /gemnasium-maven/
-      exists:
-        - '{build.gradle,*/build.gradle,*/*/build.gradle}'
-        - '{build.gradle.kts,*/build.gradle.kts,*/*/build.gradle.kts}'
-        - '{build.sbt,*/build.sbt,*/*/build.sbt}'
-        - '{pom.xml,*/pom.xml,*/*/pom.xml}'
+          $CI_GITLAB_FIPS_MODE == "true"
+      exists: !reference [.gemnasium-maven-shared-rule, exists]
+      variables:
+        DS_IMAGE_SUFFIX: "-fips"
+    - if: $CI_COMMIT_BRANCH &&
+          $GITLAB_FEATURES =~ /\bdependency_scanning\b/
+      exists: !reference [.gemnasium-maven-shared-rule, exists]
+
 
 gemnasium-python-safescarf:
   extends: .safescarf_upload
@@ -74,52 +76,25 @@ gemnasium-python-safescarf:
       when: never
     - if: $DEPENDENCY_SCANNING_DISABLED
       when: never
+    - if: $DS_EXCLUDED_ANALYZERS =~ /gemnasium-python/
+      when: never
     - if: $CI_COMMIT_BRANCH &&
           $GITLAB_FEATURES =~ /\bdependency_scanning\b/ &&
-          $DS_DEFAULT_ANALYZERS =~ /gemnasium-python/
-      exists:
-        - '{requirements.txt,*/requirements.txt,*/*/requirements.txt}'
-        - '{requirements.pip,*/requirements.pip,*/*/requirements.pip}'
-        - '{Pipfile,*/Pipfile,*/*/Pipfile}'
-        - '{requires.txt,*/requires.txt,*/*/requires.txt}'
-        - '{setup.py,*/setup.py,*/*/setup.py}'
+          $CI_GITLAB_FIPS_MODE == "true"
+      exists: !reference [.gemnasium-python-shared-rule, exists]
+      variables:
+        DS_IMAGE_SUFFIX: "-fips"
+    - if: $CI_COMMIT_BRANCH &&
+          $GITLAB_FEATURES =~ /\bdependency_scanning\b/
+      exists: !reference [.gemnasium-python-shared-rule, exists]
+    # Support passing of $PIP_REQUIREMENTS_FILE
+    # See https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#configuring-specific-analyzers-used-by-dependency-scanning
     - if: $CI_COMMIT_BRANCH &&
           $GITLAB_FEATURES =~ /\bdependency_scanning\b/ &&
-          $DS_DEFAULT_ANALYZERS =~ /gemnasium-python/ &&
+          $PIP_REQUIREMENTS_FILE &&
+          $CI_GITLAB_FIPS_MODE == "true"
+      variables:
+        DS_IMAGE_SUFFIX: "-fips"
+    - if: $CI_COMMIT_BRANCH &&
+          $GITLAB_FEATURES =~ /\bdependency_scanning\b/ &&
           $PIP_REQUIREMENTS_FILE
-
-bundler-audit-safescarf:
-  extends: .safescarf_upload
-  needs: ["safescarf_create_engagement", "bundler-audit-dependency_scanning"]
-  variables:
-    SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
-    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Bundler Audit"
-    SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
-  rules:
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
-    - if: $DEPENDENCY_SCANNING_DISABLED
-      when: never
-    - if: $CI_COMMIT_BRANCH &&
-          $GITLAB_FEATURES =~ /\bdependency_scanning\b/ &&
-          $DS_DEFAULT_ANALYZERS =~ /bundler-audit/
-      exists:
-        - '{Gemfile.lock,*/Gemfile.lock,*/*/Gemfile.lock}'
-
-retire-js-safescarf:
-  extends: .safescarf_upload
-  needs: ["safescarf_create_engagement", "retire-js-dependency_scanning"]
-  variables:
-    SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
-    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Retire JS"
-    SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
-  rules:
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
-    - if: $DEPENDENCY_SCANNING_DISABLED
-      when: never
-    - if: $CI_COMMIT_BRANCH &&
-          $GITLAB_FEATURES =~ /\bdependency_scanning\b/ &&
-          $DS_DEFAULT_ANALYZERS =~ /retire.js/
-      exists:
-        - '{package.json,*/package.json,*/*/package.json}'
