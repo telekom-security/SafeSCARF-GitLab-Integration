@@ -49,7 +49,7 @@ gemnasium-maven-safescarf:
   rules:
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
-      - if: $DEPENDENCY_SCANNING_DISABLED
+    - if: $DEPENDENCY_SCANNING_DISABLED
       when: never
     - if: $DS_EXCLUDED_ANALYZERS =~ /gemnasium-maven/
       when: never
