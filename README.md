@@ -1,5 +1,7 @@
 # GitLab-CI SafeSCARF
 
+https://dt-cloud-security.pages.devops.telekom.de/safescarf-integration/
+
 This repository provides an example implementation of [SafeSCARF](https://documentation.portal.pan-net.cloud/safescarf-product/) (based on [DefectDojo](https://www.defectdojo.org)) with [GitLab-CI](https://docs.gitlab.com/ee/ci/).
 
 It supports all [GitLab SAST](https://docs.gitlab.com/ee/user/application_security/sast/) tests and [Anchore Engine](https://anchore.com/opensource/).
