@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: safescarf-integration-loadbalancer
@@ -8,9 +8,14 @@ spec:
   - host: safescarf-integration.caas-p03.telekom.de
     http:
       paths:
-      - backend:
-          serviceName: safescarf-integration-service
-          servicePort: 80
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: safescarf-integration-service
+            port:
+              number: 80
   tls:
   - hosts:
-    - safescarf-integration.caas-p03.telekom.de
+    - cisecurity-website.$p03_KUBERNETES_HOSTNAME
+
