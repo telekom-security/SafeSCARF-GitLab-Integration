@@ -1,9 +1,9 @@
 include:
-  - remote: https://safescarf-integration.caas-p03.telekom.de/implementations/gitlab-sast.yml
-  - remote: https://safescarf-integration.caas-p03.telekom.de/implementations/gitlab-dependency.yml
-  - remote: https://safescarf-integration.caas-p03.telekom.de/implementations/anchore-engine.yml
-  - remote: https://safescarf-integration.caas-p03.telekom.de/implementations/gitlab-container.yml
-  - remote: https://safescarf-integration.caas-p03.telekom.de/implementations/gitlab-secrets.yml
+  - remote: https://dt-cloud-security.pages.devops.telekom.de/safescarf-integration/implementations/gitlab-sast.yml
+  - remote: https://dt-cloud-security.pages.devops.telekom.de/safescarf-integration/gitlab-dependency.yml
+  - remote: https://dt-cloud-security.pages.devops.telekom.de/safescarf-integration/anchore-engine.yml
+  - remote: https://dt-cloud-security.pages.devops.telekom.de/safescarf-integration/gitlab-container.yml
+  - remote: https://dt-cloud-security.pages.devops.telekom.de/safescarf-integration/gitlab-secrets.yml
 
 variables:
   SAFESCARF_ENGAGEMENT_PERIOD: 7
