@@ -1,11 +1,22 @@
 include:
   - remote: https://dt-cloud-security.pages.devops.telekom.de/safescarf-integration/implementations/gitlab-sast.yml
+    rules:
+      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == false
   - remote: https://dt-cloud-security.pages.devops.telekom.de/safescarf-integration/gitlab-dependency.yml
+    rules:
+      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == false
   - remote: https://dt-cloud-security.pages.devops.telekom.de/safescarf-integration/anchore-engine.yml
+    rules:
+      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == false
   - remote: https://dt-cloud-security.pages.devops.telekom.de/safescarf-integration/gitlab-container.yml
+    rules:
+      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == false
   - remote: https://dt-cloud-security.pages.devops.telekom.de/safescarf-integration/gitlab-secrets.yml
+    rules:
+        - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == false
 
 variables:
+  SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL: false
   SAFESCARF_ENGAGEMENT_PERIOD: 7
   SAFESCARF_ENGAGEMENT_STATUS: "Not Started"
   SAFESCARF_ENGAGEMENT_BUILD_SERVER: "null"
