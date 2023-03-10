@@ -82,6 +82,7 @@ safescarf_create_engagement:
                   \"source_code_management_server\": ${SAFESCARF_ENGAGEMENT_SOURCE_CODE_MANAGEMENT_SERVER},
                   \"orchestration_engine\": ${SAFESCARF_ENGAGEMENT_ORCHESTRATION_ENGINE}
                 }" | tee response.json | jq -r '.id'`
+    - cat response.json
     - echo "SAFESCARF_ENGAGEMENTID=${ENGAGEMENTID}" >> safescarf.env
   artifacts:
     reports:
