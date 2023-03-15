@@ -34,27 +34,27 @@ container_scanning:
   variables:
     DOCKER_IMAGE: $CI_REGISTRY_IMAGE:$VERSION
 
-publish-version:
-  stage: build
-  tags:
-    - otc_run_docker_s
-  image:
-    name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [""]
-  rules:
-    - if: $CI_COMMIT_BRANCH
-  before_script:
-    - echo $VERSION
-  script:
-    - mkdir -p /kaniko/.docker
-    - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor
-        --context "${CI_PROJECT_DIR}"
-        --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-        --destination "${CI_REGISTRY_IMAGE}:$VERSION"
-        --build-arg http_proxy="http://proxy.devops.telekom.de:3128"
-        --build-arg https_proxy="http://proxy.devops.telekom.de:3128"
-        --build-arg no_proxy="localhost,127.0.0.1,.workbench.telekom.de,.devops.telekom.de"
+# publish-version:
+#   stage: build
+#   tags:
+#     - otc_run_docker_s
+#   image:
+#     name: gcr.io/kaniko-project/executor:debug
+#     entrypoint: [""]
+#   rules:
+#     - if: $CI_COMMIT_BRANCH
+#   before_script:
+#     - echo $VERSION
+#   script:
+#     - mkdir -p /kaniko/.docker
+#     - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+#     - /kaniko/executor
+#         --context "${CI_PROJECT_DIR}"
+#         --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+#         --destination "${CI_REGISTRY_IMAGE}:$VERSION"
+#         --build-arg http_proxy="http://proxy.devops.telekom.de:3128"
+#         --build-arg https_proxy="http://proxy.devops.telekom.de:3128"
+#         --build-arg no_proxy="localhost,127.0.0.1,.workbench.telekom.de,.devops.telekom.de"
 
 pages:
   stage: publish
@@ -78,76 +78,76 @@ pages:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
 
 
-publish-release:
-  stage: publish
-  tags:
-    - run_docker
-  image:
-    name: gcr.io/kaniko-project/executor:debug
-    entrypoint: [""]
-  rules:
-    # Runs only when a tag with 'X.Y.Z' pattern is created
-    - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
-  before_script:
-    - echo $RELEASE
-  script:
-    - mkdir -p /kaniko/.docker
-    - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor
-        --context "${CI_PROJECT_DIR}"
-        --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-        --destination "${CI_REGISTRY_IMAGE}:$RELEASE"
-        --build-arg http_proxy="http://proxy.devops.telekom.de:3128"
-        --build-arg https_proxy="http://proxy.devops.telekom.de:3128"
-        --build-arg no_proxy="localhost,127.0.0.1,.workbench.telekom.de,.devops.telekom.de"
+# publish-release:
+#   stage: publish
+#   tags:
+#     - run_docker
+#   image:
+#     name: gcr.io/kaniko-project/executor:debug
+#     entrypoint: [""]
+#   rules:
+#     # Runs only when a tag with 'X.Y.Z' pattern is created
+#     - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
+#   before_script:
+#     - echo $RELEASE
+#   script:
+#     - mkdir -p /kaniko/.docker
+#     - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+#     - /kaniko/executor
+#         --context "${CI_PROJECT_DIR}"
+#         --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+#         --destination "${CI_REGISTRY_IMAGE}:$RELEASE"
+#         --build-arg http_proxy="http://proxy.devops.telekom.de:3128"
+#         --build-arg https_proxy="http://proxy.devops.telekom.de:3128"
+#         --build-arg no_proxy="localhost,127.0.0.1,.workbench.telekom.de,.devops.telekom.de"
 
-deploy:
-  stage: deploy
-  image: 
-     name: mtr.devops.telekom.de/caas/ranchercli_kubectl
-  tags:
-    - run_docker
-  rules:
-    # Runs only when a tag with 'X.Y.Z' pattern is created
-    - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
-  script:
-    - export no_proxy='localhost,127.0.0.1,psst.t-online.corp,otc-service.com,t-internal.com,caas-portal-test.telekom.de,caas-portal.telekom.de'
+# deploy:
+#   stage: deploy
+#   image: 
+#      name: mtr.devops.telekom.de/caas/ranchercli_kubectl
+#   tags:
+#     - run_docker
+#   rules:
+#     # Runs only when a tag with 'X.Y.Z' pattern is created
+#     - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
+#   script:
+#     - export no_proxy='localhost,127.0.0.1,psst.t-online.corp,otc-service.com,t-internal.com,caas-portal-test.telekom.de,caas-portal.telekom.de'
 
-    #- envsubst < deployment.yml > deployment-${CI_JOB_NAME}.yml
-    # setup kubectl config 
-    - kubectl config set-cluster $KUBERNETES_SHORTNAME --server=$KUBERNETES_URL
-    - kubectl config set-credentials $KUBERNETES_USER --token=$KUBERNETES_USER_TOKEN    
-    - kubectl config set-context $KUBERNETES_NAMESPACE --cluster=$KUBERNETES_SHORTNAME --namespace=$KUBERNETES_NAMESPACE --user=$KUBERNETES_USER
-    - kubectl config use-context $KUBERNETES_NAMESPACE
-    - kubectl config view
-    # deploy application
-    - cat deployment.yml | envsubst | kubectl apply -f -
-    #- kubectl apply -f deployment-${CI_JOB_NAME}.yaml
-    - kubectl apply -f service.yml
-    - kubectl apply -f ingress.yml
+#     #- envsubst < deployment.yml > deployment-${CI_JOB_NAME}.yml
+#     # setup kubectl config 
+#     - kubectl config set-cluster $KUBERNETES_SHORTNAME --server=$KUBERNETES_URL
+#     - kubectl config set-credentials $KUBERNETES_USER --token=$KUBERNETES_USER_TOKEN    
+#     - kubectl config set-context $KUBERNETES_NAMESPACE --cluster=$KUBERNETES_SHORTNAME --namespace=$KUBERNETES_NAMESPACE --user=$KUBERNETES_USER
+#     - kubectl config use-context $KUBERNETES_NAMESPACE
+#     - kubectl config view
+#     # deploy application
+#     - cat deployment.yml | envsubst | kubectl apply -f -
+#     #- kubectl apply -f deployment-${CI_JOB_NAME}.yaml
+#     - kubectl apply -f service.yml
+#     - kubectl apply -f ingress.yml
 
-caas-cleanup:
-  stage: cleanup
-# use an image with kubectl cli  
-  image: 
-     name: mtr.external.otc.telekomcloud.com/caas/ranchercli_kubectl
-  tags:
-    - run_docker
-  rules:
-    # Runs only when a tag with 'X.Y.Z' pattern is created
-    - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
-  script:
-    - export no_proxy='localhost,127.0.0.1,psst.t-online.corp,otc-service.com,t-internal.com,caas-portal-test.telekom.de,caas-portal.telekom.de'
-    # setup kubectl config    
-    - kubectl config set-cluster $KUBERNETES_SHORTNAME --server=$KUBERNETES_URL
-    - kubectl config set-credentials $KUBERNETES_USER --token=$KUBERNETES_USER_TOKEN    
-    - kubectl config set-context $KUBERNETES_NAMESPACE --cluster=$KUBERNETES_SHORTNAME --namespace=$KUBERNETES_NAMESPACE --user=$KUBERNETES_USER
-    - kubectl config use-context $KUBERNETES_NAMESPACE
-    # cleanup deployments
-    - kubectl delete -f ingress.yml || echo "ingress delete failed"
-    - kubectl delete -f service.yml || echo "service delete failed"
-    - kubectl delete -f deployment.yml || echo "deployment delete failed"
+# caas-cleanup:
+#   stage: cleanup
+# # use an image with kubectl cli  
+#   image: 
+#      name: mtr.external.otc.telekomcloud.com/caas/ranchercli_kubectl
+#   tags:
+#     - run_docker
+#   rules:
+#     # Runs only when a tag with 'X.Y.Z' pattern is created
+#     - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
+#   script:
+#     - export no_proxy='localhost,127.0.0.1,psst.t-online.corp,otc-service.com,t-internal.com,caas-portal-test.telekom.de,caas-portal.telekom.de'
+#     # setup kubectl config    
+#     - kubectl config set-cluster $KUBERNETES_SHORTNAME --server=$KUBERNETES_URL
+#     - kubectl config set-credentials $KUBERNETES_USER --token=$KUBERNETES_USER_TOKEN    
+#     - kubectl config set-context $KUBERNETES_NAMESPACE --cluster=$KUBERNETES_SHORTNAME --namespace=$KUBERNETES_NAMESPACE --user=$KUBERNETES_USER
+#     - kubectl config use-context $KUBERNETES_NAMESPACE
+#     # cleanup deployments
+#     - kubectl delete -f ingress.yml || echo "ingress delete failed"
+#     - kubectl delete -f service.yml || echo "service delete failed"
+#     - kubectl delete -f deployment.yml || echo "deployment delete failed"
 
-  when: manual  
+#   when: manual  
 
 
