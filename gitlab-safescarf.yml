@@ -46,19 +46,19 @@ include:
       - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "false" && $GITLAB_SECRET_SCANNING == "true"'
 
 ## local includes to test before deployment
-  - local: /implementations/container-devsecops.yml
+  - local: implementations/container-devsecops.yml
     rules:
       - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "true" && $DSO_CONTAINER_SCANNING == "true"'
-  - local: "/implementations/gitlab-dependency.yml"
+  - local: "implementations/gitlab-dependency.yml"
     rules:
       - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "true" && $GITLAB_DEPENDENCY_SCANNING == "true"'
-  - local: "/implementations/gitlab-container.yml"
+  - local: "implementations/gitlab-container.yml"
     rules:
       - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "true" && $GITLAB_CONTAINER_SCANNING == "true"'
-  - local: "/implementations/gitlab-sast.yml"
+  - local: "implementations/gitlab-sast.yml"
     rules:
       - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "true" && $GITLAB_SAST_SCANNING == "true"'
-  - local: /implementations/gitlab-secrets.yml
+  - local: implementations/gitlab-secrets.yml
     rules:
       - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "true" && $GITLAB_SECRET_SCANNING == "true"'
 

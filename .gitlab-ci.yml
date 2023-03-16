@@ -42,7 +42,7 @@ debug:
     - if [ "$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL" == "true" ]; then echo "SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL is true"; fi
     - if [ "$SAST_DISABLED" == "true" ]; then echo "SAST_DISABLED is true"; fi
     - ls
-    - ls /implementations/
+    - ls implementations/
 
 
 pages:
