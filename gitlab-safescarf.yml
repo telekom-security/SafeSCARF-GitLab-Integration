@@ -71,6 +71,7 @@ safescarf_create_engagement:
   rules:
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
+    - when: always
   before_script:
     - apk add curl jq coreutils
     - TODAY=`date +%Y-%m-%d`
