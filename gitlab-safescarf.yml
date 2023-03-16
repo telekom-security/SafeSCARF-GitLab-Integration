@@ -58,7 +58,7 @@ include:
   - local: "/implementations/gitlab-sast.yml"
     rules:
       - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "true" && $GITLAB_SAST_SCANNING == "true"'
-  - local: "/implementations/gitlab-secrets.yml"
+  - local: /implementations/gitlab-secrets.yml
     rules:
       - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "true" && $GITLAB_SECRET_SCANNING == "true"'
 

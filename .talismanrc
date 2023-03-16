@@ -1,4 +1,6 @@
 fileignoreconfig:
+- filename: .gitlab-ci.yml
+  checksum: bdf22a7b7a9ed377a420fa7071024f68dc3274dfe44a8d13f90ab28369e86eb3
 - filename: gitlab-safescarf.yml
   checksum: bf60aab78434b14b3c403606fbb44292e89d9dd74fd62d869526fbc30cc2bffb
 - filename: implementations/gitlab-secrets.yml

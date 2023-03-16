@@ -3,6 +3,8 @@ variables:
   RELEASE: $CI_COMMIT_TAG
   DOCKER_DRIVER: overlay2
 
+  CI_DEBUG_TRACE: "true"
+
   ## deployment relatet
   KUBERNETES_SHORTNAME: $p03_KUBERNETES_SHORTNAME
   KUBERNETES_URL: $p03_KUBERNETES_URL
@@ -36,9 +38,11 @@ debug:
   stage: test
   image: alpine
   script:
-    - echo {$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == true}
-    - echo $GITLAB_SAST_SCANNING
-    - echo $GITLAB_SECRET_SCANNING
+    - if [ "$GITLAB_SECRET_SCANNING" == "true" ]; then echo "GITLAB_SECRET_SCANNING is true"; fi
+    - if [ "$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL" == "true" ]; then echo "SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL is true"; fi
+    - if [ "$SAST_DISABLED" == "true" ]; then echo "SAST_DISABLED is true"; fi
+    - ls /implementations/
+
 
 pages:
   stage: publish
