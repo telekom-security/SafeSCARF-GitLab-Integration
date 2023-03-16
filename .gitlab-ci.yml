@@ -61,6 +61,8 @@ pages:
   image: 
     name: dockerhub.devops.telekom.de/alpine:3
     entrypoint: [""]
+  tags:
+    - otc_run_docker_s
   script:
     - mkdir public
     - cp index.html public/
