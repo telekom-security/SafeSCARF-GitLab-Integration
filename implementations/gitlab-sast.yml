@@ -10,33 +10,6 @@ sast:
     paths:
       - gl-sast-report.json
 
-bandit-safescarf:
-  extends: .safescarf_upload
-  script:
-    - echo "This job was deprecated in GitLab 14.8 and removed in GitLab 15.4"
-    - echo "For more information see https://gitlab.com/gitlab-org/gitlab/-/issues/352554"
-    - exit 1
-  rules:
-    - when: never
-
-eslint-safescarf:
-  extends: .safescarf_upload
-  script:
-    - echo "This job was deprecated in GitLab 14.8 and removed in GitLab 15.4"
-    - echo "For more information see https://gitlab.com/gitlab-org/gitlab/-/issues/352554"
-    - exit 1
-  rules:
-    - when: never
-
-gosec-safescarf:
-  extends: .safescarf_upload
-  script:
-    - echo "This job was deprecated in GitLab 14.8 and removed in GitLab 15.4"
-    - echo "For more information see https://gitlab.com/gitlab-org/gitlab/-/issues/352554"
-    - exit 1
-  rules:
-    - when: never
-
 semgrep-safescarf:
   extends: .safescarf_upload
   needs: ["safescarf_create_engagement", "semgrep-sast"]
