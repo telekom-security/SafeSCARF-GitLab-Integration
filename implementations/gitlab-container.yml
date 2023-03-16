@@ -4,7 +4,7 @@ include:
 
 container_scanning:
   rules:
-    - if: $GITLAB_CONTAINER_SCANNING == "false"
+    - if: $GITLAB_CONTAINER_SCAN_DISABLED
       when: never
     - if: $CI_COMMIT_BRANCH &&
           $CI_GITLAB_FIPS_MODE == "true" &&
