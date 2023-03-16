@@ -1,19 +1,25 @@
 include:
   - remote: https://dt-cloud-security.pages.devops.telekom.de/safescarf-integration/implementations/gitlab-sast.yml
     rules:
-      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == false
+      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "false"
+  - remote: https://dt-cloud-security.pages.devops.telekom.de/safescarf-integration/container-devsecops.yml
+    rules:
+      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "false" && DSO_CONTAINER_SCANNING == "true"
   - remote: https://dt-cloud-security.pages.devops.telekom.de/safescarf-integration/gitlab-dependency.yml
     rules:
-      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == false
+      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "false" && GITLAB_DEPENDENCY_SCANNING == "true"
   - remote: https://dt-cloud-security.pages.devops.telekom.de/safescarf-integration/anchore-engine.yml
     rules:
-      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == false
+      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "false"
   - remote: https://dt-cloud-security.pages.devops.telekom.de/safescarf-integration/gitlab-container.yml
     rules:
-      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == false
+      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "false" && GITLAB_CONTAINER_SCANNING == "true"
+  - remote: https://dt-cloud-security.pages.devops.telekom.de/safescarf-integration/gitlab-sast.yml
+    rules:
+      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "false" && GITLAB_SAST_SCANNING == "true"
   - remote: https://dt-cloud-security.pages.devops.telekom.de/safescarf-integration/gitlab-secrets.yml
     rules:
-        - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == false
+        - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "false" && GITLAB_SECRET_SCANNING == "true"
 
 variables:
   SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL: "false"
@@ -38,6 +44,9 @@ variables:
   DISABLE_ANCHORE: "true"
   DSO_CONTAINER_SCANNING: "false"
   GITLAB_CONTAINER_SCANNING: "false"
+  GITLAB_DEPENDENCY_SCANNING: "false"
+  GITLAB_SAST_SCANNING: "true"
+  GITLAB_SECRET_SCANNING: "true"
 
 safescarf_create_engagement:
   stage: .pre

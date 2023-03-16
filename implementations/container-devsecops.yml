@@ -2,8 +2,6 @@ include:
   - project: 'devsecops-tools/container-scanner'
     ref: "master"
     file: 'container-scan.yml'
-    rules:
-      - if: $DSO_CONTAINER_SCANNING == "true"
 
 dso_container_scan:
   extends: .container_scan
