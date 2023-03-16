@@ -50,6 +50,8 @@ The variables have to be set in your gitlab-ci.yml file or in the GitLab UI.
 | Variable        | Mandatory | Default | Description |
 | -------------   |:-------------:| -----:| -----: |
 | DSO_CONTAINER_SCANNING | No | false | enables the [DevSecOps Scanner By DTIT](https://gitlab.devops.telekom.de/devsecops-tools/container-scanner) |
+| GITLAB_CONTAINER_SCANNING | No | false | enables gitlabs built in container scan template |
+
 
 ### Scan
 | Variable        | Mandatory | Default | Description |

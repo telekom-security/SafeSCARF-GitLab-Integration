@@ -3,7 +3,7 @@ include:
 
 container_scanning:
   rules:
-    - if: $CONTAINER_SCANNING_DISABLED
+    - if: $GITLAB_CONTAINER_SCANNING == "false"
       when: never
     - if: $CI_COMMIT_BRANCH &&
           $CI_GITLAB_FIPS_MODE == "true" &&
@@ -22,7 +22,7 @@ container_scanning_upload_container:
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Container Scan"
     SAFESCARF_SCAN_FILE: "./gl-container-scanning-report.json"
   rules:
-    - if: $CONTAINER_SCANNING_DISABLED
+    - if: $GITLAB_CONTAINER_SCANNING == "false"
       when: never
     - if: $CI_COMMIT_BRANCH &&
           $CI_GITLAB_FIPS_MODE == "true" &&
@@ -43,7 +43,7 @@ container_scanning_upload_dependency:
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Container Dependency"
     SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
   rules:
-    - if: $CONTAINER_SCANNING_DISABLED
+    - if: $GITLAB_CONTAINER_SCANNING == "false"
       when: never
     - if: $CI_COMMIT_BRANCH &&
           $CI_GITLAB_FIPS_MODE == "true" &&
