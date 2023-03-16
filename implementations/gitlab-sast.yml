@@ -2,13 +2,7 @@ include:
   - template: Security/SAST.gitlab-ci.yml
 
 variables:
-  SAST_DISABLED: "!$GITLAB_SAST_SCANNING"
-
-test2:
-  image: alpine
-  stage: test
-  script:
-    - echo $SAST_DISABLED
+  SAST_DISABLED: "$GITLAB_SAST_SCAN_DISABLED"
 
 # Extend GitLab SAST job to publish the report file as artifact to be used by other jobs
 sast:

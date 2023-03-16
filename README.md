@@ -60,11 +60,11 @@ The variables have to be set in your gitlab-ci.yml file or in the GitLab UI.
 
 | Variable        | Mandatory | Default | Description |
 | -------------   |:-------------:| -----:| -----: |
-| DSO_CONTAINER_SCANNING | No | false | enables the [DevSecOps Scanner By DTIT](https://gitlab.devops.telekom.de/devsecops-tools/container-scanner) |
-| GITLAB_CONTAINER_SCANNING | No | false | enables gitlabs built in [container scanner](https://docs.gitlab.com/ee/user/application_security/container_scanning/) |
-| GITLAB_DEPENDENCY_SCANNING | No | false | enables gitlabs built in [dependency scanner](https://docs.gitlab.com/ee/user/application_security/dependency_scanning/) |
-| GITLAB_SAST_SCANNING | No | true | enables gitlabs built in [sast scanner](https://docs.gitlab.com/ee/user/application_security/sast/) |
-| GITLAB_SECRET_SCANNING | No | true | enables gitlabs built in [secret detection](https://docs.gitlab.com/ee/user/application_security/secret_detection/) |
+| DSO_CONTAINER_SCAN_DISABLED | No | true | enables the [DevSecOps Scanner By DTIT](https://gitlab.devops.telekom.de/devsecops-tools/container-scanner) |
+| GITLAB_CONTAINER_SCAN_DISABLED | No | true | enables gitlabs built in [container scanner](https://docs.gitlab.com/ee/user/application_security/container_scanning/) |
+| GITLAB_DEPENDENCY_SCAN_DISABLED | No | true | enables gitlabs built in [dependency scanner](https://docs.gitlab.com/ee/user/application_security/dependency_scanning/) |
+| GITLAB_SAST_SCAN_DISABLED | No | false | enables gitlabs built in [sast scanner](https://docs.gitlab.com/ee/user/application_security/sast/) |
+| GITLAB_SECRET_SCAN_DISABLED | No | false | enables gitlabs built in [secret detection](https://docs.gitlab.com/ee/user/application_security/secret_detection/) |
 
 ### Scan
 
