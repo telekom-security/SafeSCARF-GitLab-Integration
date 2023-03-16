@@ -37,6 +37,7 @@ variables:
   SAFESCARF_SCAN_ENVIRONMENT: "Default"
   DISABLE_ANCHORE: "true"
   DSO_CONTAINER_SCANNING: "false"
+  GITLAB_CONTAINER_SCANNING: "false"
 
 safescarf_create_engagement:
   stage: .pre

@@ -1,5 +1,8 @@
 include:
   - template: Security/Container-Scanning.gitlab-ci.yml
+    rules:
+      - if: $GITLAB_CONTAINER_SCANNING == "true"
+
 
 container_scanning:
   rules:
