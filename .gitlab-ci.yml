@@ -10,8 +10,9 @@ variables:
   KUBERNETES_USER_TOKEN: $p03_KUBERNETES_USER_TOKEN
   KUBERNETES_NAMESPACE: $PROJECT_NAMESPACE
 
-tags:
-  - private-arlindne
+default:
+  tags:
+    - private-arlindne
 
 stages:
   - build
