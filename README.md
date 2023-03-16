@@ -45,6 +45,12 @@ The variables have to be set in your gitlab-ci.yml file or in the GitLab UI.
 | SAFESCARF_ENGAGEMENT_PEN_TEST | No | true | |
 | SAFESCARF_ENGAGEMENT_CHECK_LIST | No | true | |
 
+### Scan Engines
+
+| Variable        | Mandatory | Default | Description |
+| -------------   |:-------------:| -----:| -----: |
+| DSO_CONTAINER_SCANNING | No | false | enables the [DevSecOps Scanner By DTIT](https://gitlab.devops.telekom.de/devsecops-tools/container-scanner) |
+
 ### Scan
 | Variable        | Mandatory | Default | Description |
 | -------------   |:-------------:| -----:| -----: |

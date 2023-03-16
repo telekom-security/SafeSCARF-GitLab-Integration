@@ -58,8 +58,6 @@ container_scanning:
 
 pages:
   stage: publish
-  tags:
-    - otc_run_docker_s
   image: 
     name: dockerhub.devops.telekom.de/alpine:3
     entrypoint: [""]

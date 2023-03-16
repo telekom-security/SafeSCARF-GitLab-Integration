@@ -36,6 +36,7 @@ variables:
   SAFESCARF_SCAN_PUSH_TO_JIRA: "false"
   SAFESCARF_SCAN_ENVIRONMENT: "Default"
   DISABLE_ANCHORE: "true"
+  DSO_CONTAINER_SCANNING: "false"
 
 safescarf_create_engagement:
   stage: .pre
@@ -119,5 +120,4 @@ safescarf_publish:
             --form "file=@${SAFESCARF_SCAN_FILE}" \
             --form "close_old_findings=\"${SAFESCARF_SCAN_CLOSE_OLD_FINDINGS}\"" \
             --form "push_to_jira=\"${SAFESCARF_SCAN_PUSH_TO_JIRA}\"" \
-            --form "test_type=\"${SAFESCARF_SCAN_TEST_TYPE}\"" \
             --form "environment=\"${SAFESCARF_SCAN_ENVIRONMENT}\""

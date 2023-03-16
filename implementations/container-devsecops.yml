@@ -1,0 +1,33 @@
+include:
+  - project: 'devsecops-tools/container-scanner'
+    ref: "master"
+    file: 'container-scan.yml'
+
+dso_container_scan:
+  extends: .container_scan
+  rules:
+    - if: $DSO_CONTAINER_SCANNING == "false"
+      when: never
+    - if: $CI_COMMIT_BRANCH
+    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+  artifacts:
+    when: always
+    paths:
+      - scanresults/
+  allow_failure: true
+
+dso_container_scan_upload:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "devsecops_container_scanning"]
+  variables:
+    SAFESCARF_SCAN_TYPE: "Anchore Grype"
+    SAFESCARF_SCAN_FILE: $SCAN_RESULT_FILENAME
+  rules:
+    - if: $DSO_CONTAINER_SCANNING_DISABLED
+      when: never
+    - if: $CI_COMMIT_BRANCH
+    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
+      when: never
+
+      
