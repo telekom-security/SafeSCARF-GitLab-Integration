@@ -10,6 +10,8 @@ variables:
   KUBERNETES_USER_TOKEN: $p03_KUBERNETES_USER_TOKEN
   KUBERNETES_NAMESPACE: $PROJECT_NAMESPACE
 
+
+  SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL: 'true'
   ## select jobs
 
 default:
@@ -28,13 +30,13 @@ stages:
 # Code has been  derived from: https://gitlab.devops.telekom.de/ccoe/training/training-day-2021-04-08/session-3 and slightly adapted.
 # To use this CI template, please include it in your pipeline and implement the "security scan" stage.
 include:
-  - "/gitlab-safescarf.yml"
+  - local: /gitlab-safescarf.yml
 
 debug:
   stage: test
   image: alpine
   script:
-    - echo $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL
+    - echo {$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == true}
     - echo $GITLAB_SAST_SCANNING
 
 pages:
