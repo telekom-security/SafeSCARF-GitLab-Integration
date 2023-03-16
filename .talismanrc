@@ -4,7 +4,7 @@ fileignoreconfig:
 - filename: README.md
   checksum: 2c3ed55349e669706431ab2e269010527898850c41a795c81ff040417a9355c1
 - filename: gitlab-safescarf.yml
-  checksum: bf60aab78434b14b3c403606fbb44292e89d9dd74fd62d869526fbc30cc2bffb
+  checksum: 43019d8dfc2e8266a40e15a9864738c279d75136a979fb7d9b552437e63560de
 - filename: implementations/gitlab-secrets.yml
   checksum: 90c8f5abc1d25f67147d8b80fc93510e743c2350950138bffebf5a918d4d3c90
 version: "1.0"

@@ -58,6 +58,8 @@ The variables have to be set in your gitlab-ci.yml file or in the GitLab UI.
 
 ### Scan Engines
 
+We need to drive a blacklisting approach since we include every engine by default (currently gitlab-ci does not provide a smart way to include based on custom pipeline variables).
+
 | Variable        | Mandatory | Default | Description |
 | -------------   |:-------------:| -----:| -----: |
 | DSO_CONTAINER_SCAN_DISABLED | No | true | enables the [DevSecOps Scanner By DTIT](https://gitlab.devops.telekom.de/devsecops-tools/container-scanner) |
