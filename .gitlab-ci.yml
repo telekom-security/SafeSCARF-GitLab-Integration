@@ -13,6 +13,7 @@ variables:
   KUBERNETES_NAMESPACE: $PROJECT_NAMESPACE
 
   ## select jobs
+  GITLAB_DEPENDENCY_SCAN_DISABLED: "false"
 
 default:
   tags:
