@@ -38,6 +38,7 @@ debug:
   script:
     - echo {$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == true}
     - echo $GITLAB_SAST_SCANNING
+    - echo $GITLAB_SECRET_SCANNING
 
 pages:
   stage: publish
