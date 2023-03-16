@@ -1,39 +1,39 @@
 include:
   - remote: https://secureops.pages.devops.telekom.de/safescarf/safescarf-integration/implementations/container-devsecops.yml
     rules:
-      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == 'false' && $DSO_CONTAINER_SCANNING == 'true'
+      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "false" && $DSO_CONTAINER_SCANNING == "true"'
   - remote: https://secureops.pages.devops.telekom.de/safescarf/safescarf-integration/implementations/gitlab-dependency.yml
     rules:
-      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == 'false' && $GITLAB_DEPENDENCY_SCANNING == 'true'
+      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "false" && $GITLAB_DEPENDENCY_SCANNING == "true"'
   - remote: https://secureops.pages.devops.telekom.de/safescarf/safescarf-integration/implementations/anchore-engine.yml
     rules:
-      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == 'false'
+      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "false"'
   - remote: https://secureops.pages.devops.telekom.de/safescarf/safescarf-integration/implementations/gitlab-container.yml
     rules:
-      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == 'false' && $GITLAB_CONTAINER_SCANNING == 'true'
+      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "false" && $GITLAB_CONTAINER_SCANNING == "true"'
   - remote: https://secureops.pages.devops.telekom.de/safescarf/safescarf-integration/implementations/gitlab-sast.yml
     rules:
-      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == 'false' && $GITLAB_SAST_SCANNING == 'true'
+      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "false" && $GITLAB_SAST_SCANNING == "true"'
   - remote: https://secureops.pages.devops.telekom.de/safescarf/safescarf-integration/implementations/gitlab-secrets.yml
     rules:
-      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == 'false' && $GITLAB_SECRET_SCANNING == 'true'
+      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "false" && $GITLAB_SECRET_SCANNING == "true"'
 
 ## local includes to test before deployment
   - local: /implementations/container-devsecops.yml
     rules:
-      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == 'true' && $DSO_CONTAINER_SCANNING == 'true'
+      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "true" && $DSO_CONTAINER_SCANNING == "true"'
   - local: "/implementations/gitlab-dependency.yml"
     rules:
-      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == 'true' && $GITLAB_DEPENDENCY_SCANNING == 'true'
+      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "true" && $GITLAB_DEPENDENCY_SCANNING == "true"'
   - local: "/implementations/gitlab-container.yml"
     rules:
-      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == 'true' && $GITLAB_CONTAINER_SCANNING == 'true'
+      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "true" && $GITLAB_CONTAINER_SCANNING == "true"'
   - local: "/implementations/gitlab-sast.yml"
     rules:
-      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == 'true' && $GITLAB_SAST_SCANNING == 'true'
+      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "true" && $GITLAB_SAST_SCANNING == "true"'
   - local: "/implementations/gitlab-secrets.yml"
     rules:
-      - if: $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == 'true' && $GITLAB_SECRET_SCANNING == 'true'
+      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "true" && $GITLAB_SECRET_SCANNING == "true"'
 
 variables:
   SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL: 'false'
@@ -69,7 +69,7 @@ safescarf_create_engagement:
     GIT_STRATEGY: none
   allow_failure: true
   rules:
-    - if: $SAFESCARF_NOT_ON_MASTER == 'true' && $CI_COMMIT_BRANCH == "master"
+    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
     - when: always
   before_script:
