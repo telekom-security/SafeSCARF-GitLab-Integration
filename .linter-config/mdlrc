@@ -1,0 +1,5 @@
+# Configuration file for mdl (markdownlint)
+# Configuration options are described in detail at:
+# https://github.com/markdownlint/markdownlint/blob/master/docs/configuration.md
+
+style "./.linter-config/mdl.style"

@@ -1,0 +1,15 @@
+# Style definition for mdl (markdownlint)
+# Options are described in detail at:
+# https://github.com/markdownlint/markdownlint/blob/master/docs/RULES.md
+
+# Enable all rules by default
+all
+
+# Exclude rules for User Documentation because of Docusaurus
+exclude_rule 'MD041'
+exclude_rule 'MD033'
+
+# Adjust rule for line length
+rule 'MD013', :line_length => false, :ignore_code_blocks => true, :tables => false
+rule 'MD024', :allow_different_nesting => true
+rule 'MD026', :punctuation => ".,;:!。，；：！"
