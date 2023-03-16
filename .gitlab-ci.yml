@@ -30,6 +30,13 @@ stages:
 include:
   - "/gitlab-safescarf.yml"
 
+debug:
+  stage: test
+  image: alpine
+  script:
+    - echo $SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL
+    - echo $GITLAB_SAST_SCANNING
+
 pages:
   stage: publish
   image: 
