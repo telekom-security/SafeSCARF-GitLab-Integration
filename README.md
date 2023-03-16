@@ -13,6 +13,7 @@ It supports the following test engines:
 Please see [Scan Engines](#scan-engines) to understand how to enable them and which are enabled by default.
 
 > Some engines, like the gitlab-container engine are not directly plug and play and need some minor configurations.
+> **You can still use the original variables to configure your jobs!**
 
 For having Anchore Engine working the path of the image is expected in the Variable "IMAGE_NAME".
 
@@ -69,7 +70,7 @@ The variables have to be set in your gitlab-ci.yml file or in the GitLab UI.
 
 | Variable        | Mandatory | Default | Description |
 | -------------   |:-------------:| -----:| -----: |
-| SAFESCARF_SCAN_MINIMUM_SEVERITY | No | Info | Available values : Info, Low, Medium, High, Critical | 
+| SAFESCARF_SCAN_MINIMUM_SEVERITY | No | Info | Available values : Info, Low, Medium, High, Critical |
 | SAFESCARF_SCAN_ACTIVE | No | true | |
 | SAFESCARF_SCAN_VERIFIED | No | true | |
 | SAFESCARF_SCAN_CLOSE_OLD_FINDINGS | No | true | |

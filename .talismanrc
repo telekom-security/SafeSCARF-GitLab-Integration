@@ -1,0 +1,4 @@
+fileignoreconfig:
+- filename: gitlab-safescarf.yml
+  checksum: 7d1d8899416ce88f8a26b178e38c31029197c1fce80e3ff7e4665b21635af7a9
+version: "1.0"
