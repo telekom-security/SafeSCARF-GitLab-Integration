@@ -1,8 +1,11 @@
 include:
   - template: Security/SAST.gitlab-ci.yml
 
-variables:
-  SAST_DISABLED: "$GITLAB_SAST_SCAN_DISABLED"
+# this should only be used with "latest" secret-detection template because the
+#current release only checks if "$SAST_DISABLED" exists. It does not
+#verify the content.
+#variables:
+#  SAST_DISABLED: "$GITLAB_SAST_SCAN_DISABLED"
 
 # Extend GitLab SAST job to publish the report file as artifact to be used by other jobs
 sast:
