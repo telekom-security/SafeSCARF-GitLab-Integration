@@ -6,5 +6,5 @@ fileignoreconfig:
 - filename: gitlab-safescarf.yml
   checksum: 43019d8dfc2e8266a40e15a9864738c279d75136a979fb7d9b552437e63560de
 - filename: implementations/gitlab-secrets.yml
-  checksum: 150d26fbab4bd483bbae63685e9a0ef24ac5a7419f5e407d45c706359f032d4a
+  checksum: e63a39f3e84a38aa7cfe5e92b8674c18545d26f266bf9556f2fb18f1f8d48eb1
 version: "1.0"
