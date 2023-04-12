@@ -23,7 +23,7 @@ semgrep-safescarf:
   rules:
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
-    - if: $SAST_DISABLED
+    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /semgrep/
       when: never
@@ -53,7 +53,7 @@ brakeman-safescarf:
   rules:
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
-    - if: $SAST_DISABLED
+    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /brakeman/
       when: never
@@ -72,7 +72,7 @@ flawfinder-safescarf:
   rules:
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
-    - if: $SAST_DISABLED
+    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /flawfinder/
       when: never
@@ -91,7 +91,7 @@ kubesec-safescarf:
   rules:
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
-    - if: $SAST_DISABLED
+    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /kubesec/
       when: never
@@ -108,7 +108,7 @@ mobsf-android-safescarf:
   rules:
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
-    - if: $SAST_DISABLED
+    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /mobsf/
       when: never
@@ -128,7 +128,7 @@ mobsf-ios-safescarf:
   rules:
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
-    - if: $SAST_DISABLED
+    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /mobsf/
       when: never
@@ -148,7 +148,7 @@ nodejs-scan-safescarf:
   rules:
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
-    - if: $SAST_DISABLED
+    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /nodejs-scan/
       when: never
@@ -166,7 +166,7 @@ phpcs-security-audit-safescarf:
   rules:
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
-    - if: $SAST_DISABLED
+    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /phpcs-security-audit/
       when: never
@@ -184,7 +184,7 @@ pmd-apex-safescarf:
   rules:
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
-    - if: $SAST_DISABLED
+    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /pmd-apex/
       when: never
@@ -202,7 +202,7 @@ security-code-scan-safescarf:
   rules:
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
-    - if: $SAST_DISABLED
+    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /security-code-scan/
       when: never
@@ -221,7 +221,7 @@ sobelow-safescarf:
   rules:
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
-    - if: $SAST_DISABLED
+    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
       when: never
     - if: $SAST_EXCLUDED_ANALYZERS =~ /sobelow/
       when: never
@@ -245,7 +245,7 @@ spotbugs-safescarf:
       exists:
         - '**/AndroidManifest.xml'
       when: never
-    - if: $SAST_DISABLED
+    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
       when: never
     - if: $CI_COMMIT_BRANCH
       exists:
