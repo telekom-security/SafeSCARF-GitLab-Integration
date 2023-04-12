@@ -4,7 +4,8 @@ include:
 
 container_scanning:
   rules:
-    - if: '$GITLAB_CONTAINER_SCAN_DISABLED != "true"'
+    - if: '$GITLAB_CONTAINER_SCAN_DISABLED == "true"'
+      when: never
     - if: $CI_COMMIT_BRANCH &&
           $CI_GITLAB_FIPS_MODE == "true" &&
           $CS_ANALYZER_IMAGE !~ /-(fips|ubi)\z/
@@ -22,7 +23,8 @@ container_scanning_upload_container:
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Container Scan"
     SAFESCARF_SCAN_FILE: "./gl-container-scanning-report.json"
   rules:
-    - if: '$GITLAB_CONTAINER_SCAN_DISABLED != "true"'
+    - if: '$GITLAB_CONTAINER_SCAN_DISABLED == "true"'
+      when: never
     - if: $CI_COMMIT_BRANCH &&
           $CI_GITLAB_FIPS_MODE == "true" &&
           $CS_ANALYZER_IMAGE !~ /-(fips|ubi)\z/
@@ -42,7 +44,8 @@ container_scanning_upload_dependency:
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Container Dependency"
     SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
   rules:
-    - if: '$GITLAB_CONTAINER_SCAN_DISABLED != "true"'
+    - if: '$GITLAB_CONTAINER_SCAN_DISABLED == "true"'
+      when: never
     - if: $CI_COMMIT_BRANCH &&
           $CI_GITLAB_FIPS_MODE == "true" &&
           $CS_ANALYZER_IMAGE !~ /-(fips|ubi)\z/
