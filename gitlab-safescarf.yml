@@ -139,6 +139,7 @@ safescarf_publish:
     - cat ${SAFESCARF_SCAN_FILE}
     - |
         curl --fail --verbose --location --request POST "${SAFESCARF_URL}/import-scan/" \
+            --max-filesize 104857600 \
             --header "Authorization: Token ${SAFESCARF_TOKEN}" \
             --form "scan_date=\"${TODAY}\"" \
             --form "minimum_severity=\"${SAFESCARF_SCAN_MINIMUM_SEVERITY}\"" \
