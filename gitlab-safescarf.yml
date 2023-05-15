@@ -36,6 +36,7 @@ include:
       - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "true"'
 
 variables:
+  CS_SCHEMA_MODEL: 14 # temporary fix for safeSCARF compatibility
   SAFESCARF_ENGAGEMENT_PERIOD: 7
   SAFESCARF_ENGAGEMENT_STATUS: "Not Started"
   SAFESCARF_ENGAGEMENT_BUILD_SERVER: "null"
