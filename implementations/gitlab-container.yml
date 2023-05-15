@@ -4,7 +4,7 @@ include:
 
 container_scanning:
   rules:
-    - if: $GITLAB_CONTAINER_SCAN_DISABLED
+    - if: '$GITLAB_CONTAINER_SCAN_DISABLED == "true"'
       when: never
     - if: $CI_COMMIT_BRANCH &&
           $CI_GITLAB_FIPS_MODE == "true" &&
@@ -12,6 +12,7 @@ container_scanning:
       variables:
         CS_IMAGE_SUFFIX: -fips
     - if: $CI_COMMIT_BRANCH
+    - if: $CI_COMMIT_TAG
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
 
@@ -23,7 +24,7 @@ container_scanning_upload_container:
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Container Scan"
     SAFESCARF_SCAN_FILE: "./gl-container-scanning-report.json"
   rules:
-    - if: $GITLAB_CONTAINER_SCAN_DISABLED
+    - if: '$GITLAB_CONTAINER_SCAN_DISABLED == "true"'
       when: never
     - if: $CI_COMMIT_BRANCH &&
           $CI_GITLAB_FIPS_MODE == "true" &&
@@ -31,6 +32,7 @@ container_scanning_upload_container:
       variables:
         CS_IMAGE_SUFFIX: -fips
     - if: $CI_COMMIT_BRANCH
+    - if: $CI_COMMIT_TAG
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never
 
@@ -44,7 +46,7 @@ container_scanning_upload_dependency:
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Container Dependency"
     SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
   rules:
-    - if: $GITLAB_CONTAINER_SCAN_DISABLED
+    - if: '$GITLAB_CONTAINER_SCAN_DISABLED == "true"'
       when: never
     - if: $CI_COMMIT_BRANCH &&
           $CI_GITLAB_FIPS_MODE == "true" &&
@@ -52,5 +54,6 @@ container_scanning_upload_dependency:
       variables:
         CS_IMAGE_SUFFIX: -fips
     - if: $CI_COMMIT_BRANCH
+    - if: $CI_COMMIT_TAG
     - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
       when: never

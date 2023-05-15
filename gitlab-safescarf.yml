@@ -1,7 +1,7 @@
 include:
-  - remote: https://secureops.pages.devops.telekom.de/safescarf/safescarf-integration/implementations/devsecops-container.yml
-    rules:
-      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL != "true"'
+  #- remote: https://secureops.pages.devops.telekom.de/safescarf/safescarf-integration/implementations/devsecops-container.yml
+  #  rules:
+  #    - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL != "true"'
   - remote: https://secureops.pages.devops.telekom.de/safescarf/safescarf-integration/implementations/gitlab-dependency.yml
     rules:
       - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL != "true"'
@@ -60,6 +60,12 @@ variables:
   GITLAB_DEPENDENCY_SCAN_DISABLED: 'true'
   GITLAB_SAST_SCAN_DISABLED: 'false'
   GITLAB_SECRET_SCAN_DISABLED: 'false'
+  # map to gitlab disables
+  SECRET_DETECTION_DISABLED: $GITLAB_SECRET_SCAN_DISABLED
+  #SAST_DISABLED: $GITLAB_SAST_SCAN_DISABLED
+  #DEPENDENCY_SCANNING_DISABLED: $GITLAB_DEPENDENCY_SCAN_DISABLED
+  #CONTAINER_SCANNING_DISABLED: $GITLAB_CONTAINER_SCAN_DISABLED
+
 
 safescarf_create_engagement:
   stage: .pre
@@ -133,6 +139,7 @@ safescarf_publish:
     - cat ${SAFESCARF_SCAN_FILE}
     - |
         curl --fail --verbose --location --request POST "${SAFESCARF_URL}/import-scan/" \
+            --max-filesize 104857600 \
             --header "Authorization: Token ${SAFESCARF_TOKEN}" \
             --form "scan_date=\"${TODAY}\"" \
             --form "minimum_severity=\"${SAFESCARF_SCAN_MINIMUM_SEVERITY}\"" \
