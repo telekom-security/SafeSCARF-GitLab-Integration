@@ -23,7 +23,12 @@ For using this example simple include the main file "gitlab-sast.yml" as a remot
 
 ```yaml
 include:
+  - project: 'secureops/safescarf/safescarf-integration'
+    ref: "master"
+    file: 'implementations/devsecops-container.yml'
   - remote: "https://secureops.pages.devops.telekom.de/safescarf/safescarf-integration/gitlab-safescarf.yml"
+
+
 ```
 
 After, you can enable and configure the desired engines (see [Scan Engines](#scan-engines)).
