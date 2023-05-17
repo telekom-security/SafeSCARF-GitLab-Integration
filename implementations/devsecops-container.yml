@@ -22,7 +22,7 @@ dso_container_scan_upload:
   needs: ["safescarf_create_engagement", "dso_container_scan"]
   variables:
     SAFESCARF_SCAN_TYPE: "Anchore Grype"
-    SAFESCARF_SCAN_FILE: scanresults/$SCAN_RESULT_FILENAME
+    SAFESCARF_SCAN_FILE: $SCAN_RESULT_FILENAME
   rules:
     - if: '$DSO_CONTAINER_SCAN_DISABLED == "true"'
       when: never
