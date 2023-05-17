@@ -140,7 +140,6 @@ safescarf_publish:
   extends: safescarf_publish
   allow_failure: true
   script:
-    - ls scanresults
     - cat ${SAFESCARF_SCAN_FILE}
     - |
         curl --fail --verbose --location --request POST "${SAFESCARF_URL}/import-scan/" \
