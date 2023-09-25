@@ -1,4 +1,41 @@
-# GitLab-CI SafeSCARF
+# GitLab-CI SafeSCARF 2.0
+
+> Release 2.0 introduces some major changes!
+>
+> #### 1. Moving away from a "one integration fits all" approach.
+> 
+> We discovered, that thise approach is pretty error prone, especially when
+> relying on third party templates like a dso scanner.
+> 
+> #### 2. Adapt a more dynamic (plugin style) approach
+>
+> For the new approach, the `gitlab-integration.yml` will only contain the
+> safescarf interaction parts. Scanning templates for uploading can be included
+> on demand.  
+> By doing this, projects have the ability to easier adapt and implement their
+> own adapters. (They are still welcome to share their adapters with us to
+> provide it to other projects).
+>
+> #### 3. Use shell script for safescarf interactions
+>
+> While using and maintaining v1.0 we discovered, that some projects need to
+> customize their interaction with safescarf during the pipeline which lead to
+> problems with the static pipeline definition. Instead we are going to create
+> an bash script that can be executed with custom arguments to interact with
+> safescarf.  
+> Also debugging the pipeline and multi-line comments becomes much easier with
+> this approach.
+>
+> #### 4. Rely on Tags / Releases for integration versioning
+>
+> Primary Idea of v1.0 was to have a single include that auto updates, if
+> neccessary changes have been detected.  
+> Problem with this approach was that pipelines failed since the integration has
+> updated and the projects did not get any information about this.  
+> With v2.0 Projects should test and pin a specific version of the integration
+> and decide on their own when to upgrade. (We wil provide detailed release
+> notes). We will also offer a `latest` tag for those who want to be on the
+> latest edge on their own risk.
 
 This repository provides an example implementation of [SafeSCARF](https://documentation.portal.pan-net.cloud/safescarf-product/) (based on [DefectDojo](https://www.defectdojo.org)) with [GitLab-CI](https://docs.gitlab.com/ee/ci/).
 
