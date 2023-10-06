@@ -1,43 +1,4 @@
-include:
-  #- remote: https://secureops.pages.devops.telekom.de/safescarf/safescarf-integration/implementations/devsecops-container.yml
-  #  rules:
-  #    - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL != "true"'
-  - remote: https://secureops.pages.devops.telekom.de/safescarf/safescarf-integration/implementations/gitlab-dependency.yml
-    rules:
-      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL != "true"'
-  - remote: https://secureops.pages.devops.telekom.de/safescarf/safescarf-integration/implementations/anchore-engine.yml
-    rules:
-      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL != "true"'
-  - remote: https://secureops.pages.devops.telekom.de/safescarf/safescarf-integration/implementations/gitlab-container.yml
-    rules:
-      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL != "true"'
-  - remote: https://secureops.pages.devops.telekom.de/safescarf/safescarf-integration/implementations/gitlab-sast.yml
-    rules:
-      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL != "true"'
-  - remote: https://secureops.pages.devops.telekom.de/safescarf/safescarf-integration/implementations/gitlab-secrets.yml
-    rules:
-      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL != "true"'
-
-## local includes to test before deployment
-  #- local: /implementations/devsecops-container.yml
-  #  rules:
-  #    - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "true"'
-  - local: "/implementations/gitlab-dependency.yml"
-    rules:
-      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "true"'
-  - local: "/implementations/gitlab-container.yml"
-    rules:
-      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "true"'
-  - local: "/implementations/gitlab-sast.yml"
-    rules:
-      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "true"'
-  - local: /implementations/gitlab-secrets.yml
-    rules:
-      - if: '$SAFESCARF_IMPLEMENTATIONS_PATH_LOCAL == "true"'
-
 variables:
-  CS_SCHEMA_MODEL: 14 # temporary fix for safeSCARF compatibility
-  DS_SCHEMA_MODEL: 14 # temporary fix for safeSCARF compatibility
   SAFESCARF_ENGAGEMENT_PERIOD: 7
   SAFESCARF_ENGAGEMENT_STATUS: "Not Started"
   SAFESCARF_ENGAGEMENT_BUILD_SERVER: "null"
@@ -56,24 +17,14 @@ variables:
   SAFESCARF_SCAN_CLOSE_OLD_FINDINGS: 'true'
   SAFESCARF_SCAN_PUSH_TO_JIRA: 'false'
   SAFESCARF_SCAN_ENVIRONMENT: "Default"
-  DISABLE_ANCHORE: 'true'
-  DSO_CONTAINER_SCAN_DISABLED: 'true'
-  GITLAB_CONTAINER_SCAN_DISABLED: 'true'
-  GITLAB_DEPENDENCY_SCAN_DISABLED: 'true'
-  GITLAB_SAST_SCAN_DISABLED: 'false'
-  GITLAB_SECRET_SCAN_DISABLED: 'false'
-  # map to gitlab disables
-  SECRET_DETECTION_DISABLED: $GITLAB_SECRET_SCAN_DISABLED
-  #SAST_DISABLED: $GITLAB_SAST_SCAN_DISABLED
-  #DEPENDENCY_SCANNING_DISABLED: $GITLAB_DEPENDENCY_SCAN_DISABLED
-  #CONTAINER_SCANNING_DISABLED: $GITLAB_CONTAINER_SCAN_DISABLED
-  # default fresultfilename for dso  container
-  SCAN_RESULT_FILENAME: dso-${CI_COMMIT_SHORT_SHA}-vuln.json
+  SAFESCARF_WORKFLOW: "" # Branch, Pipeline
 
 
 safescarf_create_engagement:
   stage: .pre
-  image: alpine
+  image: 
+    name: mtr.devops.telekom.de/secureops/safescarf-connector:2cd5dcde
+    entrypoint: [""]
   variables:
     GIT_STRATEGY: none
   allow_failure: true
@@ -82,42 +33,11 @@ safescarf_create_engagement:
       when: never
     - when: always
   before_script:
-    - apk add curl jq coreutils
+    - apk add coreutils
     - TODAY=`date +%Y-%m-%d`
     - ENDDAY=$(date -d "+${SAFESCARF_ENGAGEMENT_PERIOD} days" +%Y-%m-%d)
   script:
-    - |
-        ENGAGEMENTID=`curl --fail --location --request POST "${SAFESCARF_URL}/engagements/" \
-              --header "Authorization: Token ${SAFESCARF_TOKEN}" \
-              --header 'Content-Type: application/json' \
-                --data-raw "{
-                  \"tags\": [\"GITLAB-CI\"],
-                  \"name\": \"#${CI_PIPELINE_ID}\",
-                  \"description\": \"${CI_COMMIT_DESCRIPTION}\",
-                  \"version\": \"${CI_COMMIT_REF_NAME}\",
-                  \"first_contacted\": \"${TODAY}\",
-                  \"target_start\": \"${TODAY}\",
-                  \"target_end\": \"${ENDDAY}\",
-                  \"reason\": \"string\",
-                  \"tracker\": \"${CI_PROJECT_URL}/-/issues\",
-                  \"threat_model\": \"${SAFESCARF_ENGAGEMENT_THREAT_MODEL}\",
-                  \"api_test\": \"${SAFESCARF_ENGAGEMENT_API_TEST}\",
-                  \"pen_test\": \"${SAFESCARF_ENGAGEMENT_PEN_TEST}\",
-                  \"check_list\": \"${SAFESCARF_ENGAGEMENT_CHECK_LIST}\",
-                  \"status\": \"${SAFESCARF_ENGAGEMENT_STATUS}\",
-                  \"engagement_type\": \"CI/CD\",
-                  \"build_id\": \"${CI_PIPELINE_ID}\",
-                  \"commit_hash\": \"${CI_COMMIT_SHORT_SHA}\",
-                  \"branch_tag\": \"${CI_COMMIT_REF_NAME}\",
-                  \"deduplication_on_engagement\": \"${SAFESCARF_ENGAGEMENT_DEDUPLICATION_ON_ENGAGEMENT}\",
-                  \"product\": \"${SAFESCARF_PRODUCTID}\",
-                  \"source_code_management_uri\": \"${CI_PROJECT_URL}/-/tree/${CI_COMMIT_REF_NAME}/\",
-                  \"build_server\": ${SAFESCARF_ENGAGEMENT_BUILD_SERVER},
-                  \"source_code_management_server\": ${SAFESCARF_ENGAGEMENT_SOURCE_CODE_MANAGEMENT_SERVER},
-                  \"orchestration_engine\": ${SAFESCARF_ENGAGEMENT_ORCHESTRATION_ENGINE}
-                }" | tee response.json | jq -r '.id'`
-    - cat response.json
-    - echo "SAFESCARF_ENGAGEMENTID=${ENGAGEMENTID}" >> safescarf.env
+    - python /app/safescarf-connector.py --workflow ${SAFESCARF_WORKFLOW} --environment ${SAFESCARF_SCAN_ENVIRONMENT} create-engagement
   artifacts:
     reports:
       dotenv: safescarf.env
@@ -125,11 +45,13 @@ safescarf_create_engagement:
 
 safescarf_publish:
   stage: .post
-  image: alpine
+  image: 
+    name: mtr.devops.telekom.de/secureops/safescarf-connector:2cd5dcde
+    entrypoint: [""]
   rules:
     - when: never
   before_script:
-    - apk add curl coreutils
+    - apk add --no-cache coreutils
     - TODAY=`date +%Y-%m-%d`
   script:
     - echo "$CI_JOB_NAME is used for configuration only, and its script should not be executed"
@@ -140,18 +62,5 @@ safescarf_publish:
   extends: safescarf_publish
   allow_failure: true
   script:
-    - cat ${SAFESCARF_SCAN_FILE}
-    - |
-        curl --fail --verbose --location --request POST "${SAFESCARF_URL}/import-scan/" \
-            --max-filesize 104857600 \
-            --header "Authorization: Token ${SAFESCARF_TOKEN}" \
-            --form "scan_date=\"${TODAY}\"" \
-            --form "minimum_severity=\"${SAFESCARF_SCAN_MINIMUM_SEVERITY}\"" \
-            --form "active=\"${SAFESCARF_SCAN_ACTIVE}\"" \
-            --form "verified=\"${SAFESCARF_SCAN_VERIFIED}\"" \
-            --form "scan_type=\"${SAFESCARF_SCAN_TYPE}\"" \
-            --form "engagement=\"${SAFESCARF_ENGAGEMENTID}\"" \
-            --form "file=@${SAFESCARF_SCAN_FILE}" \
-            --form "close_old_findings=\"${SAFESCARF_SCAN_CLOSE_OLD_FINDINGS}\"" \
-            --form "push_to_jira=\"${SAFESCARF_SCAN_PUSH_TO_JIRA}\"" \
-            --form "environment=\"${SAFESCARF_SCAN_ENVIRONMENT}\""
+    - ls -lah ${SAFESCARF_SCAN_FILE}
+    - python /app/safescarf-connector.py --workflow ${SAFESCARF_WORKFLOW} --environment "${SAFESCARF_SCAN_ENVIRONMENT}" --engagement-id ${SAFESCARF_ENGAGEMENT_ID} --product-id ${SAFESCARF_PRODUCT_ID} --scan-type "${SAFESCARF_SCAN_TYPE}" upload "${SAFESCARF_SCAN_FILE}"
