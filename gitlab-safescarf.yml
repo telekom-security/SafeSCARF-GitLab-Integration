@@ -18,12 +18,13 @@ variables:
   SAFESCARF_SCAN_PUSH_TO_JIRA: 'false'
   SAFESCARF_SCAN_ENVIRONMENT: "Default"
   SAFESCARF_WORKFLOW: "" # Branch, Pipeline
+  MCICD_DOCKERHUB_MIRROR: "dockerhub.devops.telekom.de/"
 
 
 safescarf_create_engagement:
   stage: .pre
   image: 
-    name: mtr.devops.telekom.de/secureops/safescarf-connector:2cd5dcde
+    name: mtr.devops.telekom.de/secureops/safescarf-connector:1.1.0
     entrypoint: [""]
   variables:
     GIT_STRATEGY: none
@@ -46,7 +47,7 @@ safescarf_create_engagement:
 safescarf_publish:
   stage: .post
   image: 
-    name: mtr.devops.telekom.de/secureops/safescarf-connector:2cd5dcde
+    name: mtr.devops.telekom.de/secureops/safescarf-connector:1.1.0
     entrypoint: [""]
   rules:
     - when: never
