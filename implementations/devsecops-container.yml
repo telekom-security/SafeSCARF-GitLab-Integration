@@ -5,12 +5,6 @@ include:
 
 dso_container_scan:
   extends: .container_scan
-  rules:
-    - if: '$DSO_CONTAINER_SCAN_DISABLED == "true"'
-      when: never
-    - if: $CI_COMMIT_BRANCH
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
   artifacts:
     when: always
     paths:
@@ -23,11 +17,3 @@ dso_container_scan_upload:
   variables:
     SAFESCARF_SCAN_TYPE: "Anchore Grype"
     SAFESCARF_SCAN_FILE: scanresults/$SCAN_RESULT_FILENAME
-  rules:
-    - if: '$DSO_CONTAINER_SCAN_DISABLED == "true"'
-      when: never
-    - if: $CI_COMMIT_BRANCH
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
-
-      
