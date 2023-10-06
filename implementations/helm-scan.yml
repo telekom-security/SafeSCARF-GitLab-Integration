@@ -1,0 +1,68 @@
+scan-helm-config:
+  stage: test
+  image:
+    name: ${MCICD_DOCKERHUB_MIRROR}aquasec/trivy
+    entrypoint: [""]
+  variables:
+    HELM_CHARTS_PATH: "./"
+  script:
+    - trivy config --format json --output "trivy-container-scanning-report.json" $HELM_CHARTS_PATH
+  artifacts:
+    paths:
+      - "trivy-container-scanning-report.json"
+
+scan-helm-config-upload:
+  extends: .safescarf_upload
+  needs: ["safescarf_create_engagement", "scan-helm-config"]
+  variables:
+    SAFESCARF_SCAN_TYPE: "Trivy Scan"
+    SAFESCARF_SCAN_FILE: trivy-container-scanning-report.json
+  rules:
+    - when: always
+
+scan-helm-images-prepare:
+  stage: test
+  image:
+    name: ${MCICD_DOCKERHUB_MIRROR}alpine/helm
+    entrypoint: [""]
+  variables:
+    HELM_CHARTS_PATH: "./"
+  script:
+    - 'helm template $HELM_CHARTS_PATH | grep ''^[ -]*image:'' | cut -d: -f 2- | tr -d '' "'' | sort -u > ./images.lst'
+    - cat images.lst
+  artifacts:
+    when: always
+    paths:
+      - images.lst
+
+scan-helm-images:
+  stage: test
+  image:
+    name: ${MCICD_DOCKERHUB_MIRROR}anchore/grype:v0.65.2-debug
+    entrypoint: [""]
+  needs:
+    - scan-helm-images-prepare
+  script:
+    - |
+      for IMAGE in $(cat images.lst); do
+        /grype ${IMAGE} -o json -f high > grype-out.$(echo ${IMAGE} | tr '/:"' '_').json || touch vuln_found
+        echo "grype-out.$(echo ${IMAGE} | tr '/:\"' '_').json;${IMAGE/:/;}" >> results.csv
+      done
+    - '[[ -f vuln_found ]] && { echo "Vulnerabilities found, cancelling"; false; }'
+  artifacts:
+    when: always
+    paths:
+      - grype-out.*.json
+      - results.csv
+
+scan-helm-images-upload:
+  extends: safescarf_publish
+  needs:
+    - "safescarf_create_engagement"
+    - "scan-helm-images"
+  variables:
+    SAFESCARF_SCAN_TYPE: "Anchore Grype"
+  script:
+    - for LINE in $(cat results.csv); do python /app/safescarf-connector.py --workflow ${SAFESCARF_WORKFLOW} --environment ${SAFESCARF_SCAN_ENVIRONMENT} --engagement-id ${SAFESCARF_ENGAGEMENT_ID} --product-id ${SAFESCARF_PRODUCT_ID} --scan-type "${SAFESCARF_SCAN_TYPE}" --name "$(echo "$LINE" | awk -F';' '{print $2}')" --service "$(echo "$LINE" | awk -F';' '{print $2}')" --version "$(echo "$LINE" | awk -F';' '{print $3}')" upload "$(echo "$LINE" | awk -F';' '{print $1}')"; done
+  rules:
+    - when: always
