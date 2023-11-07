@@ -66,7 +66,7 @@ There is only one mandatory `include`:
 
 ```yaml
 include:
-  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/2.0-rc7/gitlab-safescarf.yml
+  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/2.0-rc8/gitlab-safescarf.yml
 ```
 
 The `gitlab-safescarf.yml` template provides the neccessary default variables
@@ -91,11 +91,11 @@ remote and include the desired plugins after:
 
 ```yaml
 include:
-  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/2.0-rc7/gitlab-safescarf.yml
+  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/2.0-rc8/gitlab-safescarf.yml
   - project: 'secureops/safescarf/safescarf-integration'
     ref: "master"
     file: 'implementations/devsecops-container.yml'
-  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/2.0-rc7/implementations/gitlab-secrets.yml
+  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/2.0-rc8/implementations/gitlab-secrets.yml
 ```
 
 > In case of the DSO Container Scanner you need to include it from gitlab via
@@ -111,10 +111,10 @@ The variables have to be set in your gitlab-ci.yml file or in the GitLab CI/CD S
 
 | Variable        | Mandatory | Default | Description |
 | -------------   |:-------------:| -----:| -----: |
-| SAFESCARF_URL | Yes | '[https://dt-sec.safescarf.pan-net.cloud/](https://dt-sec.safescarf.pan-net.cloud/)' | URL your your SafeSCARF Instance |
+| SAFESCARF_URL | Yes | '[https://safescarf.domain.tld/](https://safescarf.domain.tld/)' | URL your your SafeSCARF Instance |
 | SAFESCARF_TOKEN | Yes | null | API token for API-V2 Endpoint (machine or user token)|
 | SAFESCARF_PRODUCTID | Yes | null | ID of your Product in SafeSCARF (will be displayed in the url bar of the browser after accessing the product) |
-| SAFESCARF_NOT_ON_MASTER | No | false | Disable SafeSCARF implementation when executed on Master branch |
+| SAFESCARF_REIMPORT_DO_NOT_REACTIVATE | No | True | see [docs](https://defectdojo.github.io/django-DefectDojo/integrations/importing/#triage-less-scanners) |
 
 ### Engagement
 
@@ -122,7 +122,7 @@ The variables have to be set in your gitlab-ci.yml file or in the GitLab CI/CD S
 | -------------   |:-------------:| -----:| -----: |
 | SAFESCARF_ENGAGEMENT_PERIOD | No | 7 | Duration in days of the created Engagement |
 | SAFESCARF_ENGAGEMENT_STATUS | No | In  Progress | Initial Status of the Engagement when created. Possible Values: Not Started, Blocked, Cancelled, Completed, In Progress, On Hold, Waiting for Resource |
-| SAFESCARF_ENGAGEMENT_DEDUPLICATION_ON_ENGAGEMENT | No | false | If enabled deduplication will only mark a finding in this engagement as duplicate of another finding if both findings are in this engagement. If disabled, deduplication is on the product level. |
+| SAFESCARF_ENGAGEMENT_DEDUPLICATION_ON_ENGAGEMENT | No | true | If enabled deduplication will only mark a finding in this engagement as duplicate of another finding if both findings are in this engagement. If disabled, deduplication is on the product level. |
 | SAFESCARF_ENGAGEMENT_BUILD_SERVER | No | null | ID of the Build Server if configured in SafeSCARF |
 | SAFESCARF_ENGAGEMENT_SOURCE_CODE_MANAGEMENT_SERVER | No | null | ID of the SCM Server if configured in SafeSCARF |
 | SAFESCARF_ENGAGEMENT_ORCHESTRATION_ENGINE | No | null | ID of the Orchestration Engine if configured in SafeSCARF |
@@ -139,8 +139,7 @@ The variables have to be set in your gitlab-ci.yml file or in the GitLab CI/CD S
 | SAFESCARF_SCAN_ACTIVE | No | true | |
 | SAFESCARF_SCAN_VERIFIED | No | true | |
 | SAFESCARF_SCAN_CLOSE_OLD_FINDINGS | No | true | |
-| SAFESCARF_SCAN_PUSH_TO_JIRA | No | false | |
-| SAFESCARF_SCAN_ENVIRONMENT | No | Default | |
+| SAFESCARF_SCAN_ENVIRONMENT | No | Default | **Recommended to set!**|
 
 ## Forking
 

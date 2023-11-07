@@ -1,23 +1,22 @@
 variables:
   SAFESCARF_ENGAGEMENT_PERIOD: 7
-  SAFESCARF_ENGAGEMENT_STATUS: "Not Started"
+  SAFESCARF_ENGAGEMENT_STATUS: "In Progress"
   SAFESCARF_ENGAGEMENT_BUILD_SERVER: "null"
   SAFESCARF_ENGAGEMENT_SOURCE_CODE_MANAGEMENT_SERVER: "null"
   SAFESCARF_ENGAGEMENT_ORCHESTRATION_ENGINE: "null"
-  SAFESCARF_ENGAGEMENT_DEDUPLICATION_ON_ENGAGEMENT: 'false'
+  SAFESCARF_ENGAGEMENT_DEDUPLICATION_ON_ENGAGEMENT: 'true'
+  SAFESCARF_REIMPORT_DO_NOT_REACTIVATE: 'true'
   SAFESCARF_ENGAGEMENT_THREAT_MODEL: 'true'
   SAFESCARF_ENGAGEMENT_API_TEST: 'true'
   SAFESCARF_ENGAGEMENT_PEN_TEST: 'true'
   SAFESCARF_ENGAGEMENT_CHECK_LIST: 'true'
-  SAFESCARF_NOT_ON_MASTER: 'false'
-  SAFESCARF_URL: "https://dt-sec.safescarf.pan-net.cloud/"
+  SAFESCARF_URL: ""
   SAFESCARF_SCAN_MINIMUM_SEVERITY: "Info"
   SAFESCARF_SCAN_ACTIVE: 'true'
   SAFESCARF_SCAN_VERIFIED: 'true'
   SAFESCARF_SCAN_CLOSE_OLD_FINDINGS: 'true'
-  SAFESCARF_SCAN_PUSH_TO_JIRA: 'false'
   SAFESCARF_SCAN_ENVIRONMENT: "Default"
-  SAFESCARF_WORKFLOW: "" # Branch, Pipeline
+  SAFESCARF_WORKFLOW: "Branch" # Branch, Pipeline
   MCICD_DOCKERHUB_MIRROR: "dockerhub.devops.telekom.de/"
 
 
@@ -29,10 +28,6 @@ safescarf_create_engagement:
   variables:
     GIT_STRATEGY: none
   allow_failure: true
-  rules:
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
-    - when: always
   before_script:
     - apk add coreutils
     - TODAY=`date +%Y-%m-%d`
@@ -64,4 +59,4 @@ safescarf_publish:
   allow_failure: true
   script:
     - ls -lah ${SAFESCARF_SCAN_FILE}
-    - python /app/safescarf-connector.py --workflow ${SAFESCARF_WORKFLOW} --environment "${SAFESCARF_SCAN_ENVIRONMENT}" --engagement-id ${SAFESCARF_ENGAGEMENT_ID} --product-id ${SAFESCARF_PRODUCT_ID} --scan-type "${SAFESCARF_SCAN_TYPE}" --commit-hash "${CI_COMMIT_SHORT_SHA}" --build-id "${CI_PIPELINE_ID}" --do-not-reactivate "True" upload "${SAFESCARF_SCAN_FILE}"
+    - python /app/safescarf-connector.py --workflow ${SAFESCARF_WORKFLOW} --environment "${SAFESCARF_SCAN_ENVIRONMENT}" --engagement-id ${SAFESCARF_ENGAGEMENT_ID} --product-id ${SAFESCARF_PRODUCT_ID} --scan-type "${SAFESCARF_SCAN_TYPE}" --commit-hash "${CI_COMMIT_SHORT_SHA}" --build-id "${CI_PIPELINE_ID}" --do-not-reactivate "${SAFESCARF_REIMPORT_DO_NOT_REACTIVATE}" upload "${SAFESCARF_SCAN_FILE}"
