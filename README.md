@@ -91,11 +91,11 @@ remote and include the desired plugins after:
 
 ```yaml
 include:
-  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/2.0-rc2/gitlab-safescarf.yml
+  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/2.0-rc4/gitlab-safescarf.yml
   - project: 'secureops/safescarf/safescarf-integration'
     ref: "master"
     file: 'implementations/devsecops-container.yml'
-  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/2.0-rc2/implementations/gitlab-secrets.yml
+  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/2.0-rc4/implementations/gitlab-secrets.yml
 ```
 
 > In case of the DSO Container Scanner you need to include it from gitlab via
