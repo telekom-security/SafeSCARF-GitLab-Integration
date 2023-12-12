@@ -1,13 +1,6 @@
 include:
   - template: Security/SAST.gitlab-ci.yml
 
-# this should only be used with "latest" secret-detection template because the
-#current release only checks if "$SAST_DISABLED" exists. It does not
-#verify the content.
-#variables:
-#  SAST_DISABLED: "$GITLAB_SAST_SCAN_DISABLED"
-
-# Extend GitLab SAST job to publish the report file as artifact to be used by other jobs
 sast:
   artifacts:
     paths:
@@ -20,28 +13,6 @@ semgrep-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Semgrep"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
-    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
-      when: never
-    - if: $SAST_EXCLUDED_ANALYZERS =~ /semgrep/
-      when: never
-    - if: $CI_COMMIT_BRANCH
-      exists:
-        - '**/*.py'
-        - '**/*.js'
-        - '**/*.jsx'
-        - '**/*.ts'
-        - '**/*.tsx'
-        - '**/*.c'
-        - '**/*.go'
-        - '**/*.java'
-        - '**/*.cs'
-        - '**/*.html'
-        - '**/*.scala'
-        - '**/*.sc'
-
 
 brakeman-safescarf:
   extends: .safescarf_upload
@@ -50,17 +21,6 @@ brakeman-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Brakeman"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
-    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
-      when: never
-    - if: $SAST_EXCLUDED_ANALYZERS =~ /brakeman/
-      when: never
-    - if: $CI_COMMIT_BRANCH
-      exists:
-        - '**/*.rb'
-        - '**/Gemfile'
 
 flawfinder-safescarf:
   extends: .safescarf_upload
@@ -69,17 +29,6 @@ flawfinder-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Flawfinder"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
-    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
-      when: never
-    - if: $SAST_EXCLUDED_ANALYZERS =~ /flawfinder/
-      when: never
-    - if: $CI_COMMIT_BRANCH
-      exists:
-        - '**/*.c'
-        - '**/*.cpp'
 
 kubesec-safescarf:
   extends: .safescarf_upload
@@ -88,15 +37,6 @@ kubesec-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI KubeSec"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
-    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
-      when: never
-    - if: $SAST_EXCLUDED_ANALYZERS =~ /kubesec/
-      when: never
-    - if: $CI_COMMIT_BRANCH &&
-          $SCAN_KUBERNETES_MANIFESTS == 'true'
 
 mobsf-android-safescarf:
   extends: .safescarf_upload
@@ -105,18 +45,6 @@ mobsf-android-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Mobsf Android"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
-    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
-      when: never
-    - if: $SAST_EXCLUDED_ANALYZERS =~ /mobsf/
-      when: never
-    - if: $CI_COMMIT_BRANCH &&
-          $SAST_EXPERIMENTAL_FEATURES == 'true'
-      exists:
-        - '**/*.apk'
-        - '**/AndroidManifest.xml'
 
 mobsf-ios-safescarf:
   extends: .safescarf_upload
@@ -125,18 +53,6 @@ mobsf-ios-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Mobsf IOS"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
-    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
-      when: never
-    - if: $SAST_EXCLUDED_ANALYZERS =~ /mobsf/
-      when: never
-    - if: $CI_COMMIT_BRANCH &&
-          $SAST_EXPERIMENTAL_FEATURES == 'true'
-      exists:
-        - '**/*.ipa'
-        - '**/*.xcodeproj/*'
 
 nodejs-scan-safescarf:
   extends: .safescarf_upload
@@ -145,16 +61,6 @@ nodejs-scan-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI NodeJs Scan"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
-    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
-      when: never
-    - if: $SAST_EXCLUDED_ANALYZERS =~ /nodejs-scan/
-      when: never
-    - if: $CI_COMMIT_BRANCH
-      exists:
-        - '**/package.json'
 
 phpcs-security-audit-safescarf:
   extends: .safescarf_upload
@@ -163,16 +69,6 @@ phpcs-security-audit-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI PHPCS Security Audit"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
-    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
-      when: never
-    - if: $SAST_EXCLUDED_ANALYZERS =~ /phpcs-security-audit/
-      when: never
-    - if: $CI_COMMIT_BRANCH
-      exists:
-        - '**/*.php'
 
 pmd-apex-safescarf:
   extends: .safescarf_upload
@@ -181,16 +77,6 @@ pmd-apex-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI PMD Aepx"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
-    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
-      when: never
-    - if: $SAST_EXCLUDED_ANALYZERS =~ /pmd-apex/
-      when: never
-    - if: $CI_COMMIT_BRANCH
-      exists:
-        - '**/*.cls'
 
 security-code-scan-safescarf:
   extends: .safescarf_upload
@@ -199,17 +85,6 @@ security-code-scan-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Security Code Scan"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
-    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
-      when: never
-    - if: $SAST_EXCLUDED_ANALYZERS =~ /security-code-scan/
-      when: never
-    - if: $CI_COMMIT_BRANCH
-      exists:
-        - '**/*.csproj'
-        - '**/*.vbproj'
 
 sobelow-safescarf:
   extends: .safescarf_upload
@@ -218,16 +93,6 @@ sobelow-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Sobelow"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
-    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
-      when: never
-    - if: $SAST_EXCLUDED_ANALYZERS =~ /sobelow/
-      when: never
-    - if: $CI_COMMIT_BRANCH
-      exists:
-        - 'mix.exs'
 
 spotbugs-safescarf:
   extends: .safescarf_upload
@@ -236,21 +101,3 @@ spotbugs-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Spotbugs"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - if: '$SAFESCARF_NOT_ON_MASTER == "true" && $CI_COMMIT_BRANCH == "master"'
-      when: never
-    - if: $SAST_EXCLUDED_ANALYZERS =~ /spotbugs/
-      when: never
-    - if: $SAST_EXPERIMENTAL_FEATURES == 'true'
-      exists:
-        - '**/AndroidManifest.xml'
-      when: never
-    - if: '$GITLAB_SAST_SCAN_DISABLED == "true"'
-      when: never
-    - if: $CI_COMMIT_BRANCH
-      exists:
-        - '**/*.groovy'
-        - '**/*.java'
-        - '**/*.scala'
-        - '**/*.kt'
-
