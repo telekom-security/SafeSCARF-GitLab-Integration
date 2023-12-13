@@ -8,28 +8,49 @@ include:
       - "gl-dependency-scanning-report.json"
 
 gemnasium-safescarf:
-  extends: .safescarf_upload
+  extends:
+    - .safescarf_upload
+    - gemnasium-dependency_scanning
   needs: ["safescarf_create_engagement", "gemnasium-dependency_scanning"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Gemnasium"
     SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
-  rules: !reference [gemnasium-dependency_scanning, rules]
 
 gemnasium-maven-safescarf:
-  extends: .safescarf_upload
+  extends: 
+    - .safescarf_upload
+    - gemnasium-maven-dependency_scanning
   needs: ["safescarf_create_engagement", "gemnasium-maven-dependency_scanning"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Gemnasium Maven"
     SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
-  rules: !reference [gemnasium-maven-dependency_scanning, rules]
 
 gemnasium-python-safescarf:
-  extends: .safescarf_upload
+  extends: 
+    - .safescarf_upload
+    - gemnasium-python-dependency_scanning
   needs: ["safescarf_create_engagement", "gemnasium-python-dependency_scanning"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Gemnasium Python"
     SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
-  rules: !reference [gemnasium-python-dependency_scanning, rules]

@@ -12,9 +12,16 @@ dso_container_scan:
   allow_failure: true
 
 dso_container_scan_upload:
-  extends: .safescarf_upload
+  extends: 
+    - .safescarf_upload
+    - dso_container_scan
   needs: ["safescarf_create_engagement", "dso_container_scan"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "Anchore Grype"
     SAFESCARF_SCAN_FILE: scanresults/$SCAN_RESULT_FILENAME
-  rules: !reference [.dso_container_scan, rules]

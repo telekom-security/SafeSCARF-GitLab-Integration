@@ -7,109 +7,193 @@ sast:
       - gl-sast-report.json
 
 semgrep-safescarf:
-  extends: .safescarf_upload
+  extends: 
+    - .safescarf_upload
+    - semgrep-sast
   needs: ["safescarf_create_engagement", "semgrep-sast"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Semgrep"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules: !reference [semgrep-sast, rules]
 
 brakeman-safescarf:
-  extends: .safescarf_upload
+  extends: 
+    - .safescarf_upload
+    - brakeman-sast
   needs: ["safescarf_create_engagement", "brakeman-sast"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Brakeman"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules: !reference [brakeman-sast, rules]
 
 flawfinder-safescarf:
-  extends: .safescarf_upload
+  extends: 
+    - .safescarf_upload
+    - flawfinder-sast
   needs: ["safescarf_create_engagement", "flawfinder-sast"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Flawfinder"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules: !reference [flawfinder-sast, rules]
 
 kubesec-safescarf:
-  extends: .safescarf_upload
+  extends: 
+    - .safescarf_upload
+    - kubesec-sast
   needs: ["safescarf_create_engagement", "kubesec-sast"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI KubeSec"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules: !reference [kubesec-sast, rules]
 
 mobsf-android-safescarf:
-  extends: .safescarf_upload
+  extends: 
+    - .safescarf_upload
+    - mobsf-android-sast
   needs: ["safescarf_create_engagement", "mobsf-android-sast"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Mobsf Android"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules: !reference [mobsf-android-sast, rules]
 
 mobsf-ios-safescarf:
-  extends: .safescarf_upload
+  extends: 
+    - .safescarf_upload
+    - mobsf-ios-sast
   needs: ["safescarf_create_engagement", "mobsf-ios-sast"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Mobsf IOS"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules: !reference [mobsf-ios-sast, rules]
 
 nodejs-scan-safescarf:
-  extends: .safescarf_upload
+  extends: 
+    - .safescarf_upload
+    - nodejs-scan-sast
   needs: ["safescarf_create_engagement", "nodejs-scan-sast"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI NodeJs Scan"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules: !reference [nodejs-scan-sast, rules]
 
 phpcs-security-audit-safescarf:
-  extends: .safescarf_upload
+  extends: 
+    - .safescarf_upload
+    - phpcs-security-audit-sast
   needs: ["safescarf_create_engagement", "phpcs-security-audit-sast"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI PHPCS Security Audit"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules: !reference [phpcs-security-audit-sast, rules]
 
 pmd-apex-safescarf:
-  extends: .safescarf_upload
+  extends: 
+    - .safescarf_upload
+    - pmd-apex-sast
   needs: ["safescarf_create_engagement", "pmd-apex-sast"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI PMD Aepx"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules: !reference [pmd-apex-sast, rules]
 
 security-code-scan-safescarf:
-  extends: .safescarf_upload
+  extends: 
+    - .safescarf_upload
+    - security-code-scan-sast
   needs: ["safescarf_create_engagement", "security-code-scan-sast"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Security Code Scan"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules: !reference [security-code-scan-sast, rules]
 
 sobelow-safescarf:
-  extends: .safescarf_upload
+  extends: 
+    - .safescarf_upload
+    - sobelow-sast
   needs: ["safescarf_create_engagement", "sobelow-sast"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Sobelow"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules: !reference [sobelow-sast, rules]
 
 spotbugs-safescarf:
-  extends: .safescarf_upload
+  extends: 
+    - .safescarf_upload
+    - spotbugs-sast
   needs: ["safescarf_create_engagement", "spotbugs-sast"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Spotbugs"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules: !reference [spotbugs-sast, rules]

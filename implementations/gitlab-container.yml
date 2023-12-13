@@ -3,19 +3,33 @@ include:
 
 
 container_scanning_upload_container:
-  extends: .safescarf_upload
+  extends: 
+    - .safescarf_upload
+    - container_scanning
   needs: ["safescarf_create_engagement", "container_scanning"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab Container Scan"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Container Scan"
-    SAFESCARF_SCAN_FILE: "./gl-container-scanning-report.json"  
-  rules: !reference [.container_scanning, rules]
+    SAFESCARF_SCAN_FILE: "./gl-container-scanning-report.json"
 
 container_scanning_upload_dependency:
-  extends: .safescarf_upload
+  extends: 
+    - .safescarf_upload
+    - container_scanning
   needs: ["safescarf_create_engagement", "container_scanning"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Container Dependency"
     SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
-  rules: !reference [.container_scanning, rules]

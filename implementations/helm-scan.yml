@@ -12,12 +12,19 @@ scan-helm-config:
       - "trivy-container-scanning-report.json"
 
 scan-helm-config-upload:
-  extends: .safescarf_upload
+  extends: 
+    - .safescarf_upload
+    - scan-helm-config
   needs: ["safescarf_create_engagement", "scan-helm-config"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "Trivy Scan"
     SAFESCARF_SCAN_FILE: trivy-container-scanning-report.json
-  rules: !reference [scan-helm-images, scan-helm-config]
 
 scan-helm-images-prepare:
   stage: test
@@ -55,12 +62,18 @@ scan-helm-images:
       - results.csv
 
 scan-helm-images-upload:
-  extends: safescarf_publish
+  extends: 
+    - safescarf_publish
+    - scan-helm-images
   needs:
     - "safescarf_create_engagement"
     - "scan-helm-images"
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "Anchore Grype"
   script:
     - for LINE in $(cat results.csv); do python /app/safescarf-connector.py --workflow ${SAFESCARF_WORKFLOW} --environment ${SAFESCARF_SCAN_ENVIRONMENT} --engagement-id ${SAFESCARF_ENGAGEMENT_ID} --product-id ${SAFESCARF_PRODUCT_ID} --scan-type "${SAFESCARF_SCAN_TYPE}" --name "$(echo "$LINE" | awk -F';' '{print $2}')" --service "$(echo "$LINE" | awk -F';' '{print $2}')" --version "$(echo "$LINE" | awk -F';' '{print $3}')" upload "$(echo "$LINE" | awk -F';' '{print $1}')"; done
-  rules: !reference [scan-helm-images, rules]
