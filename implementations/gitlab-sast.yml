@@ -14,7 +14,7 @@ semgrep-safescarf:
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Semgrep"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
   rules:
-    when: always
+    - when: always
 
 brakeman-safescarf:
   extends: .safescarf_upload
@@ -24,7 +24,7 @@ brakeman-safescarf:
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Brakeman"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
   rules:
-    when: always
+    - when: always
 
 flawfinder-safescarf:
   extends: .safescarf_upload
@@ -34,7 +34,7 @@ flawfinder-safescarf:
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Flawfinder"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
   rules:
-    when: always
+    - when: always
 
 kubesec-safescarf:
   extends: .safescarf_upload
@@ -44,7 +44,7 @@ kubesec-safescarf:
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI KubeSec"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
   rules:
-    when: always
+    - when: always
 
 mobsf-android-safescarf:
   extends: .safescarf_upload
@@ -54,7 +54,7 @@ mobsf-android-safescarf:
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Mobsf Android"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
   rules:
-    when: always
+    - when: always
 
 mobsf-ios-safescarf:
   extends: .safescarf_upload
@@ -64,7 +64,7 @@ mobsf-ios-safescarf:
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Mobsf IOS"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
   rules:
-    when: always
+    - when: always
 
 nodejs-scan-safescarf:
   extends: .safescarf_upload
@@ -74,7 +74,7 @@ nodejs-scan-safescarf:
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI NodeJs Scan"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
   rules:
-    when: always
+    - when: always
 
 phpcs-security-audit-safescarf:
   extends: .safescarf_upload
@@ -84,7 +84,7 @@ phpcs-security-audit-safescarf:
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI PHPCS Security Audit"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
   rules:
-    when: always
+    - when: always
 
 pmd-apex-safescarf:
   extends: .safescarf_upload
@@ -94,7 +94,7 @@ pmd-apex-safescarf:
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI PMD Aepx"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
   rules:
-    when: always
+    - when: always
 
 security-code-scan-safescarf:
   extends: .safescarf_upload
@@ -104,7 +104,7 @@ security-code-scan-safescarf:
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Security Code Scan"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
   rules:
-    when: always
+    - when: always
 
 sobelow-safescarf:
   extends: .safescarf_upload
@@ -114,7 +114,7 @@ sobelow-safescarf:
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Sobelow"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
   rules:
-    when: always
+    - when: always
 
 spotbugs-safescarf:
   extends: .safescarf_upload
@@ -124,4 +124,4 @@ spotbugs-safescarf:
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Spotbugs"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
   rules:
-    when: always
+    - when: always
