@@ -23,7 +23,7 @@ variables:
 safescarf_create_engagement:
   stage: .pre
   image: 
-    name: mtr.devops.telekom.de/secureops/safescarf-connector:1.2.7
+    name: mtr.devops.telekom.de/secureops/safescarf-connector:1.2.8
     entrypoint: [""]
   variables:
     GIT_STRATEGY: none
@@ -42,7 +42,7 @@ safescarf_create_engagement:
 safescarf_publish:
   stage: .post
   image: 
-    name: mtr.devops.telekom.de/secureops/safescarf-connector:1.2.7
+    name: mtr.devops.telekom.de/secureops/safescarf-connector:1.2.8
     entrypoint: [""]
   rules:
     - when: never
