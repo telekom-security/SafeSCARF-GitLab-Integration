@@ -13,8 +13,7 @@ semgrep-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Semgrep"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - !reference [semgrep-sast, rules]
+  rules: !reference [semgrep-sast, rules]
 
 brakeman-safescarf:
   extends: .safescarf_upload
@@ -23,8 +22,7 @@ brakeman-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Brakeman"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - !reference [brakeman-sast, rules]
+  rules: !reference [brakeman-sast, rules]
 
 flawfinder-safescarf:
   extends: .safescarf_upload
@@ -33,8 +31,7 @@ flawfinder-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Flawfinder"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - !reference [flawfinder-sast, rules]
+  rules: !reference [flawfinder-sast, rules]
 
 kubesec-safescarf:
   extends: .safescarf_upload
@@ -43,8 +40,7 @@ kubesec-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI KubeSec"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - !reference [kubesec-sast, rules]
+  rules: !reference [kubesec-sast, rules]
 
 mobsf-android-safescarf:
   extends: .safescarf_upload
@@ -53,8 +49,7 @@ mobsf-android-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Mobsf Android"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - !reference [mobsf-android-sast, rules]
+  rules: !reference [mobsf-android-sast, rules]
 
 mobsf-ios-safescarf:
   extends: .safescarf_upload
@@ -63,8 +58,7 @@ mobsf-ios-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Mobsf IOS"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - !reference [mobsf-ios-sast, rules]
+  rules: !reference [mobsf-ios-sast, rules]
 
 nodejs-scan-safescarf:
   extends: .safescarf_upload
@@ -73,8 +67,7 @@ nodejs-scan-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI NodeJs Scan"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - !reference [nodejs-scan-sast, rules]
+  rules: !reference [nodejs-scan-sast, rules]
 
 phpcs-security-audit-safescarf:
   extends: .safescarf_upload
@@ -83,8 +76,7 @@ phpcs-security-audit-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI PHPCS Security Audit"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - !reference [phpcs-security-audit-sast, rules]
+  rules: !reference [phpcs-security-audit-sast, rules]
 
 pmd-apex-safescarf:
   extends: .safescarf_upload
@@ -93,8 +85,7 @@ pmd-apex-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI PMD Aepx"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - !reference [pmd-apex-sast, rules]
+  rules: !reference [pmd-apex-sast, rules]
 
 security-code-scan-safescarf:
   extends: .safescarf_upload
@@ -103,8 +94,7 @@ security-code-scan-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Security Code Scan"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - !reference [security-code-scan-sast, rules]
+  rules: !reference [security-code-scan-sast, rules]
 
 sobelow-safescarf:
   extends: .safescarf_upload
@@ -113,8 +103,7 @@ sobelow-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Sobelow"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - !reference [sobelow-sast, rules]
+  rules: !reference [sobelow-sast, rules]
 
 spotbugs-safescarf:
   extends: .safescarf_upload
@@ -123,5 +112,4 @@ spotbugs-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Spotbugs"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-  rules:
-    - !reference [spotbugs-sast, rules]
+  rules: !reference [spotbugs-sast, rules]

@@ -14,8 +14,7 @@ gemnasium-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Gemnasium"
     SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
-  rules:
-    - !reference [gemnasium-dependency_scanning, rules]
+  rules: !reference [gemnasium-dependency_scanning, rules]
 
 gemnasium-maven-safescarf:
   extends: .safescarf_upload
@@ -24,8 +23,7 @@ gemnasium-maven-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Gemnasium Maven"
     SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
-  rules:
-    - !reference [gemnasium-maven-dependency_scanning, rules]
+  rules: !reference [gemnasium-maven-dependency_scanning, rules]
 
 gemnasium-python-safescarf:
   extends: .safescarf_upload
@@ -34,5 +32,4 @@ gemnasium-python-safescarf:
     SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Gemnasium Python"
     SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
-  rules:
-    - !reference [gemnasium-python-dependency_scanning, rules]
+  rules: !reference [gemnasium-python-dependency_scanning, rules]

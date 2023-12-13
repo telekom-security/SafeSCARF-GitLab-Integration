@@ -9,8 +9,7 @@ container_scanning_upload_container:
     SAFESCARF_SCAN_TYPE: "GitLab Container Scan"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Container Scan"
     SAFESCARF_SCAN_FILE: "./gl-container-scanning-report.json"  
-  rules:
-    - !reference [.container_scanning, rules]
+  rules: !reference [.container_scanning, rules]
 
 container_scanning_upload_dependency:
   extends: .safescarf_upload
@@ -19,5 +18,4 @@ container_scanning_upload_dependency:
     SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Container Dependency"
     SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
-  rules:
-    - !reference [.container_scanning, rules]
+  rules: !reference [.container_scanning, rules]
