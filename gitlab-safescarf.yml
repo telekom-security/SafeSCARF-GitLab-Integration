@@ -16,7 +16,7 @@ variables:
   SAFESCARF_SCAN_VERIFIED: 'true'
   SAFESCARF_SCAN_CLOSE_OLD_FINDINGS: 'true'
   SAFESCARF_SCAN_ENVIRONMENT: "Default"
-  SAFESCARF_WORKFLOW: "Branch" # Branch, Pipeline
+  SAFESCARF_WORKFLOW: "branch" # branch, pipeline
   MCICD_DOCKERHUB_MIRROR: "dockerhub.devops.telekom.de/"
 
 
