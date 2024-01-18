@@ -143,12 +143,13 @@ The variables have to be set in your gitlab-ci.yml file or in the GitLab CI/CD S
 
 ### Xray Container
 
---- TODO: Include description ---
+Jfrog Xray scans docker containers for any known vulnerabilites and posts the findings with metadata including remediation suggestions to SafeSCARF. For this to function, you need to include the variable XRAY_CONTAINER_IMAGE with the ID of your target Container Image (e.g Nginx:1.0.0) in your .gitlab-ci.yml file. Additionally, add an ARTIFACTORY_TOKEN to your Settings -> CI/CD -> Variables.
+Generate this token by logging into Artifactory, clicking on Welcome, your.email on the top-right -> Set Me Up -> docker -> Generate Token & Create Instructions.
 
 | Variable        | Mandatory | Default | Description |
 | -------------   |:-------------:| -----:| -----: |
 | ARTIFACTORY_TOKEN | Yes | null | API token for Artifactory |
-| XRAY_CONTAINER_IMAGE | Yes | "" | ID of the Container Image (e.g: Nginx:1.24.0) |
+| XRAY_CONTAINER_IMAGE | Yes | "" | ID of the Container Image |
 
 ## Forking
 
