@@ -141,6 +141,15 @@ The variables have to be set in your gitlab-ci.yml file or in the GitLab CI/CD S
 | SAFESCARF_SCAN_CLOSE_OLD_FINDINGS | No | true | |
 | SAFESCARF_SCAN_ENVIRONMENT | No | Default | **Recommended to set!**|
 
+### Xray Container
+
+--- TODO: Include description ---
+
+| Variable        | Mandatory | Default | Description |
+| -------------   |:-------------:| -----:| -----: |
+| ARTIFACTORY_TOKEN | Yes | null | API token for Artifactory |
+| XRAY_CONTAINER_IMAGE | Yes | "" | ID of the Container Image (e.g: Nginx:1.24.0) |
+
 ## Forking
 
 Feel free to fork this repository and include into your own GitLab Instance.

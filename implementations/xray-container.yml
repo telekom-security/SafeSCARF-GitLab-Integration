@@ -1,0 +1,42 @@
+# was ist, wenn man mehrere Images scannen will?
+# Die folgenden Variablen müssen in der .gitlab-ci.yml datei vorher gesetzt werden
+variables:
+  XRAY_CONTAINER_IMAGE: ""
+
+xray-container:
+  stage: test
+  services:
+  - name: '${MCICD_DOCKERHUB_MIRROR}docker:20.10.12-dind'
+    command: ['--tls=false', '--host=tcp://0.0.0.0:2375', '--registry-mirror=https://$MCICD_DOCKERHUB_MIRROR']
+    alias: docker
+  variables:
+    DOCKER_DRIVER: overlay2
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+  image:
+    name: releases-docker.jfrog.io/jfrog/jfrog-cli-full-v2-jf
+    entrypoint: [""]
+  script:
+    - jf config add --url https://artifactory.devops.telekom.de --access-token $ARTIFACTORY_TOKEN
+    - |
+      docker pull ${XRAY_CONTAINER_IMAGE}
+      jf docker scan ${XRAY_CONTAINER_IMAGE} --format json > xray-out.$(echo ${XRAY_CONTAINER_IMAGE} | tr '/:"' '_').json
+      echo "xray-out.$(echo ${XRAY_CONTAINER_IMAGE} | tr '/:\"' '_').json;${XRAY_CONTAINER_IMAGE/:/;}" >> results.csv
+  artifacts:
+    when: always
+    paths:
+      - xray-out.*.json
+      - results.csv
+
+
+xray-container-upload:
+  extends: safescarf_publish
+  needs:
+    - "safescarf_create_engagement"
+    - "scan-helm-images"
+  variables:
+    SAFESCARF_SCAN_TYPE: "JFrog Xray On Demand Binary Scan"
+  script:
+    - for LINE in $(cat results.csv); do python /app/safescarf-connector.py --workflow ${SAFESCARF_WORKFLOW} --environment ${SAFESCARF_SCAN_ENVIRONMENT} --engagement-id ${SAFESCARF_ENGAGEMENT_ID} --product-id ${SAFESCARF_PRODUCT_ID} --scan-type "${SAFESCARF_SCAN_TYPE}" --name "$(echo "$LINE" | awk -F';' '{print $2}')" --service "$(echo "$LINE" | awk -F';' '{print $2}')" --version "$(echo "$LINE" | awk -F';' '{print $3}')" upload "$(echo "$LINE" | awk -F';' '{print $1}')"; done
+  rules:
+    - when: always
