@@ -34,9 +34,12 @@ xray-container-upload:
   needs:
     - "safescarf_create_engagement"
     - "xray-container"
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  artifacts: null
+  dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "JFrog Xray On Demand Binary Scan"
   script:
     - for LINE in $(cat results.csv); do python /app/safescarf-connector.py --workflow ${SAFESCARF_WORKFLOW} --environment ${SAFESCARF_SCAN_ENVIRONMENT} --engagement-id ${SAFESCARF_ENGAGEMENT_ID} --product-id ${SAFESCARF_PRODUCT_ID} --scan-type "${SAFESCARF_SCAN_TYPE}" --name "$(echo "$LINE" | awk -F';' '{print $2}')" --service "$(echo "$LINE" | awk -F';' '{print $2}')" --version "$(echo "$LINE" | awk -F';' '{print $3}')" upload "$(echo "$LINE" | awk -F';' '{print $1}')"; done
-  rules:
-    - if: $XRAY_CONTAINER_IMAGE != ""
