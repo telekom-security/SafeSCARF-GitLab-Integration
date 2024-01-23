@@ -1,0 +1,31 @@
+variables:
+    NEW_SCANNER_RESULT_FILENAME: "scanresults.json"
+    POSSIBLE_MANDATORY_INPUT: ""
+
+new_scan:
+    image: example:1.2.3
+    artifacts:
+        when: always
+        paths:
+            - $NEW_SCANNER_RESULT_FILENAME
+    script:
+        - execute the scanner --and --add --options --output $NEW_SCANNER_RESULT_FILENAME
+    allow_failure: true
+    rules:
+        - if: $POSSIBLE_MANDATORY_INPUT != ""
+
+new_scan_upload:
+  extends:
+    - .safescarf_upload
+    - new_scanner
+  needs: ["safescarf_create_engagement", "new_scanner"]
+  stage: !reference [.safescarf_upload, stage]
+  image: !reference [.safescarf_upload, image]
+  before_script: !reference [.safescarf_upload, before_script]
+  script: !reference [.safescarf_upload, script]
+  artifacts: null
+  dependencies: null
+  variables:
+    SAFESCARF_SCAN_TYPE: "New Scanner Report Type"
+    SAFESCARF_SCAN_FILE: $NEW_SCANNER_RESULT_FILENAME
+    SAFESCARF_SCAN_TITLE: "New Scanner Technology Scan"

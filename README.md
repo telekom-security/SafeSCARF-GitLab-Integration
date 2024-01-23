@@ -204,3 +204,6 @@ implementations.
 
 For new implementations, please follow the naming conventions:
 `<product>-<scanner-type>.yml`.
+
+More Details can be found in our
+[knowledgebase](https://secureops.pages.devops.telekom.de/knowledgebase/safescarf/gitlab-integrations)
