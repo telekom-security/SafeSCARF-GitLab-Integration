@@ -16,6 +16,8 @@ This repository provides a template for gitlab pipelines to integrate with
             - [GitLab SAST Scanner](#gitlab-sast-scanner)
             - [GitLab Secret Scanner](#gitlab-secret-scanner)
             - [Helm Scanning](#helm-scanning)
+            - [Xray Container Scan](#xray-container-scan)
+                - [Configuration](#configuration)
     - [Variables](#variables)
         - [General](#general)
         - [Engagement](#engagement)
@@ -153,6 +155,29 @@ This template consists of multiple test stages.
 For further usage on how to use / modify the template please check the
 [knowledgebase](https://secureops.pages.devops.telekom.de/knowledgebase/safescarf/helm-scanning-guides).
 
+#### Xray Container Scan
+
+Jfrog Xray scans docker containers for any known vulnerabilites and posts the
+findings with metadata including remediation suggestions to SafeSCARF. For this
+to function, you need to include the variable `XRAY_CONTAINER_IMAGE` with the ID
+of your target Container Image (e.g `nginx:1.0.0`) in your `.gitlab-ci.yml`
+file. Additionally, add an `ARTIFACTORY_TOKEN` to your `Settings -> CI/CD ->
+Variables`. Generate this token by logging into Artifactory, clicking on
+Welcome, your email on the top-right -> Set Me Up -> docker -> Generate Token &
+Create Instructions.
+
+```yaml
+include:
+  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/<version>/implementations/xray-container.yml
+```
+
+##### Configuration
+
+| Variable        | Mandatory | Default | Description |
+| -------------   |:-------------:| -----:| -----: |
+| ARTIFACTORY_TOKEN | Yes | null | API token for Artifactory |
+| XRAY_CONTAINER_IMAGE | Yes | "" | ID of the Container Image |
+
 ## Variables
 
 The variables have to be set in your gitlab-ci.yml file or in the GitLab CI/CD Settings.
@@ -190,16 +215,6 @@ The variables have to be set in your gitlab-ci.yml file or in the GitLab CI/CD S
 | SAFESCARF_SCAN_VERIFIED | No | true | |
 | SAFESCARF_SCAN_CLOSE_OLD_FINDINGS | No | true | |
 | SAFESCARF_SCAN_ENVIRONMENT | No | Default | **Recommended to set!**|
-
-### Xray Container
-
-Jfrog Xray scans docker containers for any known vulnerabilites and posts the findings with metadata including remediation suggestions to SafeSCARF. For this to function, you need to include the variable XRAY_CONTAINER_IMAGE with the ID of your target Container Image (e.g `Nginx:1.0.0`) in your `.gitlab-ci.yml` file. Additionally, add an `ARTIFACTORY_TOKEN` to your Settings -> CI/CD -> Variables.
-Generate this token by logging into Artifactory, clicking on Welcome, your.email on the top-right -> Set Me Up -> docker -> Generate Token & Create Instructions.
-
-| Variable        | Mandatory | Default | Description |
-| -------------   |:-------------:| -----:| -----: |
-| ARTIFACTORY_TOKEN | Yes | null | API token for Artifactory |
-| XRAY_CONTAINER_IMAGE | Yes | "" | ID of the Container Image |
 
 ## Forking
 
