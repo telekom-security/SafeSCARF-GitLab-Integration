@@ -9,7 +9,8 @@ all
 exclude_rule 'MD041'
 exclude_rule 'MD033'
 
+rule 'MD007', :indent => 4
 # Adjust rule for line length
-rule 'MD013', :line_length => false, :ignore_code_blocks => true, :tables => false
+rule 'MD013', :ignore_code_blocks => true, :tables => false
 rule 'MD024', :allow_different_nesting => true
-rule 'MD026', :punctuation => ".,;:!。，；：！"
+rule 'MD026', :punctuation => ".,;:!。，；："
