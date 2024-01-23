@@ -24,7 +24,7 @@ gemnasium-safescarf:
     SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
 
 gemnasium-maven-safescarf:
-  extends: 
+  extends:
     - .safescarf_upload
     - gemnasium-maven-dependency_scanning
   needs: ["safescarf_create_engagement", "gemnasium-maven-dependency_scanning"]
@@ -40,7 +40,7 @@ gemnasium-maven-safescarf:
     SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
 
 gemnasium-python-safescarf:
-  extends: 
+  extends:
     - .safescarf_upload
     - gemnasium-python-dependency_scanning
   needs: ["safescarf_create_engagement", "gemnasium-python-dependency_scanning"]

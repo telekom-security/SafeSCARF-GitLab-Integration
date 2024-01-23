@@ -7,7 +7,7 @@ sast:
       - gl-sast-report.json
 
 semgrep-safescarf:
-  extends: 
+  extends:
     - .safescarf_upload
     - semgrep-sast
   needs: ["safescarf_create_engagement", "semgrep-sast"]
@@ -23,7 +23,7 @@ semgrep-safescarf:
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
 
 brakeman-safescarf:
-  extends: 
+  extends:
     - .safescarf_upload
     - brakeman-sast
   needs: ["safescarf_create_engagement", "brakeman-sast"]
@@ -39,7 +39,7 @@ brakeman-safescarf:
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
 
 flawfinder-safescarf:
-  extends: 
+  extends:
     - .safescarf_upload
     - flawfinder-sast
   needs: ["safescarf_create_engagement", "flawfinder-sast"]
@@ -55,7 +55,7 @@ flawfinder-safescarf:
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
 
 kubesec-safescarf:
-  extends: 
+  extends:
     - .safescarf_upload
     - kubesec-sast
   needs: ["safescarf_create_engagement", "kubesec-sast"]
@@ -71,7 +71,7 @@ kubesec-safescarf:
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
 
 mobsf-android-safescarf:
-  extends: 
+  extends:
     - .safescarf_upload
     - mobsf-android-sast
   needs: ["safescarf_create_engagement", "mobsf-android-sast"]
@@ -87,7 +87,7 @@ mobsf-android-safescarf:
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
 
 mobsf-ios-safescarf:
-  extends: 
+  extends:
     - .safescarf_upload
     - mobsf-ios-sast
   needs: ["safescarf_create_engagement", "mobsf-ios-sast"]
@@ -103,7 +103,7 @@ mobsf-ios-safescarf:
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
 
 nodejs-scan-safescarf:
-  extends: 
+  extends:
     - .safescarf_upload
     - nodejs-scan-sast
   needs: ["safescarf_create_engagement", "nodejs-scan-sast"]
@@ -119,7 +119,7 @@ nodejs-scan-safescarf:
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
 
 phpcs-security-audit-safescarf:
-  extends: 
+  extends:
     - .safescarf_upload
     - phpcs-security-audit-sast
   needs: ["safescarf_create_engagement", "phpcs-security-audit-sast"]
@@ -135,7 +135,7 @@ phpcs-security-audit-safescarf:
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
 
 pmd-apex-safescarf:
-  extends: 
+  extends:
     - .safescarf_upload
     - pmd-apex-sast
   needs: ["safescarf_create_engagement", "pmd-apex-sast"]
@@ -151,7 +151,7 @@ pmd-apex-safescarf:
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
 
 security-code-scan-safescarf:
-  extends: 
+  extends:
     - .safescarf_upload
     - security-code-scan-sast
   needs: ["safescarf_create_engagement", "security-code-scan-sast"]
@@ -167,7 +167,7 @@ security-code-scan-safescarf:
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
 
 sobelow-safescarf:
-  extends: 
+  extends:
     - .safescarf_upload
     - sobelow-sast
   needs: ["safescarf_create_engagement", "sobelow-sast"]
@@ -183,7 +183,7 @@ sobelow-safescarf:
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
 
 spotbugs-safescarf:
-  extends: 
+  extends:
     - .safescarf_upload
     - spotbugs-sast
   needs: ["safescarf_create_engagement", "spotbugs-sast"]

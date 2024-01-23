@@ -12,7 +12,7 @@ scan-helm-config:
       - "trivy-container-scanning-report.json"
 
 scan-helm-config-upload:
-  extends: 
+  extends:
     - .safescarf_upload
     - scan-helm-config
   needs: ["safescarf_create_engagement", "scan-helm-config"]
@@ -62,7 +62,7 @@ scan-helm-images:
       - results.csv
 
 scan-helm-images-upload:
-  extends: 
+  extends:
     - safescarf_publish
     - scan-helm-images
   needs:
