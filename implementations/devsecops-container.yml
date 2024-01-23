@@ -25,3 +25,4 @@ dso_container_scan_upload:
   variables:
     SAFESCARF_SCAN_TYPE: "Anchore Grype"
     SAFESCARF_SCAN_FILE: scanresults/$SCAN_RESULT_FILENAME
+    SAFESCARF_SCAN_TITLE: "DSO Container Scan"
