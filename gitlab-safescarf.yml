@@ -31,7 +31,7 @@ safescarf_verify_mandatory:
 safescarf_create_engagement:
   stage: .pre
   image:
-    name: mtr.devops.telekom.de/secureops/safescarf-connector:1.2.9
+    name: mtr.devops.telekom.de/secureops/safescarf-connector:1.2.10
     entrypoint: [""]
   needs: [ "safescarf_verify_mandatory" ]
   variables:
@@ -51,7 +51,7 @@ safescarf_create_engagement:
 safescarf_publish:
   stage: .post
   image:
-    name: mtr.devops.telekom.de/secureops/safescarf-connector:1.2.9
+    name: mtr.devops.telekom.de/secureops/safescarf-connector:1.2.10
     entrypoint: [""]
   rules:
     - when: never
