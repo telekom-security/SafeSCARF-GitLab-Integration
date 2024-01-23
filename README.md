@@ -1,54 +1,27 @@
 # GitLab-CI SafeSCARF 2.0
 
-> Release 2.0 introduces some major changes!
->
-> **1. Moving away from a "one integration fits all" approach.**
->
-> We discovered, that thise approach is pretty error prone, especially when
-> relying on third party templates like a dso scanner.
->
-> **2. Adapt a more dynamic (plugin style) approach**
->
-> For the new approach, the `gitlab-integration.yml` will only contain the
-> safescarf interaction parts. Scanning templates for uploading can be included
-> on demand.
-> By doing this, projects have the ability to easier adapt and implement their
-> own adapters. (They are still welcome to share their adapters with us to
-> provide it to other projects).
->
-> **3. Use shell script for safescarf interactions**
->
-> While using and maintaining v1.0 we discovered, that some projects need to
-> customize their interaction with safescarf during the pipeline which lead to
-> problems with the static pipeline definition. Instead we are going to create
-> an bash script that can be executed with custom arguments to interact with
-> safescarf.
-> Also debugging the pipeline and multi-line comments becomes much easier with
-> this approach.
->
-> **4. Rely on Tags / Releases for integration versioning**
->
-> Primary Idea of v1.0 was to have a single include that auto updates, if
-> neccessary changes have been detected.
-> Problem with this approach was that pipelines failed since the integration has
-> updated and the projects did not get any information about this.
-> With v2.0 Projects should test and pin a specific version of the integration
-> and decide on their own when to upgrade. (We wil provide detailed release
-> notes). We will also offer a `latest` tag for those who want to be on the
-> latest edge on their own risk.
-
 This repository provides a template for gitlab pipelines to integrate with
 [SafeSCARF](https://documentation.portal.pan-net.cloud/safescarf-product/)
 (based on [DefectDojo](https://www.defectdojo.org)).
 
-It supports the following templates:
-
-- [DevSecOps Container Scanner By DTIT](https://gitlab.devops.telekom.de/devsecops-tools/container-scanner)
-- [GitLab Dependency Scanner](https://docs.gitlab.com/ee/user/application_security/dependency_scanning/)
-- [GitLab Container Scanner](https://docs.gitlab.com/ee/user/application_security/container_scanning/)
-- [GitLab SAST](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [GitLab Secret Scanner](https://docs.gitlab.com/ee/user/application_security/secret_detection/)
-- Helm Scanning (Config by [Trivy](https://github.com/aquasecurity/trivy) and docker images by [Grype](https://github.com/anchore/grype))
+- [GitLab-CI SafeSCARF 2.0](#gitlab-ci-safescarf-20)
+    - [Structure](#structure)
+        - [gitlab-safescarf.yml](#gitlab-safescarfyml)
+        - [plugins](#plugins)
+    - [Usage](#usage)
+        - [Scan Engines](#scan-engines)
+            - [DevSecOps Container Scanner By DTIT](#devsecops-container-scanner-by-dtit)
+            - [GitLab Container Scanner](#gitlab-container-scanner)
+            - [GitLab Dependency Scanner](#gitlab-dependency-scanner)
+            - [GitLab SAST Scanner](#gitlab-sast-scanner)
+            - [GitLab Secret Scanner](#gitlab-secret-scanner)
+            - [Helm Scanning](#helm-scanning)
+    - [Variables](#variables)
+        - [General](#general)
+        - [Engagement](#engagement)
+        - [Scan](#scan)
+    - [Forking](#forking)
+    - [Contributing](#contributing)
 
 Please see [Scan Engines](#scan-engines) to understand how to enable them and
 which are enabled by default.
@@ -86,22 +59,103 @@ The plugins are located in
 
 ## Usage
 
-To use this integration, simply include the main file `gitlab-safescarf.yml` as a
-remote and include the desired plugins after:
+To use this integration, simply include the mandatory base template
+`gitlab-safescarf.yml` as a remote and include the desired plugins after:
 
 ```yaml
 include:
-  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/2.0-rc8/gitlab-safescarf.yml
+  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/<version>/gitlab-safescarf.yml
+```
+
+> Make sure to use the github reference. We are publishing those templates on
+> GitHub to allow you to pull those templates without any authentication from
+> any cicd system.
+
+### Scan Engines
+
+#### DevSecOps Container Scanner By DTIT
+
+To enable this scanner, add the following template to your `include``:
+
+```yaml
+include:
   - project: 'secureops/safescarf/safescarf-integration'
     ref: "master"
     file: 'implementations/devsecops-container.yml'
-  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/2.0-rc8/implementations/gitlab-secrets.yml
 ```
+
+For further usage on how to use the scanner please check the scanner
+[docs](https://gitlab.devops.telekom.de/devsecops-tools/container-scanner).
 
 > In case of the DSO Container Scanner you need to include it from gitlab via
 > the project include syntax (see above) since it is not publicly available.
 
-After, you can configure the desired templates (see [Templates](#templates)).
+#### GitLab Container Scanner
+
+To enable this scanner, add the following template to your `include``:
+
+```yaml
+include:
+  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/<version>/implementations/gitlab-container.yml
+```
+
+For further usage on how to use the scanner please check the scanner
+[docs](https://docs.gitlab.com/ee/user/application_security/container_scanning/).
+
+#### GitLab Dependency Scanner
+
+To enable this scanner, add the following template to your `include``:
+
+```yaml
+include:
+  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/<version>/implementations/gitlab-dependency.yml
+```
+
+For further usage on how to use the scanner please check the scanner
+[docs](https://docs.gitlab.com/ee/user/application_security/dependency_scanning/).
+
+#### GitLab SAST Scanner
+
+To enable this scanner, add the following template to your `include``:
+
+```yaml
+include:
+  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/<version>/implementations/gitlab-sast.yml
+```
+
+For further usage on how to use the scanner please check the scanner
+[docs](https://docs.gitlab.com/ee/user/application_security/dependency_sast/).
+
+#### GitLab Secret Scanner
+
+To enable this scanner, add the following template to your `include``:
+
+```yaml
+include:
+  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/<version>/implementations/gitlab-secrets.yml
+```
+
+For further usage on how to use the scanner please check the scanner
+[docs](https://docs.gitlab.com/ee/user/application_security/secret_detection/).
+
+#### Helm Scanning
+
+To enable this template, add the following to your `include``:
+
+```yaml
+include:
+  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/<version>/implementations/gitlab-secrets.yml
+```
+
+This template consists of multiple test stages.
+
+1. [Trivy](https://github.com/aquasecurity/trivy) is doing an config scan of the
+   helm charts.
+1. The helm chart will be build and all related docker images will be extreacted
+1. [Grype](https://github.com/anchore/grype) will scan every detected container
+
+For further usage on how to use / modify the template please check the
+[knowledgebase](https://secureops.pages.devops.telekom.de/knowledgebase/safescarf/helm-scanning-guides).
 
 ## Variables
 
@@ -143,8 +197,9 @@ The variables have to be set in your gitlab-ci.yml file or in the GitLab CI/CD S
 
 ## Forking
 
-Feel free to fork this repository and include into your own GitLab Instance.
-The only thing you have to take care of is to update the includes in "gitlab-safescarf.yml" in the repositories root directory.
+Feel free to fork this repository and include into your own GitLab Instance. The
+only thing you have to take care of is to update the includes in
+"gitlab-safescarf.yml" in the repositories root directory.
 
 ## Contributing
 
