@@ -25,6 +25,7 @@ scan-helm-config-upload:
   variables:
     SAFESCARF_SCAN_TYPE: "Trivy Scan"
     SAFESCARF_SCAN_FILE: trivy-container-scanning-report.json
+    SAFESCARF_SCAN_TITLE: "Helm Config Scan"
 
 scan-helm-images-prepare:
   stage: test

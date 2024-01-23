@@ -17,6 +17,7 @@ container_scanning_upload_container:
     SAFESCARF_SCAN_TYPE: "GitLab Container Scan"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Container Scan"
     SAFESCARF_SCAN_FILE: "./gl-container-scanning-report.json"
+    SAFESCARF_SCAN_TITLE: "GL Container Scan"
 
 container_scanning_upload_dependency:
   extends:
@@ -33,3 +34,4 @@ container_scanning_upload_dependency:
     SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
     SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Container Dependency"
     SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
+    SAFESCARF_SCAN_TITLE: "GL Container Dependency Scan"
