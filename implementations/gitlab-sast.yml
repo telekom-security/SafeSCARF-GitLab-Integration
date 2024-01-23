@@ -19,9 +19,8 @@ semgrep-safescarf:
   dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
-    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Semgrep"
+    SAFESCARF_SCAN_TITLE: "GL SAST Semgrep"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-    SAFESCARF_SCAN_TITLE: "GL SAST Scan"
 
 brakeman-safescarf:
   extends:
@@ -36,9 +35,8 @@ brakeman-safescarf:
   dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
-    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Brakeman"
+    SAFESCARF_SCAN_TITLE: "GL SAST Brakeman"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-    SAFESCARF_SCAN_TITLE: "GL SAST Scan"
 
 flawfinder-safescarf:
   extends:
@@ -53,9 +51,8 @@ flawfinder-safescarf:
   dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
-    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Flawfinder"
+    SAFESCARF_SCAN_TITLE: "GL SAST Flawfinder"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-    SAFESCARF_SCAN_TITLE: "GL SAST Scan"
 
 kubesec-safescarf:
   extends:
@@ -70,9 +67,8 @@ kubesec-safescarf:
   dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
-    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI KubeSec"
+    SAFESCARF_SCAN_TITLE: "GL SAST KubeSec"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-    SAFESCARF_SCAN_TITLE: "GL SAST Scan"
 
 mobsf-android-safescarf:
   extends:
@@ -87,9 +83,8 @@ mobsf-android-safescarf:
   dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
-    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Mobsf Android"
+    SAFESCARF_SCAN_TITLE: "GL SAST Mobsf Android"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-    SAFESCARF_SCAN_TITLE: "GL SAST Scan"
 
 mobsf-ios-safescarf:
   extends:
@@ -104,9 +99,8 @@ mobsf-ios-safescarf:
   dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
-    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Mobsf IOS"
+    SAFESCARF_SCAN_TITLE: "GL SAST IOS"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-    SAFESCARF_SCAN_TITLE: "GL SAST Scan"
 
 nodejs-scan-safescarf:
   extends:
@@ -121,9 +115,8 @@ nodejs-scan-safescarf:
   dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
-    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI NodeJs Scan"
-    SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
     SAFESCARF_SCAN_TITLE: "GL SAST Scan"
+    SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
 
 phpcs-security-audit-safescarf:
   extends:
@@ -138,9 +131,8 @@ phpcs-security-audit-safescarf:
   dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
-    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI PHPCS Security Audit"
+    SAFESCARF_SCAN_TITLE: "GL SAST PHPCS Security Audit"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-    SAFESCARF_SCAN_TITLE: "GL SAST Scan"
 
 pmd-apex-safescarf:
   extends:
@@ -155,9 +147,8 @@ pmd-apex-safescarf:
   dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
-    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI PMD Aepx"
+    SAFESCARF_SCAN_TITLE: "GL SAST PMD Aepx"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-    SAFESCARF_SCAN_TITLE: "GL SAST Scan"
 
 security-code-scan-safescarf:
   extends:
@@ -172,9 +163,8 @@ security-code-scan-safescarf:
   dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
-    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Security Code Scan"
+    SAFESCARF_SCAN_TITLE: "GL SAST Security Code Scan"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-    SAFESCARF_SCAN_TITLE: "GL SAST Scan"
 
 sobelow-safescarf:
   extends:
@@ -189,9 +179,8 @@ sobelow-safescarf:
   dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
-    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Sobelow"
+    SAFESCARF_SCAN_TITLE: "GL SAST Sobelow"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-    SAFESCARF_SCAN_TITLE: "GL SAST Scan"
 
 spotbugs-safescarf:
   extends:
@@ -206,6 +195,5 @@ spotbugs-safescarf:
   dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab SAST Report"
-    SAFESCARF_SCAN_TEST_TYPE: "GitLab-CI Spotbugs"
+    SAFESCARF_SCAN_TITLE: "GL SAST Spotbugs"
     SAFESCARF_SCAN_FILE: "./gl-sast-report.json"
-    SAFESCARF_SCAN_TITLE: "GL SAST Scan"
