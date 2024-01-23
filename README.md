@@ -35,17 +35,13 @@ which are enabled by default.
 
 ### gitlab-safescarf.yml
 
-There is only one mandatory `include`:
-
-```yaml
-include:
-  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/2.0-rc8/gitlab-safescarf.yml
-```
-
 The `gitlab-safescarf.yml` template provides the neccessary default variables
 and bundles the
-[Safescarf-Connector](https://gitlab.devops.telekom.de/secureops/safescarf/safescarf-connector)
+[Safescarf-Connector](https://github.com/telekom-security/SafeSCARF-Connector)
 to interact with the SafeSCARF api.
+
+It also verifies that the mandatory variables have been set to prevent long
+pipeline debugging.
 
 ### plugins
 
@@ -55,7 +51,7 @@ they extend the main template to interact with SafeSCARF and upload the result
 file with the correct metadata.
 
 The plugins are located in
-[Implementations](https://gitlab.devops.telekom.de/secureops/safescarf/safescarf-integration/-/tree/master/implementations?ref_type=heads)
+[Implementations](https://github.com/telekom-security/SafeSCARF-GitLab-Integration/tree/master/implementations)
 
 ## Usage
 
@@ -203,6 +199,8 @@ only thing you have to take care of is to update the includes in
 
 ## Contributing
 
-Feel free to add another scanner or to improve current implementations.
+Feel free to fork this repository and add another scanner or to improve current
+implementations.
 
-For new implementations, please follow the naming conventions: `<product>-<scanner-type>.yml`.
+For new implementations, please follow the naming conventions:
+`<product>-<scanner-type>.yml`.
