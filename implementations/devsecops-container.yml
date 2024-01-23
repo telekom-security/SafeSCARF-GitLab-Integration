@@ -12,7 +12,7 @@ dso_container_scan:
   allow_failure: true
 
 dso_container_scan_upload:
-  extends: 
+  extends:
     - .safescarf_upload
     - dso_container_scan
   needs: ["safescarf_create_engagement", "dso_container_scan"]

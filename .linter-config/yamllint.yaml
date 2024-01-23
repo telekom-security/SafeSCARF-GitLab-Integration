@@ -1,0 +1,13 @@
+# Configuration file for yamllint
+# Configuration options are described in detail at:
+# https://yamllint.readthedocs.io/en/stable/configuration.html
+---
+extends: default
+
+ignore: |
+  *.template.yaml
+
+rules:
+  line-length: disable
+  truthy:
+    level: error

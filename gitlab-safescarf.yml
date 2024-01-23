@@ -20,11 +20,20 @@ variables:
   MCICD_DOCKERHUB_MIRROR: "dockerhub.devops.telekom.de/"
 
 
+safescarf_verify_mandatory:
+  stage: .pre
+  image: ${MCICD_DOCKERHUB_MIRROR}/alpine:3
+  script:
+    - if [ -z "$SAFESCARF_URL" ]; then echo "SAFESCARF_URL ist nicht gesetzt"; exit 1; fi
+    - if [ -z "$SAFESCARF_TOKEN" ]; then echo "SAFESCARF_TOKEN ist nicht gesetzt"; exit 1; fi
+    - if [ -z "$SAFESCARF_PRODUCTID" ]; then echo "SAFESCARF_PRODUCTID not set"; exit 1; fi
+
 safescarf_create_engagement:
   stage: .pre
   image: 
     name: mtr.devops.telekom.de/secureops/safescarf-connector:1.2.9
     entrypoint: [""]
+  needs: [ "safescarf_verify_mandatory" ]
   variables:
     GIT_STRATEGY: none
   allow_failure: true

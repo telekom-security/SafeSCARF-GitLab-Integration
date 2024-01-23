@@ -3,7 +3,7 @@ include:
 
 
 container_scanning_upload_container:
-  extends: 
+  extends:
     - .safescarf_upload
     - container_scanning
   needs: ["safescarf_create_engagement", "container_scanning"]
@@ -20,7 +20,7 @@ container_scanning_upload_container:
     SAFESCARF_SCAN_TITLE: "GL Container Scan"
 
 container_scanning_upload_dependency:
-  extends: 
+  extends:
     - .safescarf_upload
     - container_scanning
   needs: ["safescarf_create_engagement", "container_scanning"]
