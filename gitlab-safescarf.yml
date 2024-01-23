@@ -26,7 +26,7 @@ safescarf_verify_mandatory:
   script:
     - if [ -z "$SAFESCARF_URL" ]; then echo "SAFESCARF_URL ist nicht gesetzt"; exit 1; fi
     - if [ -z "$SAFESCARF_TOKEN" ]; then echo "SAFESCARF_TOKEN ist nicht gesetzt"; exit 1; fi
-    - if [ -z "$SAFESCARF_PRODUCTID" ]; then echo "SAFESCARF_PRODUCTID not set"; exit 1; fi
+    - if [ -z "$SAFESCARF_PRODUCTID" ]; then echo "SAFESCARF_PRODUCT_ID not set"; exit 1; fi
 
 safescarf_create_engagement:
   stage: .pre
