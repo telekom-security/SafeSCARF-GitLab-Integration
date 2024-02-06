@@ -188,7 +188,7 @@ The variables have to be set in your gitlab-ci.yml file or in the GitLab CI/CD S
 | -------------   |:-------------:| -----:| -----: |
 | SAFESCARF_URL | Yes | '[https://safescarf.domain.tld/](https://safescarf.domain.tld/)' | URL your your SafeSCARF Instance |
 | SAFESCARF_TOKEN | Yes | null | API token for API-V2 Endpoint (machine or user token)|
-| SAFESCARF_PRODUCTID | Yes | null | ID of your Product in SafeSCARF (will be displayed in the url bar of the browser after accessing the product) |
+| SAFESCARF_PRODUCT_ID | Yes | null | ID of your Product in SafeSCARF (will be displayed in the url bar of the browser after accessing the product) |
 | SAFESCARF_REIMPORT_DO_NOT_REACTIVATE | No | True | see [docs](https://defectdojo.github.io/django-DefectDojo/integrations/importing/#triage-less-scanners) |
 
 ### Engagement
