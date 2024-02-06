@@ -31,5 +31,5 @@ container_scanning_upload_dependency:
   dependencies: null
   variables:
     SAFESCARF_SCAN_TYPE: "GitLab Dependency Scanning Report"
-    SAFESCARF_SCAN_TEST_TYPE: "GL Container Dependency Scan"
+    SAFESCARF_SCAN_TITLE: "GL Container Dependency Scan"
     SAFESCARF_SCAN_FILE: "./gl-dependency-scanning-report.json"
