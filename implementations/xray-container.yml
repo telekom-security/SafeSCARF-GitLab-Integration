@@ -3,10 +3,12 @@ variables:
 
 xray-container:
   stage: test
+  tags:
+    - otc_run_sysbox_s
   services:
-  - name: '${MCICD_DOCKERHUB_MIRROR}docker:20.10.12-dind'
-    command: ['--tls=false', '--host=tcp://0.0.0.0:2375', '--registry-mirror=https://$MCICD_DOCKERHUB_MIRROR']
-    alias: docker
+    - name: '${MCICD_DOCKERHUB_MIRROR}docker:25.0.2-dind'
+      command: ['--tls=false', '--host=tcp://0.0.0.0:2375', '--registry-mirror=https://$MCICD_DOCKERHUB_MIRROR']
+      alias: docker
   variables:
     DOCKER_DRIVER: overlay2
     DOCKER_HOST: tcp://docker:2375
