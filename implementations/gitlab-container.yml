@@ -1,6 +1,20 @@
 include:
   - template: Security/Container-Scanning.gitlab-ci.yml
 
+.parse_container_name:
+  before_script:
+    - if [ -n "$CS_IMAGE" ]; then
+    - IFS=':' read -ra parts <<< "$CS_IMAGE" # split docker image at ":"
+    - VAR_1="${parts[0]}" # save first part as name and second part as version (e.g. nginx:12.3)
+    - VAR_2="${parts[1]}"
+    - echo "Naming Test(Service): $VAR_1"# Debug print
+    - echo "Setting Version to: $VAR_2"
+    - export SAFESCARF_SCAN_TITLE="$VAR_1"
+    - export SAFESCARF_TEST_SERVICE="$VAR_1"
+    - export SAFESCARF_VERSION="$VAR_2"
+    - else
+    - echo "CS_IMAGE was not set"
+    - fi
 
 container_scanning_upload_container:
   extends:
@@ -11,25 +25,7 @@ container_scanning_upload_container:
   image: !reference [.safescarf_upload, image]
   before_script: 
     - !reference [.safescarf_upload, before_script]
-    - |
-        if [ -n "$CS_IMAGE" ]; then
-          # split docker image at ":"
-          IFS=':' read -ra parts <<< "$CS_IMAGE"
-          
-          # save first part as name and second part as version (e.g. nginx:12.3)
-          VAR_1="${parts[0]}"
-          VAR_2="${parts[1]}"
-
-          # Debug print
-          echo "Naming Test(Service): $VAR_1"
-          echo "Setting Version to: $VAR_2"
-
-          export SAFESCARF_SCAN_TITLE="$VAR_1"
-          export SAFESCARF_TEST_SERVICE="$VAR_1"
-          export SAFESCARF_VERSION="$VAR_2"
-        else
-          echo "CS_IMAGE was not set"
-        fi
+    - !reference [.parse_container_name, before_script]
   script: !reference [.safescarf_upload, script]
   artifacts: null
   dependencies: null
@@ -47,25 +43,7 @@ container_scanning_upload_dependency:
   image: !reference [.safescarf_upload, image]
   before_script:
     - !reference [.safescarf_upload, before_script]
-    - |
-        if [ -n "$CS_IMAGE" ]; then
-          # split docker image at ":"
-          IFS=':' read -ra parts <<< "$CS_IMAGE"
-          
-          # save first part as name and second part as version (e.g. nginx:12.3)
-          VAR_1="${parts[0]}"
-          VAR_2="${parts[1]}"
-
-          # Debug print
-          echo "Naming Test(Service): $VAR_1"
-          echo "Setting Version to: $VAR_2"
-
-          export SAFESCARF_SCAN_TITLE="$VAR_1"
-          export SAFESCARF_TEST_SERVICE="$VAR_1"
-          export SAFESCARF_VERSION="$VAR_2"
-        else
-          echo "CS_IMAGE was not set"
-        fi
+    - !reference [.parse_container_name, before_script]
   script: !reference [.safescarf_upload, script]
   artifacts: null
   dependencies: null
