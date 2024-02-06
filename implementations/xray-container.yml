@@ -32,7 +32,9 @@ xray-container:
 
 
 xray-container-upload:
-  extends: safescarf_publish
+  extends:
+    - safescarf_publish
+    - xray-container
   needs:
     - "safescarf_create_engagement"
     - "xray-container"
