@@ -47,4 +47,4 @@ xray-container-upload:
     SAFESCARF_SCAN_TYPE: "JFrog Xray On Demand Binary Scan"
     SAFESCARF_SCAN_TITLE: "Xray Container Scan"
   script:
-    - for LINE in $(cat results.csv); do python /app/safescarf-connector.py --workflow ${SAFESCARF_WORKFLOW} --environment ${SAFESCARF_SCAN_ENVIRONMENT} --engagement-id ${SAFESCARF_ENGAGEMENT_ID} --product-id ${SAFESCARF_PRODUCT_ID} --scan-type "${SAFESCARF_SCAN_TYPE}" --name "$(echo "$LINE" | awk -F';' '{print $2}')" --service "$(echo "$LINE" | awk -F';' '{print $2}')" --version "$(echo "$LINE" | awk -F';' '{print $3}')" upload "$(echo "$LINE" | awk -F';' '{print $1}')"; done
+    - for LINE in $(cat results.csv); do python /app/safescarf-connector.py --workflow ${SAFESCARF_WORKFLOW} --environment ${SAFESCARF_SCAN_ENVIRONMENT} --engagement-id ${SAFESCARF_ENGAGEMENT_ID} --product-id ${SAFESCARF_PRODUCT_ID} --scan-type "${SAFESCARF_SCAN_TYPE}" --name "$(echo "$LINE" | awk -F';' '{print $2}')" --service "$(echo "$LINE" | awk -F';' '{print $2}')" --version "$(echo "$LINE" | awk -F';' '{print $3}')" --commit-hash "${CI_COMMIT_SHORT_SHA}" --build-id "${CI_PIPELINE_ID}" upload "$(echo "$LINE" | awk -F';' '{print $1}')"; done
