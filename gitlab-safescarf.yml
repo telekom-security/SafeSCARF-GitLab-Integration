@@ -18,7 +18,6 @@ variables:
   SAFESCARF_SCAN_ENVIRONMENT: "Default"
   SAFESCARF_WORKFLOW: "branch" # branch, pipeline
   SAFESCARF_TAGS: ""
-  SAFESCARF_CONNECTOR_VERSION: "1.2.12"
   MCICD_DOCKERHUB_MIRROR: "dockerhub.devops.telekom.de/"
 
 
@@ -33,7 +32,7 @@ safescarf_verify_mandatory:
 safescarf_create_engagement:
   stage: .pre
   image:
-    name: mtr.devops.telekom.de/secureops/safescarf-connector:${SAFESCARF_CONNECTOR_VERSION}
+    name: mtr.devops.telekom.de/secureops/safescarf-connector:1.2.12
     entrypoint: [""]
   needs: [ "safescarf_verify_mandatory" ]
   variables:
@@ -53,7 +52,7 @@ safescarf_create_engagement:
 safescarf_publish:
   stage: .post
   image:
-    name: mtr.devops.telekom.de/secureops/safescarf-connector:${SAFESCARF_CONNECTOR_VERSION}
+    name: mtr.devops.telekom.de/secureops/safescarf-connector:1.2.12
     entrypoint: [""]
   rules:
     - when: never
