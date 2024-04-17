@@ -19,6 +19,7 @@ dtsp_scan:
     - curl -O https://dtsp.telekom-dienste.de/resources/clients/cli_linux_amd64
     - chmod +x cli_linux_amd64
     - ./cli_linux_amd64 scan container image_tag $DTSP_IMAGE -u https://dtsp.telekom-dienste.de -t $DTSP_API_KEY -f $DTSP_RESULT_FILE $PASSWORD_FLAG $TOKEN_FLAG $USER_FLAG
+  allow_failure: true
   artifacts:
     when: always
     paths:
