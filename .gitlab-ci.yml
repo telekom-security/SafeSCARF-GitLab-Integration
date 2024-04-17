@@ -4,4 +4,4 @@ include:
 
 dtsp_scan:
   variables:
-    DTSP_IMAGE: dockerhub.com/nginx:1.19
+    DTSP_IMAGE: nginx:1.19
