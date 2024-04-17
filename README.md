@@ -5,25 +5,27 @@ This repository provides a template for gitlab pipelines to integrate with
 (based on [DefectDojo](https://www.defectdojo.org)).
 
 - [GitLab-CI SafeSCARF 2.0](#gitlab-ci-safescarf-20)
-    - [Structure](#structure)
-        - [gitlab-safescarf.yml](#gitlab-safescarfyml)
-        - [plugins](#plugins)
-    - [Usage](#usage)
-        - [Scan Engines](#scan-engines)
-            - [DevSecOps Container Scanner By DTIT](#devsecops-container-scanner-by-dtit)
-            - [GitLab Container Scanner](#gitlab-container-scanner)
-            - [GitLab Dependency Scanner](#gitlab-dependency-scanner)
-            - [GitLab SAST Scanner](#gitlab-sast-scanner)
-            - [GitLab Secret Scanner](#gitlab-secret-scanner)
-            - [Helm Scanning](#helm-scanning)
-            - [Xray Container Scan](#xray-container-scan)
-                - [Configuration](#configuration)
-    - [Variables](#variables)
-        - [General](#general)
-        - [Engagement](#engagement)
-        - [Scan](#scan)
-    - [Forking](#forking)
-    - [Contributing](#contributing)
+  - [Structure](#structure)
+    - [gitlab-safescarf.yml](#gitlab-safescarfyml)
+    - [plugins](#plugins)
+  - [Usage](#usage)
+    - [Scan Engines](#scan-engines)
+      - [DevSecOps Container Scanner By DTIT](#devsecops-container-scanner-by-dtit)
+      - [DTSP Container Scan](#dtsp-container-scan)
+        - [Configuration](#configuration)
+      - [GitLab Container Scanner](#gitlab-container-scanner)
+      - [GitLab Dependency Scanner](#gitlab-dependency-scanner)
+      - [GitLab SAST Scanner](#gitlab-sast-scanner)
+      - [GitLab Secret Scanner](#gitlab-secret-scanner)
+      - [Helm Scanning](#helm-scanning)
+      - [Xray Container Scan](#xray-container-scan)
+        - [Configuration](#configuration-1)
+  - [Variables](#variables)
+    - [General](#general)
+    - [Engagement](#engagement)
+    - [Scan](#scan)
+  - [Forking](#forking)
+  - [Contributing](#contributing)
 
 Please see [Scan Engines](#scan-engines) to understand how to enable them and
 which are enabled by default.
@@ -87,6 +89,41 @@ For further usage on how to use the scanner please check the scanner
 
 > In case of the DSO Container Scanner you need to include it from gitlab via
 > the project include syntax (see above) since it is not publicly available.
+
+#### DTSP Container Scan
+
+The [Deutsche Telekom Scan Platform (DTSP)](https://dtsp.telekom-dienste.de/) is
+the preferred way of T-Sec to scan container images. Internally grype is used.
+Besides, SBOMS are generated, mapped to the container digest and continously
+scanned to prevent new image scans.
+
+To enable this Feature you have to include the template:
+
+```yaml
+include:
+  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/<version>/implementations/dtsp-container.yml
+```
+
+##### Configuration
+
+**GLOBAL Variables:**
+
+| Variable | Mandatory | Default | Description |
+| -------- | --------- | ------- | ----------- |
+| DTSP_API_KEY | Yes | | API Token of DTSP (can be created in the user profile) - see [FAQ](https://dtsp.telekom-dienste.de/help/faq) for MCICD Source IPs |
+| DTSP_URL | Yes | https://dtsp.telekom-dienste.de | URL of the used DTSP instance |
+| DTSP_RESULT_FILE | Yes | dtsp-scanresults.json | default filename for the results file (normally, you should not change this) |
+
+**JOB specific variables:**
+
+| Variable | Mandatory | Default | Description |
+| -------- | --------- | ------- | ----------- |
+| DTSP_REGISTRY_PW | No | | Needed if the image is behind a registry authentication |
+| DTSP_REGISTRY_TOKEN | No | | Needed if the image is behind a registry authentication |
+| DTSP_REGISTRY_USER | No | Needed if the image is behind a registry authentication |
+| DTSP_IMAGE | Yes | | The Image that should be scanned by DTSP (must include the registry path) |
+
+Further details about DTSP can be found within their [docs](https://dtsp.telekom-dienste.de/help)
 
 #### GitLab Container Scanner
 
@@ -173,8 +210,8 @@ include:
 
 ##### Configuration
 
-| Variable        | Mandatory | Default | Description |
-| -------------   |:-------------:| -----:| -----: |
+| Variable | Mandatory | Default | Description |
+| -------- | --------- | ------- | ----------- |
 | ARTIFACTORY_TOKEN | Yes | null | API token for Artifactory |
 | XRAY_CONTAINER_IMAGE | Yes | "" | ID of the Container Image |
 

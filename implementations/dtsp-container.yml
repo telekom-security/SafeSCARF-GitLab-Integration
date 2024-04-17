@@ -1,5 +1,5 @@
 variables:
-    DTSP_RESULT_FILE: "scanresults.json"
+    DTSP_RESULT_FILE: "dtsp-scanresults.json"
     DTSP_URL: "https://dtsp.telekom-dienste.de"
     DTSP_API_KEY: ""
 
