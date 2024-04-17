@@ -12,10 +12,13 @@ dtsp_scan:
     DTSP_REGISTRY_USER: ""
     DTSP_IMAGE: ""
   script:
+    - USER_FLAG=$(test -n "$DTSP_REGISTRY_USER" && echo "--registry-user $DTSP_REGISTRY_USER" || echo "")
+    - PASSWORD_FLAG=$(test -n "$DTSP_REGISTRY_PW" && echo "--registry-pw $DTSP_REGISTRY_PW" || echo "")
+    - TOKEN_FLAG=$(test -n "$DTSP_REGISTRY_TOKEN" && echo "--registry_token $DTSP_REGISTRY_TOKEN" || echo "")
     - apk add --no-cache curl
     - curl -O https://dtsp.telekom-dienste.de/resources/clients/cli_linux_amd64
     - chmod +x cli_linux_amd64
-    - ./cli_linux_amd64 scan container image_tag $DTSP_IMAGE -u https://dtsp.telekom-dienste.de -t $DTSP_API_KEY -f $DTSP_RESULT_FILE --registry-pw $DTSP_REGISTRY_PW --registry_token $DTSP_REGISTRY_TOKEN --registry-user $DTSP_REGISTRY_USER
+    - ./cli_linux_amd64 scan container image_tag $DTSP_IMAGE -u https://dtsp.telekom-dienste.de -t $DTSP_API_KEY -f $DTSP_RESULT_FILE $PASSWORD_FLAG $TOKEN_FLAG $USER_FLAG
   artifacts:
     when: always
     paths:

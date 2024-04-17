@@ -5,6 +5,8 @@ fileignoreconfig:
   checksum: 1d2b397fa1f67c04bc9cb70c623ef71f990e3f418aa6719f528366f45478951c
 - filename: gitlab-safescarf.yml
   checksum: 43019d8dfc2e8266a40e15a9864738c279d75136a979fb7d9b552437e63560de
+- filename: implementations/dtsp-container.yml
+  checksum: d11cc8477d45219715018c3c9dc56bf6e6ca3027450e99fc41d0fcdcde086649
 - filename: implementations/gitlab-secrets.yml
   checksum: 135fd8cfc3fce1b3ede26aebd26e43152dbaa1e85ace0d61ef75f3e3859e27cc
 version: "1.0"
