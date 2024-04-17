@@ -27,11 +27,11 @@ dtsp_scan:
       - $DTSP_RESULT_FILE
 
 
-new_scan_upload:
+dtsp_scan_upload:
   extends:
     - .safescarf_upload
     - dtsp_scan
-  needs: ["safescarf_create_engagement", "new_scanner"]
+  needs: ["safescarf_create_engagement", "dtsp_scan"]
   stage: !reference [.safescarf_upload, stage]
   image: !reference [.safescarf_upload, image]
   before_script: !reference [.safescarf_upload, before_script]
