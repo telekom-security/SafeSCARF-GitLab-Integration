@@ -7,11 +7,6 @@ dtsp_scan:
   image: alpine:3
   stage: test
   variables:
-    http_proxy: http://proxy.t-seclab.de:3128
-    https_proxy: http://proxy.t-seclab.de:3128
-    HTTP_PROXY: http://proxy.t-seclab.de:3128
-    HTTPS_PROXY: http://proxy.t-seclab.de:3128
-    GOPROXY: https://artifactory.t-seclab.telekom.de/artifactory/api/go/seclab-golangprod-virtual
     DTSP_REGISTRY_PW: ""
     DTSP_REGISTRY_TOKEN: ""
     DTSP_REGISTRY_USER: ""
