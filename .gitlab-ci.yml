@@ -1,0 +1,7 @@
+include:
+  - gitlab-safescarf.yml
+  - implementations/dtsp-container.yml
+
+dtsp_scan:
+  variables:
+    DTSP_IMAGE: dockerhub.com/nginx:1.19
