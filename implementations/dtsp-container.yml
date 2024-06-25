@@ -11,10 +11,10 @@ dtsp_scan:
     DTSP_REGISTRY_TOKEN: ""
     DTSP_REGISTRY_USER: ""
     DTSP_IMAGE: ""
-    http_proxy: http://proxy.t-seclab.de:3128
-    https_proxy: http://proxy.t-seclab.de:3128
-    HTTP_PROXY: http://proxy.t-seclab.de:3128
-    HTTPS_PROXY: http://proxy.t-seclab.de:3128
+    #http_proxy: http://proxy.t-seclab.de:3128
+    #https_proxy: http://proxy.t-seclab.de:3128
+    #HTTP_PROXY: http://proxy.t-seclab.de:3128
+    #HTTPS_PROXY: http://proxy.t-seclab.de:3128
   script:
     - USER_FLAG=$(test -n "$DTSP_REGISTRY_USER" && echo "--registry-user $DTSP_REGISTRY_USER" || echo "")
     - PASSWORD_FLAG=$(test -n "$DTSP_REGISTRY_PW" && echo "--registry-pw $DTSP_REGISTRY_PW" || echo "")
