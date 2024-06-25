@@ -5,3 +5,8 @@ include:
 dtsp_scan:
   variables:
     DTSP_IMAGE: nginx:1.19
+    http_proxy: http://proxy.t-seclab.de:3128
+    https_proxy: http://proxy.t-seclab.de:3128
+    HTTP_PROXY: http://proxy.t-seclab.de:3128
+    HTTPS_PROXY: http://proxy.t-seclab.de:3128
+    GOPROXY: https://artifactory.t-seclab.telekom.de/artifactory/api/go/seclab-golangprod-virtual
