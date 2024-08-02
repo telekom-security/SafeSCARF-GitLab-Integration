@@ -19,7 +19,6 @@ variables:
   SAFESCARF_WORKFLOW: "branch" # branch, pipeline
   SAFESCARF_TAGS: ""
   MCICD_DOCKERHUB_MIRROR: "dockerhub.devops.telekom.de/"
-  SAFESCARF_TEST: ""
 
 
 safescarf_verify_mandatory:
@@ -29,7 +28,6 @@ safescarf_verify_mandatory:
     - if [ -z "$SAFESCARF_URL" ]; then echo "SAFESCARF_URL ist nicht gesetzt"; exit 1; fi
     - if [ -z "$SAFESCARF_TOKEN" ]; then echo "SAFESCARF_TOKEN ist nicht gesetzt"; exit 1; fi
     - if [ -z "$SAFESCARF_PRODUCT_ID" ]; then echo "SAFESCARF_PRODUCT_ID not set"; exit 1; fi
-    - if [ -z "$SAFESCARF_TEST" ]; then echo "SAFESCARF_TEST is not set"; exit 1; fi
 
 safescarf_create_engagement:
   stage: .pre
