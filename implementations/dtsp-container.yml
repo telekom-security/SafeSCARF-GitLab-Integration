@@ -23,12 +23,14 @@ dtsp_scan:
     - curl -O https://dtsp.telekom-dienste.de/resources/clients/cli_linux_amd64
     - chmod +x cli_linux_amd64
     - ./cli_linux_amd64 scan container image_tag $DTSP_IMAGE -u https://dtsp.telekom-dienste.de -t $DTSP_API_KEY -f $DTSP_RESULT_FILE $PASSWORD_FLAG $TOKEN_FLAG $USER_FLAG
-    - python3 helper/dtsp-safescarf-wrapper.py $DTSP_RESULT_FILE -d $DTSP_RESULT_FILE #transform result into SafeSCARF compatible format
+    - python3 helper/dtsp-safescarf-wrapper.py $DTSP_RESULT_FILE -d dtsp-out.$(echo ${DTSP_IMAGE} | tr '/:"' '_').json #transform result into SafeSCARF compatible format
+    - echo "grype-out.$(echo ${DTSP_IMAGE} | tr '/:\"' '_').json;${DTSP_IMAGE/:/;}" >> results.csv
   allow_failure: true
   artifacts:
     when: always
     paths:
-      - $DTSP_RESULT_FILE
+      - dtsp-out.*.json
+      - result.csv
 
 
 dtsp_scan_upload:
@@ -39,13 +41,12 @@ dtsp_scan_upload:
   stage: !reference [.safescarf_upload, stage]
   image: !reference [.safescarf_upload, image]
   before_script: !reference [.safescarf_upload, before_script]
-  script: !reference [.safescarf_upload, script]
   artifacts: null
   dependencies: null
   variables:
-    SAFESCARF_SCAN_TYPE: "Anchore Grype"
-    SAFESCARF_SCAN_FILE: $DTSP_RESULT_FILE
-    SAFESCARF_SCAN_TITLE: "DTSP Container Scan"
+    SAFESCARF_SCAN_TYPE: "Generic Findings Import"
     SAFESCARF_TAGS: "gitlab-ci;type:container;dtsp"
+  script:
+    - for LINE in $(cat results.csv); do python /app/safescarf-connector.py --workflow ${SAFESCARF_WORKFLOW} --environment ${SAFESCARF_SCAN_ENVIRONMENT} --tags "${SAFESCARF_TAGS}" --engagement-id ${SAFESCARF_ENGAGEMENT_ID} --product-id ${SAFESCARF_PRODUCT_ID} --scan-type "${SAFESCARF_SCAN_TYPE}" --name "$(echo "$LINE" | awk -F';' '{print $2}')" --service "$(echo "$LINE" | awk -F';' '{print $2}')" --version "$(echo "$LINE" | awk -F';' '{print $3}')" upload "$(echo "$LINE" | awk -F';' '{print $1}')"; done
   rules:
     - when: always
