@@ -69,4 +69,5 @@ safescarf_publish:
   allow_failure: true
   script:
     - ls -lah ${SAFESCARF_SCAN_FILE}
+    - echo ${SAFESCARF_TAGS}
     - python /app/safescarf-connector.py --workflow ${SAFESCARF_WORKFLOW} --environment "${SAFESCARF_SCAN_ENVIRONMENT}" --engagement-id ${SAFESCARF_ENGAGEMENT_ID} --product-id ${SAFESCARF_PRODUCT_ID} --scan-type "${SAFESCARF_SCAN_TYPE}" --name "${SAFESCARF_SCAN_TITLE}" --commit-hash "${CI_COMMIT_SHORT_SHA}" --build-id "${CI_PIPELINE_ID}" --do-not-reactivate "${SAFESCARF_REIMPORT_DO_NOT_REACTIVATE}" --tags "${SAFESCARF_TAGS}" upload "${SAFESCARF_SCAN_FILE}"
