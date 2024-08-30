@@ -27,6 +27,8 @@ scan-helm-config-upload:
     SAFESCARF_SCAN_FILE: trivy-container-scanning-report.json
     SAFESCARF_SCAN_TITLE: "Helm Config Scan"
     SAFESCARF_TAGS: "gitlab-ci;type:iac"
+  rules:
+    - when: always
 
 scan-helm-images-prepare:
   stage: test
