@@ -30,7 +30,7 @@ dtsp_scan:
     when: always
     paths:
       - dtsp-out.*.json
-      - result.csv
+      - results.csv
 
 
 dtsp_scan_upload:
