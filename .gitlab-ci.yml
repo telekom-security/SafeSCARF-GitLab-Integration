@@ -1,9 +1,4 @@
-include:
-  - gitlab-safescarf.yml
-  - implementations/dtsp-container.yml
-
 stages:
-  - test
   - create release after merge
   - trigger access-portal-frontend pipeline
 
@@ -42,12 +37,3 @@ trigger_access-portal-frontend_pipeline:
   trigger:
     project: secureops/safescarf/access-portal/access-portal-frontend
     strategy: depend
-
-dtsp_scan:
-  variables:
-    DTSP_IMAGE: nginx:1.19
-    #http_proxy: http://proxy.t-seclab.de:3128
-    #https_proxy: http://proxy.t-seclab.de:3128
-    #HTTP_PROXY: http://proxy.t-seclab.de:3128
-    #HTTPS_PROXY: http://proxy.t-seclab.de:3128
-    #GOPROXY: https://artifactory.t-seclab.telekom.de/artifactory/api/go/seclab-golangprod-virtual
