@@ -3,6 +3,7 @@ include:
   - implementations/dtsp-container.yml
 
 stages:
+  - test
   - create release after merge
   - trigger access-portal-frontend pipeline
 
