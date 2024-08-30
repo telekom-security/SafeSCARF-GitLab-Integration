@@ -47,3 +47,5 @@ dtsp_scan_upload:
     SAFESCARF_SCAN_FILE: $DTSP_RESULT_FILE
     SAFESCARF_SCAN_TITLE: "DTSP Container Scan"
     SAFESCARF_TAGS: "gitlab-ci;type:container;dtsp"
+  rules:
+    when: always
