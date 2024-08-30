@@ -55,7 +55,7 @@ scan-helm-images:
   script:
     - |
       for IMAGE in $(cat images.lst); do
-        /grype ${IMAGE} -o json -f high > grype-out.$(echo ${IMAGE} | tr '/:"' '_').json
+        /grype ${IMAGE} -o json > grype-out.$(echo ${IMAGE} | tr '/:"' '_').json
         echo "grype-out.$(echo ${IMAGE} | tr '/:\"' '_').json;${IMAGE/:/;}" >> results.csv
       done
   artifacts:
