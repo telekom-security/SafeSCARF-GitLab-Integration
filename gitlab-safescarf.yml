@@ -70,3 +70,15 @@ safescarf_publish:
   script:
     - ls -lah ${SAFESCARF_SCAN_FILE}
     - python /app/safescarf-connector.py --workflow ${SAFESCARF_WORKFLOW} --environment "${SAFESCARF_SCAN_ENVIRONMENT}" --engagement-id ${SAFESCARF_ENGAGEMENT_ID} --product-id ${SAFESCARF_PRODUCT_ID} --scan-type "${SAFESCARF_SCAN_TYPE}" --name "${SAFESCARF_SCAN_TITLE}" --commit-hash "${CI_COMMIT_SHORT_SHA}" --build-id "${CI_PIPELINE_ID}" --do-not-reactivate "${SAFESCARF_REIMPORT_DO_NOT_REACTIVATE}" --tags "${SAFESCARF_TAGS}" upload "${SAFESCARF_SCAN_FILE}"
+
+safescarf_upload_testing:
+  extends: safescarf_publish
+  allow_failure: true
+  image:
+    name: mtr.devops.telekom.de/secureops/safescarf-connector:1.2.12
+    entrypoint: [""]
+  rules:
+    - if: '$DEBUG == true'
+  script:
+    - java -jar SafeScarfAPICaller-1.0-SNAPSHOT-jar-with-dependencies.jar ${TOKEN} ${ENGAGEMENT_ID} ${SAFESCARF_SCAN_TITLE} delayTime
+    - python /app/safescarf-connector.py --workflow ${SAFESCARF_WORKFLOW} --environment "${SAFESCARF_SCAN_ENVIRONMENT}" --engagement-id ${SAFESCARF_ENGAGEMENT_ID} --product-id ${SAFESCARF_PRODUCT_ID} --scan-type "${SAFESCARF_SCAN_TYPE}" --name "${SAFESCARF_SCAN_TITLE}" --commit-hash "${CI_COMMIT_SHORT_SHA}" --build-id "${CI_PIPELINE_ID}" --do-not-reactivate "${SAFESCARF_REIMPORT_DO_NOT_REACTIVATE}" --tags "${SAFESCARF_TAGS}" upload "${SAFESCARF_SCAN_FILE}"
