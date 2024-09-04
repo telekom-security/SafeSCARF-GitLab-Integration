@@ -20,6 +20,7 @@ variables:
   MCICD_DOCKERHUB_MIRROR: "dockerhub.devops.telekom.de/"
   UPLOAD_TESTING_ENGAGEMENT_ID: ""
   UPLOAD_TESTING_SCAN_TITLE: ""
+  SAFESCARF_TESTING_MODE_ENABLE: 'false'
 
 
 safescarf_verify_mandatory:
@@ -83,6 +84,6 @@ safescarf_upload_testing:
     name: mtr.devops.telekom.de/secureops/safescarf-connector:0.2.1
     entrypoint: [""]
   rules:
-    - if: '$SAFESCARF_TESTING_MODE_ENABLE == true'
+    - if: $SAFESCARF_TESTING_MODE_ENABLE == "true"
   script:
     - python /app/safescarf-upload-testing.py ${SAFESCARF_TOKEN} ${UPLOAD_TESTING_ENGAGEMENT_ID} ${UPLOAD_TESTING_SCAN_TITLE} ${DELAY_IN_MINUTES} ${SAFESCARF_URL}
