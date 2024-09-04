@@ -1,0 +1,45 @@
+include:
+  - gitlab-safescarf.yml
+  - implementations/gitlab-sast.yml
+  - implementations/gitlab-secrets.yml
+
+stages:
+  - test
+  - create release after merge
+  - trigger access-portal-frontend pipeline
+
+create_release_after_merge:
+  stage: create release after merge
+  image: artifactory.devops.telekom.de/registry.gitlab.com/gitlab-org/release-cli:latest
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^Merge branch/
+  script:
+    - printenv CI_COMMIT_DESCRIPTION > ./description.txt
+    - >
+      RELEASE_TITLE=$(grep "Merge request title:" ./description.txt |
+      sed "s/Merge request title//; s/://1; s/ //1; s/'//1; s/'$//")
+    - echo "RELEASE_TITLE=$RELEASE_TITLE" >> release.env
+    - if [ "$CI_PIPELINE_SOURCE" == "web" ]; then exit 0; fi
+    - >
+      RELEASE_DESCRIPTION=$(sed -n '/Merge request description/,/Merge request merged by/p' ./description.txt |
+      sed '$d' | sed '$d' | sed "1 s/Merge request description//; 1 s/://1; 1 s/ //1; 1 s/'//1; $ s/'$//")
+    - echo "Creating stable release $RELEASE_TITLE"
+    - >
+      release-cli create --name $RELEASE_TITLE --description "$RELEASE_DESCRIPTION"
+      --tag-name $RELEASE_TITLE --tag-message "$RELEASE_DESCRIPTION"
+  artifacts:
+    reports:
+      dotenv: release.env
+
+trigger_access-portal-frontend_pipeline:
+  stage: trigger access-portal-frontend pipeline
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      variables:
+        TAG: "$CI_COMMIT_REF_NAME"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_TITLE =~ /^Merge branch/
+      variables:
+        TAG: "$RELEASE_TITLE"
+  trigger:
+    project: secureops/safescarf/access-portal/access-portal-frontend
+    strategy: depend

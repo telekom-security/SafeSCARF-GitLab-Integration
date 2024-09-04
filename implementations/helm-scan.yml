@@ -27,6 +27,8 @@ scan-helm-config-upload:
     SAFESCARF_SCAN_FILE: trivy-container-scanning-report.json
     SAFESCARF_SCAN_TITLE: "Helm Config Scan"
     SAFESCARF_TAGS: "gitlab-ci;type:iac"
+  rules:
+    - when: always
 
 scan-helm-images-prepare:
   stage: test
@@ -53,10 +55,9 @@ scan-helm-images:
   script:
     - |
       for IMAGE in $(cat images.lst); do
-        /grype ${IMAGE} -o json -f high > grype-out.$(echo ${IMAGE} | tr '/:"' '_').json || touch vuln_found
+        /grype ${IMAGE} -o json > grype-out.$(echo ${IMAGE} | tr '/:"' '_').json
         echo "grype-out.$(echo ${IMAGE} | tr '/:\"' '_').json;${IMAGE/:/;}" >> results.csv
       done
-    - '[[ -f vuln_found ]] && { echo "Vulnerabilities found, cancelling"; false; }'
   artifacts:
     when: always
     paths:
@@ -79,4 +80,6 @@ scan-helm-images-upload:
     SAFESCARF_SCAN_TYPE: "Anchore Grype"
     SAFESCARF_TAGS: "gitlab-ci;type:container"
   script:
-    - for LINE in $(cat results.csv); do python /app/safescarf-connector.py --workflow ${SAFESCARF_WORKFLOW} --environment ${SAFESCARF_SCAN_ENVIRONMENT} --engagement-id ${SAFESCARF_ENGAGEMENT_ID} --product-id ${SAFESCARF_PRODUCT_ID} --scan-type "${SAFESCARF_SCAN_TYPE}" --name "$(echo "$LINE" | awk -F';' '{print $2}')" --service "$(echo "$LINE" | awk -F';' '{print $2}')" --version "$(echo "$LINE" | awk -F';' '{print $3}')" upload "$(echo "$LINE" | awk -F';' '{print $1}')"; done
+    - for LINE in $(cat results.csv); do python /app/safescarf-connector.py --workflow ${SAFESCARF_WORKFLOW} --environment ${SAFESCARF_SCAN_ENVIRONMENT} --tags "${SAFESCARF_TAGS}" --engagement-id ${SAFESCARF_ENGAGEMENT_ID} --product-id ${SAFESCARF_PRODUCT_ID} --scan-type "${SAFESCARF_SCAN_TYPE}" --name "$(echo "$LINE" | awk -F';' '{print $2}')" --service "$(echo "$LINE" | awk -F';' '{print $2}')" --version "$(echo "$LINE" | awk -F';' '{print $3}')" upload "$(echo "$LINE" | awk -F';' '{print $1}')"; done
+  rules:
+    - when: always

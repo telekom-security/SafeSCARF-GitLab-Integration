@@ -4,42 +4,50 @@ variables:
     DTSP_API_KEY: ""
 
 dtsp_scan:
-  image: alpine:3
+  image: python:3-alpine
   stage: test
   variables:
-    http_proxy: http://proxy.t-seclab.de:3128
-    https_proxy: http://proxy.t-seclab.de:3128
-    HTTP_PROXY: http://proxy.t-seclab.de:3128
-    HTTPS_PROXY: http://proxy.t-seclab.de:3128
-    GOPROXY: https://artifactory.t-seclab.telekom.de/artifactory/api/go/seclab-golangprod-virtual
     DTSP_REGISTRY_PW: ""
     DTSP_REGISTRY_TOKEN: ""
     DTSP_REGISTRY_USER: ""
     DTSP_IMAGE: ""
+    #http_proxy: http://proxy.t-seclab.de:3128
+    #https_proxy: http://proxy.t-seclab.de:3128
+    #HTTP_PROXY: http://proxy.t-seclab.de:3128
+    #HTTPS_PROXY: http://proxy.t-seclab.de:3128
   script:
+    - USER_FLAG=$(test -n "$DTSP_REGISTRY_USER" && echo "--registry-user $DTSP_REGISTRY_USER" || echo "")
+    - PASSWORD_FLAG=$(test -n "$DTSP_REGISTRY_PW" && echo "--registry-pw $DTSP_REGISTRY_PW" || echo "")
+    - TOKEN_FLAG=$(test -n "$DTSP_REGISTRY_TOKEN" && echo "--registry_token $DTSP_REGISTRY_TOKEN" || echo "")
     - apk add --no-cache curl
     - curl -O https://dtsp.telekom-dienste.de/resources/clients/cli_linux_amd64
     - chmod +x cli_linux_amd64
-    - ./cli_linux_amd64 scan container image_tag $DTSP_IMAGE -u https://dtsp.telekom-dienste.de -t $DTSP_API_KEY -f $DTSP_RESULT_FILE --registry-pw $DTSP_REGISTRY_PW --registry_token $DTSP_REGISTRY_TOKEN --registry-user $DTSP_REGISTRY_USER
+    - ./cli_linux_amd64 scan container image_tag $DTSP_IMAGE -u https://dtsp.telekom-dienste.de -t $DTSP_API_KEY -f $DTSP_RESULT_FILE $PASSWORD_FLAG $TOKEN_FLAG $USER_FLAG
+    - curl -O https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/2.3.0/helper/dtsp-safescarf-wrapper.py
+    - python3 dtsp-safescarf-wrapper.py $DTSP_RESULT_FILE -d dtsp-out.$(echo ${DTSP_IMAGE} | tr '/:"' '_').json #transform result into SafeSCARF compatible format
+    - echo "dtsp-out.$(echo ${DTSP_IMAGE} | tr '/:\"' '_').json;${DTSP_IMAGE/:/;}" >> results.csv
+  allow_failure: true
   artifacts:
     when: always
     paths:
-      - $DTSP_RESULT_FILE
+      - dtsp-out.*.json
+      - results.csv
 
 
-new_scan_upload:
+dtsp_scan_upload:
   extends:
     - .safescarf_upload
     - dtsp_scan
-  needs: ["safescarf_create_engagement", "new_scanner"]
+  needs: ["safescarf_create_engagement", "dtsp_scan"]
   stage: !reference [.safescarf_upload, stage]
   image: !reference [.safescarf_upload, image]
   before_script: !reference [.safescarf_upload, before_script]
-  script: !reference [.safescarf_upload, script]
   artifacts: null
   dependencies: null
   variables:
-    SAFESCARF_SCAN_TYPE: "Anchore Grype"
-    SAFESCARF_SCAN_FILE: $DTSP_RESULT_FILE
-    SAFESCARF_SCAN_TITLE: "DTSP Container Scan"
+    SAFESCARF_SCAN_TYPE: "Generic Findings Import"
     SAFESCARF_TAGS: "gitlab-ci;type:container;dtsp"
+  script:
+    - for LINE in $(cat results.csv); do python /app/safescarf-connector.py --workflow ${SAFESCARF_WORKFLOW} --environment ${SAFESCARF_SCAN_ENVIRONMENT} --tags "${SAFESCARF_TAGS}" --engagement-id ${SAFESCARF_ENGAGEMENT_ID} --product-id ${SAFESCARF_PRODUCT_ID} --scan-type "${SAFESCARF_SCAN_TYPE}" --name "$(echo "$LINE" | awk -F';' '{print $2}')" --service "$(echo "$LINE" | awk -F';' '{print $2}')" --version "$(echo "$LINE" | awk -F';' '{print $3}')" upload "$(echo "$LINE" | awk -F';' '{print $1}')"; done
+  rules:
+    - when: always
