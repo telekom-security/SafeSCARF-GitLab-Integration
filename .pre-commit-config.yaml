@@ -13,7 +13,7 @@ repos:
       - id: markdownlint
         args: [--config=.linter-config/mdlrc]
   - repo: https://github.com/thoughtworks/talisman
-    rev: 'v1.31.0'  # Update me!
+    rev: 'v1.32.0'  # Update me!
     hooks:
     # either `commit` or `push` support
     # -   id: talisman-push

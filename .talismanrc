@@ -1,4 +1,6 @@
 fileignoreconfig:
+- filename: README.md
+  checksum: 8a6549b5867202a8059755fe89c065a250bfe767d6aa997e98d867ae57eb7160
 - filename: .gitlab-ci.yml
   checksum: bdf22a7b7a9ed377a420fa7071024f68dc3274dfe44a8d13f90ab28369e86eb3
 - filename: README.md
@@ -9,4 +11,4 @@ fileignoreconfig:
   checksum: d11cc8477d45219715018c3c9dc56bf6e6ca3027450e99fc41d0fcdcde086649
 - filename: implementations/gitlab-secrets.yml
   checksum: 135fd8cfc3fce1b3ede26aebd26e43152dbaa1e85ace0d61ef75f3e3859e27cc
-version: "1.0"
+version: "1.1"

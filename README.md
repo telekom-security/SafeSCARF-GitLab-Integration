@@ -1,31 +1,36 @@
 # GitLab-CI SafeSCARF 2.0
 
+> **UPDATE:** This integration is now following the [Branch Git
+> Wokflow](https://secureops.pages.devops.telekom.de/knowledgebase/safescarf/branch-git-workflows)
+> and therefore sets the `SAFESCARF_ENGAGEMENT_DEDUPLICATION_ON_ENGAGEMENT` to
+> `false` by default (previously it defaulted to `true`).
+
 This repository provides a template for gitlab pipelines to integrate with
-[SafeSCARF](https://documentation.portal.pan-net.cloud/safescarf-product/)
+[SafeSCARF](https://portal.pan-net.cloud/docs/SafeSCARF%20product)
 (based on [DefectDojo](https://www.defectdojo.org)).
 
 - [GitLab-CI SafeSCARF 2.0](#gitlab-ci-safescarf-20)
-  - [Structure](#structure)
-    - [gitlab-safescarf.yml](#gitlab-safescarfyml)
-    - [plugins](#plugins)
-  - [Usage](#usage)
-    - [Scan Engines](#scan-engines)
-      - [DevSecOps Container Scanner By DTIT](#devsecops-container-scanner-by-dtit)
-      - [DTSP Container Scan](#dtsp-container-scan)
-        - [Configuration](#configuration)
-      - [GitLab Container Scanner](#gitlab-container-scanner)
-      - [GitLab Dependency Scanner](#gitlab-dependency-scanner)
-      - [GitLab SAST Scanner](#gitlab-sast-scanner)
-      - [GitLab Secret Scanner](#gitlab-secret-scanner)
-      - [Helm Scanning](#helm-scanning)
-      - [Xray Container Scan](#xray-container-scan)
-        - [Configuration](#configuration-1)
-  - [Variables](#variables)
-    - [General](#general)
-    - [Engagement](#engagement)
-    - [Scan](#scan)
-  - [Forking](#forking)
-  - [Contributing](#contributing)
+    - [Structure](#structure)
+        - [gitlab-safescarf.yml](#gitlab-safescarfyml)
+        - [plugins](#plugins)
+    - [Usage](#usage)
+        - [Scan Engines](#scan-engines)
+            - [DevSecOps Container Scanner By DTIT](#devsecops-container-scanner-by-dtit)
+            - [DTSP Container Scan](#dtsp-container-scan)
+                - [Configuration](#configuration)
+            - [GitLab Container Scanner](#gitlab-container-scanner)
+            - [GitLab Dependency Scanner](#gitlab-dependency-scanner)
+            - [GitLab SAST Scanner](#gitlab-sast-scanner)
+            - [GitLab Secret Scanner](#gitlab-secret-scanner)
+            - [Helm Scanning](#helm-scanning)
+            - [Xray Container Scan](#xray-container-scan)
+                - [Configuration](#configuration-1)
+    - [Variables](#variables)
+        - [General](#general)
+        - [Engagement](#engagement)
+        - [Scan](#scan)
+    - [Forking](#forking)
+    - [Contributing](#contributing)
 
 Please see [Scan Engines](#scan-engines) to understand how to enable them and
 which are enabled by default.
@@ -108,20 +113,20 @@ include:
 
 **GLOBAL Variables:**
 
-| Variable | Mandatory | Default | Description |
-| -------- | --------- | ------- | ----------- |
-| DTSP_API_KEY | Yes | | API Token of DTSP (can be created in the user profile) - see [FAQ](https://dtsp.telekom-dienste.de/help/faq) for MCICD Source IPs |
-| DTSP_URL | Yes | https://dtsp.telekom-dienste.de | URL of the used DTSP instance |
-| DTSP_RESULT_FILE | Yes | dtsp-scanresults.json | default filename for the results file (normally, you should not change this) |
+| Variable         | Mandatory | Default                         | Description                                                                                                                       |
+| ---------------- | --------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| DTSP_API_KEY     | Yes       |                                 | API Token of DTSP (can be created in the user profile) - see [FAQ](https://dtsp.telekom-dienste.de/help/faq) for MCICD Source IPs |
+| DTSP_URL         | Yes       | https://dtsp.telekom-dienste.de | URL of the used DTSP instance                                                                                                     |
+| DTSP_RESULT_FILE | Yes       | dtsp-scanresults.json           | default filename for the results file (normally, you should not change this)                                                      |
 
 **JOB specific variables:**
 
-| Variable | Mandatory | Default | Description |
-| -------- | --------- | ------- | ----------- |
-| DTSP_REGISTRY_PW | No | | Needed if the image is behind a registry authentication |
-| DTSP_REGISTRY_TOKEN | No | | Needed if the image is behind a registry authentication |
-| DTSP_REGISTRY_USER | No | Needed if the image is behind a registry authentication |
-| DTSP_IMAGE | Yes | | The Image that should be scanned by DTSP (must include the registry path) |
+| Variable            | Mandatory | Default | Description                                                               |
+| ------------------- | --------- | ------- | ------------------------------------------------------------------------- |
+| DTSP_REGISTRY_PW    | No        |         | Needed if the image is behind a registry authentication                   |
+| DTSP_REGISTRY_TOKEN | No        |         | Needed if the image is behind a registry authentication                   |
+| DTSP_REGISTRY_USER  | No        |         | Needed if the image is behind a registry authentication                   |
+| DTSP_IMAGE          | Yes       |         | The Image that should be scanned by DTSP (must include the registry path) |
 
 Further details about DTSP can be found within their [docs](https://dtsp.telekom-dienste.de/help)
 
@@ -210,10 +215,10 @@ include:
 
 ##### Configuration
 
-| Variable | Mandatory | Default | Description |
-| -------- | --------- | ------- | ----------- |
-| ARTIFACTORY_TOKEN | Yes | null | API token for Artifactory |
-| XRAY_CONTAINER_IMAGE | Yes | "" | ID of the Container Image |
+| Variable             | Mandatory | Default | Description               |
+| -------------------- | --------- | ------- | ------------------------- |
+| ARTIFACTORY_TOKEN    | Yes       | null    | API token for Artifactory |
+| XRAY_CONTAINER_IMAGE | Yes       | ""      | ID of the Container Image |
 
 ## Variables
 
@@ -221,37 +226,37 @@ The variables have to be set in your gitlab-ci.yml file or in the GitLab CI/CD S
 
 ### General
 
-| Variable        | Mandatory | Default | Description |
-| -------------   |:-------------:| -----:| -----: |
-| SAFESCARF_URL | Yes | '[https://safescarf.domain.tld/](https://safescarf.domain.tld/)' | URL your your SafeSCARF Instance |
-| SAFESCARF_TOKEN | Yes | null | API token for API-V2 Endpoint (machine or user token)|
-| SAFESCARF_PRODUCT_ID | Yes | null | ID of your Product in SafeSCARF (will be displayed in the url bar of the browser after accessing the product) |
-| SAFESCARF_REIMPORT_DO_NOT_REACTIVATE | No | True | see [docs](https://defectdojo.github.io/django-DefectDojo/integrations/importing/#triage-less-scanners) |
+| Variable                             | Mandatory |                                                          Default |                                                                                                   Description |
+| ------------------------------------ | :-------: | ---------------------------------------------------------------: | ------------------------------------------------------------------------------------------------------------: |
+| SAFESCARF_URL                        |    Yes    | '[https://safescarf.domain.tld/](https://safescarf.domain.tld/)' |                                                                              URL your your SafeSCARF Instance |
+| SAFESCARF_TOKEN                      |    Yes    |                                                             null |                                                         API token for API-V2 Endpoint (machine or user token) |
+| SAFESCARF_PRODUCT_ID                 |    Yes    |                                                             null | ID of your Product in SafeSCARF (will be displayed in the url bar of the browser after accessing the product) |
+| SAFESCARF_REIMPORT_DO_NOT_REACTIVATE |    No     |                                                             True |       see [docs](https://defectdojo.github.io/django-DefectDojo/integrations/importing/#triage-less-scanners) |
 
 ### Engagement
 
-| Variable        | Mandatory | Default | Description |
-| -------------   |:-------------:| -----:| -----: |
-| SAFESCARF_ENGAGEMENT_PERIOD | No | 7 | Duration in days of the created Engagement |
-| SAFESCARF_ENGAGEMENT_STATUS | No | In  Progress | Initial Status of the Engagement when created. Possible Values: Not Started, Blocked, Cancelled, Completed, In Progress, On Hold, Waiting for Resource |
-| SAFESCARF_ENGAGEMENT_DEDUPLICATION_ON_ENGAGEMENT | No | true | If enabled deduplication will only mark a finding in this engagement as duplicate of another finding if both findings are in this engagement. If disabled, deduplication is on the product level. |
-| SAFESCARF_ENGAGEMENT_BUILD_SERVER | No | null | ID of the Build Server if configured in SafeSCARF |
-| SAFESCARF_ENGAGEMENT_SOURCE_CODE_MANAGEMENT_SERVER | No | null | ID of the SCM Server if configured in SafeSCARF |
-| SAFESCARF_ENGAGEMENT_ORCHESTRATION_ENGINE | No | null | ID of the Orchestration Engine if configured in SafeSCARF |
-| SAFESCARF_ENGAGEMENT_THREAT_MODEL | No | true | |
-| SAFESCARF_ENGAGEMENT_API_TEST | No | true | |
-| SAFESCARF_ENGAGEMENT_PEN_TEST | No | true | |
-| SAFESCARF_ENGAGEMENT_CHECK_LIST | No | true | |
+| Variable                                           | Mandatory |      Default |                                                                                                                                                                                       Description |
+| -------------------------------------------------- | :-------: | -----------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| SAFESCARF_ENGAGEMENT_PERIOD                        |    No     |            7 |                                                                                                                                                        Duration in days of the created Engagement |
+| SAFESCARF_ENGAGEMENT_STATUS                        |    No     | In  Progress |                                            Initial Status of the Engagement when created. Possible Values: Not Started, Blocked, Cancelled, Completed, In Progress, On Hold, Waiting for Resource |
+| SAFESCARF_ENGAGEMENT_DEDUPLICATION_ON_ENGAGEMENT   |    No     |         true | If enabled deduplication will only mark a finding in this engagement as duplicate of another finding if both findings are in this engagement. If disabled, deduplication is on the product level. |
+| SAFESCARF_ENGAGEMENT_BUILD_SERVER                  |    No     |         null |                                                                                                                                                 ID of the Build Server if configured in SafeSCARF |
+| SAFESCARF_ENGAGEMENT_SOURCE_CODE_MANAGEMENT_SERVER |    No     |         null |                                                                                                                                                   ID of the SCM Server if configured in SafeSCARF |
+| SAFESCARF_ENGAGEMENT_ORCHESTRATION_ENGINE          |    No     |         null |                                                                                                                                         ID of the Orchestration Engine if configured in SafeSCARF |
+| SAFESCARF_ENGAGEMENT_THREAT_MODEL                  |    No     |         true |                                                                                                                                                                                                   |
+| SAFESCARF_ENGAGEMENT_API_TEST                      |    No     |         true |                                                                                                                                                                                                   |
+| SAFESCARF_ENGAGEMENT_PEN_TEST                      |    No     |         true |                                                                                                                                                                                                   |
+| SAFESCARF_ENGAGEMENT_CHECK_LIST                    |    No     |         true |                                                                                                                                                                                                   |
 
 ### Scan
 
-| Variable        | Mandatory | Default | Description |
-| -------------   |:-------------:| -----:| -----: |
-| SAFESCARF_SCAN_MINIMUM_SEVERITY | No | Info | Available values : Info, Low, Medium, High, Critical |
-| SAFESCARF_SCAN_ACTIVE | No | true | |
-| SAFESCARF_SCAN_VERIFIED | No | true | |
-| SAFESCARF_SCAN_CLOSE_OLD_FINDINGS | No | true | |
-| SAFESCARF_SCAN_ENVIRONMENT | No | Default | **Recommended to set!**|
+| Variable                          | Mandatory | Default |                                          Description |
+| --------------------------------- | :-------: | ------: | ---------------------------------------------------: |
+| SAFESCARF_SCAN_MINIMUM_SEVERITY   |    No     |    Info | Available values : Info, Low, Medium, High, Critical |
+| SAFESCARF_SCAN_ACTIVE             |    No     |    true |                                                      |
+| SAFESCARF_SCAN_VERIFIED           |    No     |    true |                                                      |
+| SAFESCARF_SCAN_CLOSE_OLD_FINDINGS |    No     |    true |                                                      |
+| SAFESCARF_SCAN_ENVIRONMENT        |    No     | Default |                              **Recommended to set!** |
 
 ## Forking
 
