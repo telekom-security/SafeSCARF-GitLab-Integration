@@ -86,4 +86,4 @@ safescarf_upload_testing:
   rules:
     - if: '$SAFESCARF_TESTING_MODE_ENABLE == true'
   script:
-    - python /app/safescarf-upload-testing.py ${SAFESCARF_TOKEN} ${UPLOAD_TESTING_ENGAGEMENT_ID} ${UPLOAD_TESTING_SCAN_TITLE} ${DELAY_IN_MINUTES}
+    - python /app/safescarf-upload-testing.py ${SAFESCARF_TOKEN} ${UPLOAD_TESTING_ENGAGEMENT_ID} ${UPLOAD_TESTING_SCAN_TITLE} ${DELAY_IN_MINUTES} ${SAFESCARF_URL}
