@@ -81,7 +81,7 @@ safescarf_upload_testing:
   extends: safescarf_publish
   allow_failure: true
   image:
-    name: mtr.devops.telekom.de/secureops/safescarf-connector:1.2.12
+    name: mtr.devops.telekom.de/secureops/safescarf-connector:0.2.1
     entrypoint: [""]
   rules:
     - if: '$SAFESCARF_TESTING_MODE_ENABLE == true'
