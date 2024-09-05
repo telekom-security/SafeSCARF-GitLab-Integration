@@ -20,6 +20,7 @@ variables:
   MCICD_DOCKERHUB_MIRROR: "dockerhub.devops.telekom.de/"
   UPLOAD_TESTING_ENGAGEMENT_ID: ""
   UPLOAD_TESTING_SCAN_TITLE: ""
+  DELAY_IN_MINUTES: $DELAY_IN_MINUTES
 
 
 safescarf_verify_mandatory:
