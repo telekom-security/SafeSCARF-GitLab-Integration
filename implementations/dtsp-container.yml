@@ -23,7 +23,7 @@ dtsp_scan:
     - curl -O https://dtsp.telekom-dienste.de/resources/clients/cli_linux_amd64
     - chmod +x cli_linux_amd64
     - ./cli_linux_amd64 scan container image_tag $DTSP_IMAGE -u https://dtsp.telekom-dienste.de -t $DTSP_API_KEY -f $DTSP_RESULT_FILE $PASSWORD_FLAG $TOKEN_FLAG $USER_FLAG
-    - curl -O https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/2.4.1/helper/dtsp-safescarf-wrapper.py
+    - curl -O https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/2.4.3/helper/dtsp-safescarf-wrapper.py
     - python3 dtsp-safescarf-wrapper.py $DTSP_RESULT_FILE -d dtsp-out.$(echo ${DTSP_IMAGE} | tr '/:"' '_').json #transform result into SafeSCARF compatible format
     - echo "dtsp-out.$(echo ${DTSP_IMAGE} | tr '/:\"' '_').json;${DTSP_IMAGE/:/;}" >> results.csv
   allow_failure: true
