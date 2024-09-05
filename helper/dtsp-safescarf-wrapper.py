@@ -36,23 +36,23 @@ def read_source_file(source_file):
 
 # Helper functions for the following parse_data() function:
 def iter_vulns(element):
-    severity = element.get("severity", "")
+    severity = (element.get("severity") or "")
     if(severity == "negligible" or severity == "unknown"):
         severity = "info"
     finding = {
-        "title": element.get("description", ""),
-        "description": element.get("description", ""),
+        "title": (element.get("description") or ""),
+        "description": (element.get("description") or ""),
         "severity": severity.capitalize(),
-        "numerical_severity": "{}".format(element.get("severity_index", "")),
-        "cve": element.get("cve", ""),
+        "numerical_severity": "{}".format((element.get("severity_index") or "")),
+        "cve": (element.get("cve") or ""),
     }
     return finding
 
 def iter_components(component, result_list, finding):
     finding_by_artefact = {}
     finding_by_artefact = finding
-    finding_by_artefact["component_name"] = component.get("name", "")
-    finding_by_artefact["component_version"] = component.get("version", "")
+    finding_by_artefact["component_name"] = (component.get("name") or "")
+    finding_by_artefact["component_version"] = (component.get("version") or "")
     result_list["findings"].append(finding_by_artefact.copy())
 
 # Function to extract Data to the test itself
@@ -68,15 +68,15 @@ def parse_data(input):
         logging.error("Engine unknown, for now only grype is supported.")
         # exit 1 noch hinzufügen? Testen mit "echo $ ?" ob das schon im logging.error passiert
 
-    PARSED_DATA["tags"] = input.get("tags", [])
-    PARSED_DATA["sla_start_date"] = input.get("started_at", "")[:10]
-    PARSED_DATA["sla_expiration_date"] = input.get("finished_at", "")[:10]
+    PARSED_DATA["tags"] = (input.get("tags") or [])
+    PARSED_DATA["sla_start_date"] = (input.get("started_at") or "")[:10]
+    PARSED_DATA["sla_expiration_date"] = (input.get("finished_at") or "")[:10]
 
     # Each individual Vulnerability
-    for element in input.get("vulnerabilities", []):
+    for element in (input.get("vulnerabilities") or []):
         finding = iter_vulns(element)
         # Artifacts for each individual vulnerability
-        for component in element.get("artifacts", []):
+        for component in (element.get("artifacts") or []):
             iter_components(component, PARSED_DATA, finding)
     return PARSED_DATA
 
