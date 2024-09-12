@@ -56,7 +56,6 @@ safescarf_create_engagement:
     reports:
       dotenv: safescarf.env
 
-
 safescarf_publish:
   stage: .post
   image:
@@ -78,18 +77,16 @@ safescarf_publish:
   script:
     - ls -lah ${SAFESCARF_SCAN_FILE}
     - python /app/safescarf-connector.py --workflow ${SAFESCARF_WORKFLOW} --environment "${SAFESCARF_SCAN_ENVIRONMENT}" --engagement-id ${SAFESCARF_ENGAGEMENT_ID} --product-id ${SAFESCARF_PRODUCT_ID} --scan-type "${SAFESCARF_SCAN_TYPE}" --name "${SAFESCARF_SCAN_TITLE}" --commit-hash "${CI_COMMIT_SHORT_SHA}" --build-id "${CI_PIPELINE_ID}" --do-not-reactivate "${SAFESCARF_REIMPORT_DO_NOT_REACTIVATE}" --tags "${SAFESCARF_TAGS}" upload "${SAFESCARF_SCAN_FILE}"
+  after_script:
     - export UPLOAD_TESTING_SCAN_TITLE="${SAFESCARF_SCAN_TITLE}"
     - export UPLOAD_TESTING_ENGAGEMENT_ID="${SAFESCARF_ENGAGEMENT_ID}"
-    - echo "Scan title is: $UPLOAD_TESTING_SCAN_TITLE"
-    - echo "Engagement ID is: $UPLOAD_TESTING_ENGAGEMENT_ID"
 
 safescarf_upload_testing:
   extends: safescarf_publish
-  allow_failure: true
   image:
     name: $SAFESCARF_API_IMAGE_NAME
     entrypoint: [""]
   rules:
-    - if: '$SAFESCARF_TESTING_MODE_ENABLE == true'
+    - if: $SAFESCARF_TESTING_MODE_ENABLE == 'true'
   script:
     - python /app/safescarf-upload-testing.py ${SAFESCARF_TOKEN} ${UPLOAD_TESTING_ENGAGEMENT_ID} ${UPLOAD_TESTING_SCAN_TITLE} ${DELAY_IN_MINUTES} ${SAFESCARF_URL}
