@@ -7,6 +7,7 @@ stages:
   - test
   - create release after merge
   - trigger access-portal-frontend pipeline
+  - deploy
 
 create_release_after_merge:
   stage: create release after merge
