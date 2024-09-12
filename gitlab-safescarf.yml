@@ -57,7 +57,7 @@ safescarf_create_engagement:
       dotenv: safescarf.env
 
 safescarf_publish:
-  stage: .post
+  stage: deploy
   image:
     name: $SAFESCARF_API_IMAGE_NAME
     entrypoint: [""]
@@ -82,7 +82,7 @@ safescarf_publish:
     - export UPLOAD_TESTING_ENGAGEMENT_ID="${SAFESCARF_ENGAGEMENT_ID}"
 
 safescarf_upload_testing:
-  extends: safescarf_publish
+  stage: .post
   image:
     name: $SAFESCARF_API_IMAGE_NAME
     entrypoint: [""]
