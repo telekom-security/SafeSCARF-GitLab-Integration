@@ -20,8 +20,13 @@ variables:
   MCICD_DOCKERHUB_MIRROR: "dockerhub.devops.telekom.de/"
   UPLOAD_TESTING_ENGAGEMENT_ID: ""
   UPLOAD_TESTING_SCAN_TITLE: ""
-  SAFESCARF_TESTING_MODE_ENABLE: 'false'
-  DELAY_IN_MINUTES: $DELAY_IN_MINUTES
+  SAFESCARF_API_IMAGE_NAME: "mtr.devops.telekom.de/secureops/safescarf-connector:1.2.13"
+  SAFESCARF_TESTING_MODE_ENABLE:
+    value: 'false'
+    description: 'Enable upload to SafeSCARF testing mode'
+  DELAY_IN_MINUTES:
+    value: '3'
+    description: 'How old should be scan upload to pass the test'
 
 
 safescarf_verify_mandatory:
@@ -35,7 +40,7 @@ safescarf_verify_mandatory:
 safescarf_create_engagement:
   stage: .pre
   image:
-    name: mtr.devops.telekom.de/secureops/safescarf-connector:1.2.12
+    name: $SAFESCARF_API_IMAGE_NAME
     entrypoint: [""]
   needs: [ "safescarf_verify_mandatory" ]
   variables:
@@ -55,7 +60,7 @@ safescarf_create_engagement:
 safescarf_publish:
   stage: .post
   image:
-    name: mtr.devops.telekom.de/secureops/safescarf-connector:1.2.12
+    name: $SAFESCARF_API_IMAGE_NAME
     entrypoint: [""]
   rules:
     - when: never
@@ -82,7 +87,7 @@ safescarf_upload_testing:
   extends: safescarf_publish
   allow_failure: true
   image:
-    name: mtr.devops.telekom.de/secureops/safescarf-connector:0.2.1
+    name: $SAFESCARF_API_IMAGE_NAME
     entrypoint: [""]
   rules:
     - if: '$SAFESCARF_TESTING_MODE_ENABLE == true'
