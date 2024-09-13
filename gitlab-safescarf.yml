@@ -18,7 +18,7 @@ variables:
   SAFESCARF_SCAN_ENVIRONMENT: "Default"
   SAFESCARF_WORKFLOW: "feature" # feature, pipeline
   MCICD_DOCKERHUB_MIRROR: "dockerhub.devops.telekom.de/"
-  SAFESCARF_API_IMAGE_NAME: "mtr.devops.telekom.de/secureops/safescarf-connector:1.2.19"
+  SAFESCARF_API_IMAGE_NAME: "mtr.devops.telekom.de/secureops/safescarf-connector:1.2.20"
   SAFESCARF_TESTING_MODE_ENABLE:
     value: 'false'
     description: 'Enable upload to SafeSCARF testing mode'
