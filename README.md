@@ -184,7 +184,7 @@ To enable this template, add the following to your `include``:
 
 ```yaml
 include:
-  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/<version>/implementations/gitlab-secrets.yml
+  - https://raw.githubusercontent.com/telekom-security/SafeSCARF-GitLab-Integration/<version>/implementations/helm-scan.yml
 ```
 
 This template consists of multiple test stages.
