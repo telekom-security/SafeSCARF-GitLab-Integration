@@ -2,7 +2,7 @@ variables:
   XRAY_CONTAINER_IMAGE: ""
 
 xray-container:
-  stage: scan_and_upload
+  stage: test
   tags:
     - otc_run_sysbox_s
   services:
