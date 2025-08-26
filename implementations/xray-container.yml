@@ -13,15 +13,15 @@ xray-container:
     DOCKER_DRIVER: overlay2
     DOCKER_HOST: tcp://docker:2375
     DOCKER_TLS_CERTDIR: ""
+    ARTIFACTORY_URL: artifactory.devops.telekom.de
   image:
     name: releases-docker.jfrog.io/jfrog/jfrog-cli-full-v2-jf
     entrypoint: [""]
   script:
-    - jf config add --url https://artifactory.devops.telekom.de --access-token $ARTIFACTORY_TOKEN
-    - |
-      docker pull ${XRAY_CONTAINER_IMAGE}
-      jf docker scan ${XRAY_CONTAINER_IMAGE} --format json > xray-out.$(echo ${XRAY_CONTAINER_IMAGE} | tr '/:"' '_').json
-      echo "xray-out.$(echo ${XRAY_CONTAINER_IMAGE} | tr '/:\"' '_').json;${XRAY_CONTAINER_IMAGE/:/;}" >> results.csv
+    - jf config add --url=https://$ARTIFACTORY_URL --user=$ARTIFACTORY_USER --access-token=$ARTIFACTORY_TOKEN --interactive=false jfrog
+    - jf docker pull ${ARTIFACTORY_URL}/${XRAY_CONTAINER_IMAGE}
+    - jf docker scan ${ARTIFACTORY_URL}/${XRAY_CONTAINER_IMAGE} --format json > xray-out.$(echo ${XRAY_CONTAINER_IMAGE} | tr '/:"' '_').json
+    - echo "xray-out.$(echo ${XRAY_CONTAINER_IMAGE} | tr '/:\"' '_').json;${XRAY_CONTAINER_IMAGE/:/;}" >> results.csv
   artifacts:
     when: always
     paths:
