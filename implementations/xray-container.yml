@@ -3,6 +3,8 @@ variables:
 
 xray-container:
   stage: test
+  tags:
+    - aws_run_sysbox_s
   services:
     - name: '${MCICD_DOCKERHUB_MIRROR}docker:25.0.2-dind'
       command: ['--tls=false', '--host=tcp://0.0.0.0:2375', '--registry-mirror=https://$MCICD_DOCKERHUB_MIRROR']
