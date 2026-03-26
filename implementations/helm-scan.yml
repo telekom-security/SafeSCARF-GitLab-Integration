@@ -1,7 +1,7 @@
 scan-helm-config:
   stage: test
   image:
-    name: ${MCICD_DOCKERHUB_MIRROR}aquasec/trivy
+    name: ${MCICD_DOCKERHUB_MIRROR}aquasec/trivy:0.69.3
     entrypoint: [""]
   variables:
     HELM_CHARTS_PATH: "./"
@@ -48,7 +48,7 @@ scan-helm-images-prepare:
 scan-helm-images:
   stage: test
   image:
-    name: ${MCICD_DOCKERHUB_MIRROR}anchore/grype:v0.65.2-debug
+    name: ${MCICD_DOCKERHUB_MIRROR}anchore/grype:v0.110.0
     entrypoint: [""]
   needs:
     - scan-helm-images-prepare
